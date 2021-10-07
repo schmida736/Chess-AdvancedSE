@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chess_AdvancedSE
 {
-    abstract class Piece
+    abstract partial class Piece
     {
     }
 }
