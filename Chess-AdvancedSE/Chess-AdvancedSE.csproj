@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <RootNamespace>Chess_AdvancedSE</RootNamespace>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="board.png" />
+    <None Remove="kd.png" />
+    <None Remove="windowicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="kd.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="board.png" />
+  </ItemGroup>
+
+</Project>
