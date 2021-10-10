@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chess_AdvancedSE
 {
-    class Game
+    class Queen : Piece
     {
+        public Queen(Constants.Color color) : base(color) { }
+
     }
 }

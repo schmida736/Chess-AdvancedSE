@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Chess_AdvancedSE
 {
-    class Player
+    class Game
     {
+        public Player player;
     }
 }

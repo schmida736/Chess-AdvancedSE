@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="kd.png" />
+    <EmbeddedResource Include="Resources\kd.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="board.png" />
+    <Resource Include="Resources\board.png" />
   </ItemGroup>
 
 </Project>

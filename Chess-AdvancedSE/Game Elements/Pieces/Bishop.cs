@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chess_AdvancedSE
 {
-    class Square
+    class Bishop : Piece
     {
+        public Bishop(Constants.Color color) : base(color) { }
+
     }
 }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Chess_AdvancedSE
 {
     /// <summary>
-    /// Interaction logic for Piece.xaml
+    /// Interaction logic for BoardControl.xaml
     /// </summary>
-    public partial class Piece : UserControl
+    public partial class BoardControl : UserControl
     {
-        public Piece()
+        public BoardControl()
         {
             InitializeComponent();
         }

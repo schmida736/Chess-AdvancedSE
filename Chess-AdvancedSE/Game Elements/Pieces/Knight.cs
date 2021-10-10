@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chess_AdvancedSE
 {
-    abstract partial class Piece
+    class Knight : Piece
     {
+        public Knight(Constants.Color color) : base(color) { }
+
     }
 }

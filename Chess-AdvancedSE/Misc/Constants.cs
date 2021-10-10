@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Chess_AdvancedSE
 {
-    class Board
+    public static class Constants
     {
+        public enum Color
+        {
+            WHITE = 0,
+            BLACK = 1
+        }
     }
 }

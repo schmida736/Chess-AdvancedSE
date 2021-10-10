@@ -9,7 +9,7 @@
         Title="Chess-AdvancedSE" Height="800" Width="800">
     <Grid UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <Grid.Background>
-            <ImageBrush ImageSource="/board.png"/>
+            <ImageBrush ImageSource="Resources/board.png"/>
         </Grid.Background>
     </Grid>
 </Window>
