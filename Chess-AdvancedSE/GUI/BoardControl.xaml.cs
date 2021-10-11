@@ -20,9 +20,24 @@ namespace Chess_AdvancedSE
     /// </summary>
     public partial class BoardControl : UserControl
     {
-        public BoardControl()
+        public BoardControl(Game game)
         {
             InitializeComponent();
+
+            //Set DataContext
+            this.DataContext = game.board.layout;
+
+            //Set board background
+            ImageBrush brush = new();
+            brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/board.png"));
+            BoardGrid.Background = brush;
+
+            //Set pieces
+            foreach (Square square in game.board.layout)
+            {
+                PieceControl pieceControl = new();
+                pieceControl.Background = square.Piece.image;
+            }
         }
     }
 }

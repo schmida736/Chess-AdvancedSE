@@ -7,9 +7,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="Chess-AdvancedSE" Height="800" Width="800">
-    <Grid UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-        <Grid.Background>
-            <ImageBrush ImageSource="Resources/board.png"/>
-        </Grid.Background>
+    <Grid Name="MainWindowGrid" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        
     </Grid>
 </Window>

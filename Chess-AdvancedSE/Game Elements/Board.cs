@@ -2,7 +2,7 @@
 
 namespace Chess_AdvancedSE
 {
-    class Board
+    public class Board
     {
         public Board(Game game)
         {
@@ -12,6 +12,10 @@ namespace Chess_AdvancedSE
         private List<Square> setupLayout(Player player)
         {
             List<Square> layoutSetup = new List<Square>(64);
+            for (int i = 0; i < layoutSetup.Capacity; i++)
+            {
+                layoutSetup.Add(new Square());
+            }
             layoutSetup[0].Piece = new Rook(player.Color);
             layoutSetup[1].Piece = new Knight(player.Color);
             layoutSetup[2].Piece = new Bishop(player.Color);
@@ -31,17 +35,17 @@ namespace Chess_AdvancedSE
 
             for (int i = 48; i <= 55; i++)
             {
-                layoutSetup[i].Piece = new Pawn(player.Color);
+                layoutSetup[i].Piece = new Pawn(!player.Color);
             }
 
-            layoutSetup[56].Piece = new Rook(player.Color);
-            layoutSetup[57].Piece = new Knight(player.Color);
-            layoutSetup[58].Piece = new Bishop(player.Color);
-            layoutSetup[59].Piece = new King(player.Color);
-            layoutSetup[60].Piece = new Queen(player.Color);
-            layoutSetup[61].Piece = new Bishop(player.Color);
-            layoutSetup[62].Piece = new Knight(player.Color);
-            layoutSetup[63].Piece = new Rook(player.Color);
+            layoutSetup[56].Piece = new Rook(!player.Color);
+            layoutSetup[57].Piece = new Knight(!player.Color);
+            layoutSetup[58].Piece = new Bishop(!player.Color);
+            layoutSetup[59].Piece = new King(!player.Color);
+            layoutSetup[60].Piece = new Queen(!player.Color);
+            layoutSetup[61].Piece = new Bishop(!player.Color);
+            layoutSetup[62].Piece = new Knight(!player.Color);
+            layoutSetup[63].Piece = new Rook(!player.Color);
 
             return layoutSetup;
         }

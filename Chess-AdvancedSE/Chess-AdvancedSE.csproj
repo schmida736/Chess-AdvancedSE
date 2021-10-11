@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\kd.png" />
+    <Resource Include="Resources\kd.png" />
   </ItemGroup>
 
   <ItemGroup>

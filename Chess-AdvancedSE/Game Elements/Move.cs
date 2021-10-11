@@ -1,6 +1,6 @@
 ﻿namespace Chess_AdvancedSE
 {
-    class Move
+    public class Move
     {
     }
 }

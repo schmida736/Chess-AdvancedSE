@@ -16,13 +16,16 @@ using System.Windows.Shapes;
 namespace Chess_AdvancedSE
 {
     /// <summary>
-    /// Interaction logic for PieceControl.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class PieceControl : UserControl
+    public partial class MainWindow : Window
     {
-        public PieceControl()
+        public MainWindow()
         {
             InitializeComponent();
+
+            Game game = new();
+            MainWindowGrid.Children.Add(new BoardControl(game));
         }
     }
 }

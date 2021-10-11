@@ -1,6 +1,6 @@
 ﻿namespace Chess_AdvancedSE
 {
-    class Pawn : Piece
+    public class Pawn : Piece
     {
         public Pawn(bool color) : base(color) { }
 

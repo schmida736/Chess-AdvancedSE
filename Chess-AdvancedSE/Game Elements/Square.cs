@@ -1,6 +1,6 @@
 ﻿namespace Chess_AdvancedSE
 {
-    class Square
+    public class Square
     {
         public Square(Piece piece = null)
         {

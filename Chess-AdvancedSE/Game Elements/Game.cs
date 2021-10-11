@@ -1,6 +1,6 @@
 ﻿namespace Chess_AdvancedSE
 {
-    class Game
+    public class Game
     {
         public Player player;
         public Board board;

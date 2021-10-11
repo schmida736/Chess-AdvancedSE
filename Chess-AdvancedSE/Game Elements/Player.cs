@@ -1,6 +1,6 @@
 ﻿namespace Chess_AdvancedSE
 {
-    class Player
+    public class Player
     {
         public Player(bool color)
         {

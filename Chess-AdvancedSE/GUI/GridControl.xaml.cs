@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Chess_AdvancedSE
+namespace Chess_AdvancedSE.Resources
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for GridControl.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class GridControl : UserControl
     {
-        public MainWindow()
+        public GridControl()
         {
             InitializeComponent();
         }
