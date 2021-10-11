@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Chess_AdvancedSE
 {
-    public class Piece
+    class Piece
     {
-        public Piece(Constants.Color color)
+        protected Piece(bool color)
         {
             Init(color);
         }
 
-        void Init(Constants.Color color)
+        protected void Init(bool color)
         {
             this.color = color;
         }
-        public Constants.Color color;
+        public bool color;
     }
 }

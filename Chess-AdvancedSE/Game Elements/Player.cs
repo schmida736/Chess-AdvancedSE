@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Chess_AdvancedSE
+﻿namespace Chess_AdvancedSE
 {
     class Player
     {
-        public Player(Constants.Color color)
+        public Player(bool color)
         {
-            this.color = color;
+            Color = color;
         }
-        public Constants.Color color { get; private set; }    }
+        public bool Color { get; private set; }
+    }
 
 }

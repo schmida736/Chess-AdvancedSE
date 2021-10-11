@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Chess_AdvancedSE
 {
@@ -16,18 +12,18 @@ namespace Chess_AdvancedSE
         private List<Square> setupLayout(Player player)
         {
             List<Square> layoutSetup = new List<Square>(64);
-            layoutSetup[0].piece = new Rook(player.color);
-            layoutSetup[1].piece = new Knight(player.color);
-            layoutSetup[2].piece = new Bishop(player.color);
-            layoutSetup[3].piece = new King(player.color);
-            layoutSetup[4].piece = new Queen(player.color);
-            layoutSetup[5].piece = new Bishop(player.color);
-            layoutSetup[6].piece = new Knight(player.color);
-            layoutSetup[7].piece = new Rook(player.color);
+            layoutSetup[0].Piece = new Rook(player.Color);
+            layoutSetup[1].Piece = new Knight(player.Color);
+            layoutSetup[2].Piece = new Bishop(player.Color);
+            layoutSetup[3].Piece = new King(player.Color);
+            layoutSetup[4].Piece = new Queen(player.Color);
+            layoutSetup[5].Piece = new Bishop(player.Color);
+            layoutSetup[6].Piece = new Knight(player.Color);
+            layoutSetup[7].Piece = new Rook(player.Color);
 
             for(int i = 8; i <= 15; i++)
             {
-                layoutSetup[i].piece = new Pawn(player.color);
+                layoutSetup[i].Piece = new Pawn(player.Color);
             }
 
             //TODO: Inverse color!
@@ -35,17 +31,17 @@ namespace Chess_AdvancedSE
 
             for (int i = 48; i <= 55; i++)
             {
-                layoutSetup[i].piece = new Pawn(player.color);
+                layoutSetup[i].Piece = new Pawn(player.Color);
             }
 
-            layoutSetup[56].piece = new Rook(player.color);
-            layoutSetup[57].piece = new Knight(player.color);
-            layoutSetup[58].piece = new Bishop(player.color);
-            layoutSetup[59].piece = new King(player.color);
-            layoutSetup[60].piece = new Queen(player.color);
-            layoutSetup[61].piece = new Bishop(player.color);
-            layoutSetup[62].piece = new Knight(player.color);
-            layoutSetup[63].piece = new Rook(player.color);
+            layoutSetup[56].Piece = new Rook(player.Color);
+            layoutSetup[57].Piece = new Knight(player.Color);
+            layoutSetup[58].Piece = new Bishop(player.Color);
+            layoutSetup[59].Piece = new King(player.Color);
+            layoutSetup[60].Piece = new Queen(player.Color);
+            layoutSetup[61].Piece = new Bishop(player.Color);
+            layoutSetup[62].Piece = new Knight(player.Color);
+            layoutSetup[63].Piece = new Rook(player.Color);
 
             return layoutSetup;
         }

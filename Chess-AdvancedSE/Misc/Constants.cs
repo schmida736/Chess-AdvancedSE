@@ -8,10 +8,16 @@ namespace Chess_AdvancedSE
 {
     public static class Constants
     {
-        public enum Color
+        public struct Color
         {
-            WHITE = 0,
-            BLACK = 1
+            public const bool WHITE = true;
+            public const bool BLACK = false;
+
+            public static bool Random()
+            {
+                Random rnd = new();
+                return rnd.NextDouble() >= 0.5;
+            }
         }
     }
 }
