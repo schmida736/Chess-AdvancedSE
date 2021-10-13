@@ -18,7 +18,7 @@ namespace Chess_AdvancedSE
         protected void Init(bool color)
         {
             this.color = color;
-            this.image = new(new BitmapImage(new Uri("pack://application:,,,/Resources/kd.png"))); //TODO: Make variable image source
+            //this.image = new(new BitmapImage(new Uri("pack://application:,,,/Resources/kd.png"))); //TODO: Make variable image source
         }
         public bool color;
 

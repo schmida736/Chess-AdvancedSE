@@ -36,7 +36,7 @@ namespace Chess_AdvancedSE
             foreach (Square square in game.board.layout)
             {
                 PieceControl pieceControl = new();
-                pieceControl.Background = square.Piece.image;
+                //pieceControl.Background = square.Piece.image;
             }
         }
     }
