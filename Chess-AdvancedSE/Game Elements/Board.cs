@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Chess_AdvancedSE
 {
@@ -6,12 +7,23 @@ namespace Chess_AdvancedSE
     {
         public Board(Game game)
         {
-            this.layout = setupLayout(game.player);
+            layout = SetupLayout(game.player);
         }
-        public List<Square> layout;
-        private List<Square> setupLayout(Player player)
+
+        private List<Square> layout;
+
+        public event EventHandler<Board> BoardLayoutChanged;
+
+
+        protected virtual void OnLayoutChanged(Board board)
         {
-            List<Square> layoutSetup = new List<Square>(64);
+            EventHandler<Board> _handler = BoardLayoutChanged;
+            _handler?.Invoke(this, board);
+        }
+
+        private static List<Square> SetupLayout(Player player)
+        {
+            List<Square> layoutSetup = new(64);
             for (int i = 0; i < layoutSetup.Capacity; i++)
             {
                 layoutSetup.Add(new Square());
