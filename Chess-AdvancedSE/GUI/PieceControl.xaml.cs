@@ -24,5 +24,10 @@ namespace Chess_AdvancedSE
         {
             InitializeComponent();
         }
+
+        void OnClick()
+        {
+
+        }
     }
 }

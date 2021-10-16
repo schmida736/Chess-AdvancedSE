@@ -21,25 +21,28 @@ namespace Chess_AdvancedSE
     public partial class BoardControl : UserControl
     {
 
-        public event EventHandler<Board> BoardLayoutChanged;
-
-
-        protected virtual void OnLayoutChanged(Board board)
-        {
-            EventHandler<Board> _handler = BoardLayoutChanged;
-            _handler?.Invoke(this, board);
-        }
-
         public BoardControl(Game game)
         {
             InitializeComponent();
 
-            //TODO: SETUP BOARD VIA AN EVENT TRIGGERED FROM LOGIC
-
             //Set board background
             ImageBrush brush = new();
             brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/board.png"));
-            BoardGrid.Background = brush;
+            Background = brush;
+
+            game.board.LayoutChanged += UpdateBoard;
+
+            this.DataContext = game.board.layout;
+
+        }
+
+        private static void UpdateBoard(object Sender, Board board)
+        {
+            //Iterate through board square array and set piece backgrounds appropriately
+        }
+        private void OnClick(object Sender, EventArgs e)
+        {
+            //Define square click
         }
     }
 }

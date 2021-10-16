@@ -10,14 +10,14 @@ namespace Chess_AdvancedSE
             layout = SetupLayout(game.player);
         }
 
-        private List<Square> layout;
+        public List<Square> layout;
 
-        public event EventHandler<Board> BoardLayoutChanged;
+        public event EventHandler<Board> LayoutChanged;
 
 
         protected virtual void OnLayoutChanged(Board board)
         {
-            EventHandler<Board> _handler = BoardLayoutChanged;
+            EventHandler<Board> _handler = LayoutChanged;
             _handler?.Invoke(this, board);
         }
 

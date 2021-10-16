@@ -17,8 +17,10 @@ namespace Chess_AdvancedSE
 
         protected void Init(bool color)
         {
-            this.color = color;
+            Color = color;
         }
-        public bool color;
+
+        public bool Color { get; set; }
+        public string ImageSource { get; set; }
     }
 }
