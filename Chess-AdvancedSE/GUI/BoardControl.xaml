@@ -10,7 +10,7 @@
         <DataTemplate x:Key="SquareTemplate">
             <Button Click="OnClick">
                 <StackPanel>
-                    <Image Source="{Binding ImageSource}"/>
+                    <Image Source="{Binding Piece.ImageSource}"/>
                 </StackPanel>
             </Button>
         </DataTemplate>
@@ -22,17 +22,23 @@
         RowBackground="Transparent"
         HeadersVisibility="None"
         AutoGenerateColumns="False"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
         >
         <DataGrid.CellStyle>
             <Style TargetType="DataGridCell" >
+                <Setter Property="Width" Value="100"/>
+                <Setter Property="Height" Value="100"/>
+                <Setter Property="MaxHeight" Value="100"/>
                 <Style.Triggers>
                     <Trigger Property="IsSelected" Value="True">
-                        <Setter Property="Background" Value="SeaGreen"/>
+                        <Setter Property="Background" Value="Blue"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
         </DataGrid.CellStyle>
         <DataGrid.Columns>
+            <DataGridTemplateColumn CellTemplate="{Binding}"/>
             <DataGridTemplateColumn CellTemplate="{Binding}"/>
             <DataGridTemplateColumn CellTemplate="{Binding}"/>
             <DataGridTemplateColumn CellTemplate="{Binding}"/>

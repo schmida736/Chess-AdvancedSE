@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:Chess_AdvancedSE"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Chess-AdvancedSE" Height="800" Width="800">
-    <Grid Name="MainWindowGrid" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        Title="Chess-AdvancedSE"
+        SizeToContent="WidthAndHeight">
+    <Grid Name="MainWindowGrid" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" MaxHeight="800" MaxWidth="800">
         
     </Grid>
 </Window>

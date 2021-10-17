@@ -32,7 +32,7 @@ namespace Chess_AdvancedSE
 
             game.board.LayoutChanged += UpdateBoard;
 
-            this.DataContext = game.board.layout;
+            this.BoardDataGrid.DataContext = game.board.layout;
 
         }
 
