@@ -30,19 +30,20 @@ namespace Chess_AdvancedSE
             brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/board.png"));
             Background = brush;
 
-            game.board.LayoutChanged += UpdateBoard;
+            //game.board.LayoutChanged += UpdateBoard;
 
-            this.BoardDataGrid.DataContext = game.board.layout;
+            BoardDataGrid.DataContext = game.board.layout;
 
         }
 
-        private static void UpdateBoard(object Sender, Board board)
-        {
-            //Iterate through board square array and set piece backgrounds appropriately
-        }
+        //private static void UpdateBoard(object Sender, Board board)
+        //{
+        //    //Iterate through board square array and set piece backgrounds appropriately
+        //}
         private void OnClick(object Sender, EventArgs e)
         {
             //Define square click
+            Console.WriteLine("Clicked");
         }
     }
 }

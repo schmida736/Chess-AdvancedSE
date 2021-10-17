@@ -9,11 +9,25 @@
 
   <ItemGroup>
     <None Remove="board.png" />
+    <None Remove="Game Elements\Pieces\kd.png" />
     <None Remove="kd.png" />
+    <None Remove="Resources\bd.png" />
+    <None Remove="Resources\bl.png" />
+    <None Remove="Resources\kl.png" />
+    <None Remove="Resources\nd.png" />
+    <None Remove="Resources\nl.png" />
+    <None Remove="Resources\pd.png" />
+    <None Remove="Resources\pl.png" />
+    <None Remove="Resources\qd.png" />
+    <None Remove="Resources\ql.png" />
+    <None Remove="Resources\rd.png" />
+    <None Remove="Resources\rl.png" />
     <None Remove="windowicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\bd.png" />
+    <Resource Include="Resources\bl.png" />
     <Resource Include="Resources\kd.png" />
   </ItemGroup>
 
@@ -23,6 +37,15 @@
 
   <ItemGroup>
     <Resource Include="Resources\board.png" />
+    <Resource Include="Resources\kl.png" />
+    <Resource Include="Resources\nd.png" />
+    <Resource Include="Resources\nl.png" />
+    <Resource Include="Resources\pd.png" />
+    <Resource Include="Resources\pl.png" />
+    <Resource Include="Resources\qd.png" />
+    <Resource Include="Resources\ql.png" />
+    <Resource Include="Resources\rd.png" />
+    <Resource Include="Resources\rl.png" />
   </ItemGroup>
 
 </Project>

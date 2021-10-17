@@ -18,6 +18,7 @@ namespace Chess_AdvancedSE
         protected void Init(bool color)
         {
             Color = color;
+            ImageSource += "../Resources/";
         }
 
         public bool Color { get; set; }
