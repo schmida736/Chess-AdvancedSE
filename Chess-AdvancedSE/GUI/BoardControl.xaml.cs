@@ -26,13 +26,22 @@ namespace Chess_AdvancedSE
             InitializeComponent();
 
             //Set board background
+            ScaleTransform flipBoard = new();
+            flipBoard.ScaleX = -1;
+            flipBoard.CenterX = 0.5;
+
             ImageBrush brush = new();
             brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/board.png"));
+            //flip board for black player
+            if (!game.player.Color)
+            {
+                brush.RelativeTransform = flipBoard;
+            }
             Background = brush;
 
             //game.board.LayoutChanged += UpdateBoard;
 
-            BoardDataGrid.DataContext = game.board.layout;
+            GridColumn.ItemsSource = game.board.layout;
 
         }
 
@@ -40,10 +49,10 @@ namespace Chess_AdvancedSE
         //{
         //    //Iterate through board square array and set piece backgrounds appropriately
         //}
-        private void OnClick(object Sender, EventArgs e)
+        private void OnClick(object Sender, RoutedEventArgs e)
         {
             //Define square click
-            Console.WriteLine("Clicked");
+            MessageBox.Show("CLICKED");
         }
     }
 }

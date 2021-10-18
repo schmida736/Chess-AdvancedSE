@@ -13,6 +13,8 @@
     <None Remove="kd.png" />
     <None Remove="Resources\bd.png" />
     <None Remove="Resources\bl.png" />
+    <None Remove="Resources\board.png" />
+    <None Remove="Resources\brown.svg" />
     <None Remove="Resources\kl.png" />
     <None Remove="Resources\nd.png" />
     <None Remove="Resources\nl.png" />
@@ -28,6 +30,7 @@
   <ItemGroup>
     <Resource Include="Resources\bd.png" />
     <Resource Include="Resources\bl.png" />
+    <Resource Include="Resources\board.png" />
     <Resource Include="Resources\kd.png" />
   </ItemGroup>
 
@@ -36,7 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\board.png" />
     <Resource Include="Resources\kl.png" />
     <Resource Include="Resources\nd.png" />
     <Resource Include="Resources\nl.png" />
