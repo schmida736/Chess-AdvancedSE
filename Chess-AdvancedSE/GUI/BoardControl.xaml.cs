@@ -45,14 +45,24 @@ namespace Chess_AdvancedSE
 
         }
 
+
+        public event EventHandler<Board> SquareClicked;
+
+
+        protected virtual void OnLayoutChanged(Board board)
+        {
+            EventHandler<Board> _handler = SquareClicked;
+            _handler?.Invoke(this, board);
+        }
+
         //private static void UpdateBoard(object Sender, Board board)
         //{
         //    //Iterate through board square array and set piece backgrounds appropriately
         //}
-        private void OnClick(object Sender, RoutedEventArgs e)
+        private void SquareClickedEventHandler(object Sender, MouseButtonEventArgs e)
         {
-            //Define square click
-            MessageBox.Show("CLICKED");
+            var clickPos = Mouse.GetPosition(BoardGrid);
+            MessageBox.Show(clickPos.X.ToString() + " " + clickPos.Y.ToString());
         }
     }
 }

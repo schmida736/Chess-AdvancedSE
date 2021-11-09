@@ -25,7 +25,7 @@
             </Setter>
         </Style>
         <DataTemplate x:Key="SquareTemplate">
-            <Button Click="OnClick" Style="{StaticResource PieceButton}"/>
+            <Button  Style="{StaticResource PieceButton}"/>
         </DataTemplate>
         <DataTemplate x:Key="RowTemplate">
             <ItemsControl ItemsSource="{Binding}" ItemTemplate="{StaticResource SquareTemplate}">
@@ -37,7 +37,7 @@
             </ItemsControl>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid>
+    <Grid Name="BoardGrid" PreviewMouseDown="SquareClickedEventHandler" Background="Transparent">
         <ItemsControl x:Name="GridColumn" ItemTemplate="{DynamicResource RowTemplate}"/>
     </Grid>
 </UserControl>

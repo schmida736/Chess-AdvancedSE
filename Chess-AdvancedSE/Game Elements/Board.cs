@@ -12,14 +12,6 @@ namespace Chess_AdvancedSE
 
         public List<List<Square>> layout { private set; get; }
 
-        //public event EventHandler<Board> LayoutChanged;
-
-
-        //protected virtual void OnLayoutChanged(Board board)
-        //{
-        //    EventHandler<Board> _handler = LayoutChanged;
-        //    _handler?.Invoke(this, board);
-        //}
 
         private static List<List<Square>> SetupLayout(Player player)
         {
