@@ -5,9 +5,9 @@ namespace Chess_AdvancedSE
 {
     public class Board
     {
-        public Board(Game game)
+        public Board(Player player)
         {
-            layout = SetupLayout(game.player);
+            layout = SetupLayout(player);
         }
 
         public List<List<Square>> layout { private set; get; }

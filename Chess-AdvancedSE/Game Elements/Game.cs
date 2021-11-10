@@ -8,7 +8,7 @@
         public Game()
         {
             player = new(Constants.Color.Random());
-            board = new(this);
+            board = new(player);
         }
     }
 }

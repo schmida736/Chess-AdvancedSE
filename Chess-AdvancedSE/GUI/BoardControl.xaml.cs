@@ -62,7 +62,7 @@ namespace Chess_AdvancedSE
         private void SquareClickedEventHandler(object Sender, MouseButtonEventArgs e)
         {
             var clickPos = Mouse.GetPosition(BoardGrid);
-            MessageBox.Show(clickPos.X.ToString() + " " + clickPos.Y.ToString());
+            MessageBox.Show(((int)clickPos.X/100).ToString() + " " + ((int)clickPos.Y/100).ToString());
         }
     }
 }

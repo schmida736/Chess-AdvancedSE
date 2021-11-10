@@ -2,6 +2,7 @@
 {
     public class Player
     {
+        //TODO: MAKE COLOR CLASS
         public Player(bool color)
         {
             Color = color;
