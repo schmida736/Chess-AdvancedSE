@@ -9,8 +9,13 @@ namespace Chess_AdvancedSE
 {
     public class BoardLayout: INotifyPropertyChanged
     {
+        public BoardLayout()
+        {
+            Layout = new();
+        }
+
         private List<List<Square>> _layout;
-        private List<List<Square>> Layout
+        public List<List<Square>> Layout
         {
             get => _layout;
             set

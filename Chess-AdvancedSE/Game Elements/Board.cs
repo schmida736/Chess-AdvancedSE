@@ -7,10 +7,10 @@ namespace Chess_AdvancedSE
     {
         public Board(Player player)
         {
-            layout = SetupLayout(player);
+            boardLayout.Layout = SetupLayout(player);
         }
 
-        public List<List<Square>> layout { private set; get; }
+        public BoardLayout boardLayout = new();
 
 
         private static List<List<Square>> SetupLayout(Player player)
