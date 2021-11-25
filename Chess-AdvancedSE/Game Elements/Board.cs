@@ -51,5 +51,15 @@ namespace Chess_AdvancedSE
 
             return layoutSetup;
         }
+
+        public bool MoveIsValid(Square from, Square to)
+        {
+
+        } 
+
+        public void MovePiece(Square from, Square to)
+        {
+
+        }
     }
 }
