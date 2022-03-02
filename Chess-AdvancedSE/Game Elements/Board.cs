@@ -54,7 +54,7 @@ namespace Chess_AdvancedSE
 
         public bool MoveIsValid(Square from, Square to)
         {
-
+            return false; //this is just to make it running. implementation follows TODO!!!!!!!!!!!
         } 
 
         public void MovePiece(Square from, Square to)
