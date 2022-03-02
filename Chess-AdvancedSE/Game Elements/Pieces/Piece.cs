@@ -23,5 +23,10 @@ namespace Chess_AdvancedSE
 
         public bool Color { get; set; }
         public string ImageSource { get; set; }
+
+        public bool IsMoveable(Square from, Square to)
+        {
+            return true; //just for not crashing, implementation follows TODO!!!!!
+        }
     }
 }
