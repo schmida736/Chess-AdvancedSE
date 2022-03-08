@@ -21,7 +21,7 @@ namespace Chess_AdvancedSE
                 layoutSetup.Add(new List<Square>());
                 for (int column = 0; column < 8; column++)
                 {
-                    layoutSetup[row].Add(new Square());
+                    layoutSetup[row].Add(new Square(row, column));
                 }
             }
             layoutSetup[0][0].Piece = new Rook(player.Color);

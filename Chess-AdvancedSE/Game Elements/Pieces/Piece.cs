@@ -26,7 +26,7 @@ namespace Chess_AdvancedSE
 
         public bool IsMoveable(Square from, Square to)
         {
-            return true; //just for not crashing, implementation follows TODO!!!!!
+            return false; //help david what should i doo? this function should never been calle its overwritten
         }
     }
 }

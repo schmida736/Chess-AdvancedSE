@@ -8,6 +8,8 @@
             Color = color;
         }
         public bool Color { get; private set; }
+
+        
     }
 
 }
