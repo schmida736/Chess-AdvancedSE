@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace Chess_AdvancedSE
 {
-    public class Piece
+    public class Piece : IMoveable
     {
         protected Piece(bool color)
         {
@@ -24,9 +24,10 @@ namespace Chess_AdvancedSE
         public bool Color { get; set; }
         public string ImageSource { get; set; }
 
-        public bool IsMoveable(Square from, Square to)
+
+        bool IMoveable.IsMoveable(Square from, Square to)
         {
-            return false; //help david what should i doo? this function should never been calle its overwritten
+            throw new NotImplementedException();
         }
     }
 }
