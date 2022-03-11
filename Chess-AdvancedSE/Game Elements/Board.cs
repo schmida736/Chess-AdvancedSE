@@ -54,6 +54,8 @@ namespace Chess_AdvancedSE
 
         public bool MoveIsValid(Square from, Square to)
         {
+            if(from.Row == to.Row && from.Column == to.Column) { return false; }
+
             if(boardLayout.Layout[from.Row][from.Column] != null)
             {
                 Piece movingPiece = boardLayout.Layout[from.Row][from.Column].Piece;
@@ -72,13 +74,73 @@ namespace Chess_AdvancedSE
                             }
                             break;
 
-                        case Queen:                 
+                        case Queen:
+                            if (destinationPiece?.Color != movingPieceColor)
+                            {
+                                int rowDifference = Math.Abs(to.Row - from.Row);
+                                int columnDifference = Math.Abs(to.Column - from.Column);
+
+                                if(rowDifference == 0)
+                                {
+                                    Square[] pathSquares = new Square[columnDifference];
+                                    if (to.Column > from.Column)
+                                    {
+                                        for (int i = from.Column+1; i < to.Column; i++)
+                                        {
+                                            pathSquares[i] = boardLayout.Layout[from.Row][i];
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (int i = from.Column-1; i > to.Column; i--)
+                                        {
+                                            pathSquares[i] = boardLayout.Layout[from.Row][i];
+                                        }
+                                    }
+                                    foreach (Square s in pathSquares)
+                                    {
+                                        if (s.Piece != null) { return false; }
+                                    }
+                                    return true; //nothing in the way
+                                }
+                                else if (columnDifference == 0)
+                                {
+                                    Square[] pathSquares = new Square[rowDifference];
+                                    if (to.Row > from.Row)
+                                    {
+                                        for (int i = from.Row + 1; i < to.Row; i++)
+                                        {
+                                            pathSquares[i] = boardLayout.Layout[i][from.Column];
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (int i = from.Row - 1; i > to.Row; i--)
+                                        {
+                                            pathSquares[i] = boardLayout.Layout[i][from.Column];
+                                        }
+                                    }
+                                    foreach (Square s in pathSquares)
+                                    {
+                                        if (s.Piece != null) { return false; }
+                                    }
+                                    return true; //nothing in the way
+                                }
+                                else
+                                {
+                                    //TODO pathArray schräg
+                                }
+                            }
                             break;
 
                         case Bishop:
                             break;
 
                         case Knight:
+                            if (destinationPiece?.Color != movingPieceColor)
+                            {
+                                return true;
+                            }
                             break;
 
                         case Rook:
