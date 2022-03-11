@@ -56,14 +56,52 @@ namespace Chess_AdvancedSE
         {
             if(boardLayout.Layout[from.Row][from.Column] != null)
             {
-                if (boardLayout.Layout[from.Row][from.Column].Piece.IsMoveable(from, to)) //hehe, codesmell
+                Piece movingPiece = boardLayout.Layout[from.Row][from.Column].Piece;
+                Piece destinationPiece = boardLayout.Layout[to.Row][to.Column].Piece;
+
+                bool movingPieceColor = movingPiece.Color;
+
+                if (movingPiece.IsMoveable(from, to) && MoveDoesntCheck(from, to)) //hehe, codesmell
                 {
-                    
+                    switch (movingPiece)
+                    {
+                        case King:
+                            if (destinationPiece?.Color != movingPieceColor)
+                            {
+                                return true;
+                            }
+                            break;
+
+                        case Queen:                 
+                            break;
+
+                        case Bishop:
+                            break;
+
+                        case Knight:
+                            break;
+
+                        case Rook:
+                            break;
+
+                        case Pawn:
+                            break;
+
+                        default:
+                            return false;
+                    }
                 }
                     
             }
             return false;
         } 
+
+        public bool MoveDoesntCheck(Square from, Square to)
+        {
+            //move pice
+            //check check
+            return false; //TODO: Implementation
+        }
 
         public void MovePiece(Square from, Square to)
         {
