@@ -1,4 +1,6 @@
-﻿namespace Chess_AdvancedSE
+﻿using System;
+
+namespace Chess_AdvancedSE
 {
     public class Bishop : Piece
     {
@@ -7,6 +9,14 @@
             if (color) { ImageSource += "l"; }
             else { ImageSource += "d"; }
             ImageSource += ".png";
+        }
+
+        public bool IsMoveable(Square from, Square to)
+        {
+            int rowDifference = Math.Abs(to.Row - from.Row);
+            int columnDifference = Math.Abs(to.Column - from.Column);
+
+            return (rowDifference == columnDifference);
         }
 
     }
