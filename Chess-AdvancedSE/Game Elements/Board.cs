@@ -54,7 +54,15 @@ namespace Chess_AdvancedSE
 
         public bool MoveIsValid(Square from, Square to)
         {
-            return false; //this is just to make it running. implementation follows TODO!!!!!!!!!!!
+            if(boardLayout.Layout[from.Row][from.Column] != null)
+            {
+                if (boardLayout.Layout[from.Row][from.Column].Piece.IsMoveable(from, to)) //hehe, codesmell
+                {
+                    
+                }
+                    
+            }
+            return false;
         } 
 
         public void MovePiece(Square from, Square to)
