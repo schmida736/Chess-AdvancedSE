@@ -153,6 +153,7 @@ namespace Chess_AdvancedSE
                                         }
                                     }
                                 }
+                                return true; //nothing in the way
                             }
                             break;
 
@@ -195,6 +196,7 @@ namespace Chess_AdvancedSE
                                         }
                                     }
                                 }
+                                return true; //nothing in the way
                             }                            
                             break;
 
