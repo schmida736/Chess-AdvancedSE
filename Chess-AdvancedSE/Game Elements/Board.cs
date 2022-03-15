@@ -82,58 +82,120 @@ namespace Chess_AdvancedSE
 
                                 if(rowDifference == 0)
                                 {
-                                    Square[] pathSquares = new Square[columnDifference];
                                     if (to.Column > from.Column)
                                     {
                                         for (int i = from.Column+1; i < to.Column; i++)
                                         {
-                                            pathSquares[i] = boardLayout.Layout[from.Row][i];
+                                            if (boardLayout.Layout[from.Row][i].Piece != null) { return false; }
                                         }
                                     }
                                     else
                                     {
                                         for (int i = from.Column-1; i > to.Column; i--)
                                         {
-                                            pathSquares[i] = boardLayout.Layout[from.Row][i];
+                                            if (boardLayout.Layout[from.Row][i].Piece != null) { return false; }
                                         }
-                                    }
-                                    foreach (Square s in pathSquares)
-                                    {
-                                        if (s.Piece != null) { return false; }
                                     }
                                     return true; //nothing in the way
                                 }
                                 else if (columnDifference == 0)
                                 {
-                                    Square[] pathSquares = new Square[rowDifference];
                                     if (to.Row > from.Row)
                                     {
                                         for (int i = from.Row + 1; i < to.Row; i++)
                                         {
-                                            pathSquares[i] = boardLayout.Layout[i][from.Column];
+                                            if (boardLayout.Layout[i][from.Column].Piece != null) { return false; }
                                         }
                                     }
                                     else
                                     {
                                         for (int i = from.Row - 1; i > to.Row; i--)
                                         {
-                                            pathSquares[i] = boardLayout.Layout[i][from.Column];
+                                            if (boardLayout.Layout[i][from.Column].Piece != null) { return false; }
                                         }
-                                    }
-                                    foreach (Square s in pathSquares)
-                                    {
-                                        if (s.Piece != null) { return false; }
                                     }
                                     return true; //nothing in the way
                                 }
                                 else
                                 {
-                                    //TODO pathArray schräg
+                                    if(to.Row > from.Row)
+                                    {
+                                        if(to.Column > from.Column)
+                                        {
+                                            for (int i = 1; i < columnDifference; i++)
+                                            {
+                                                if (boardLayout.Layout[from.Row + i][from.Column + i].Piece != null) { return false; }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            for (int i = 1; i < columnDifference; i++)
+                                            {
+                                                if (boardLayout.Layout[from.Row + i][from.Column - i].Piece != null) { return false; }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (to.Column > from.Column)
+                                        {
+                                            for (int i = 1; i < columnDifference; i++)
+                                            {
+                                                if (boardLayout.Layout[from.Row - i][from.Column + i].Piece != null) { return false; }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            for (int i = 1; i < columnDifference; i++)
+                                            {
+                                                if (boardLayout.Layout[from.Row - i][from.Column - i].Piece != null) { return false; }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             break;
 
                         case Bishop:
+                            if (destinationPiece?.Color != movingPieceColor)
+                            {
+                                int rowDifference = Math.Abs(to.Row - from.Row);
+                                int columnDifference = Math.Abs(to.Column - from.Column);
+                                if (to.Row > from.Row)
+                                {
+                                    if (to.Column > from.Column)
+                                    {
+                                        for (int i = 1; i < columnDifference; i++)
+                                        {
+                                            if (boardLayout.Layout[from.Row + i][from.Column + i].Piece != null) { return false; }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (int i = 1; i < columnDifference; i++)
+                                        {
+                                            if (boardLayout.Layout[from.Row + i][from.Column - i].Piece != null) { return false; }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (to.Column > from.Column)
+                                    {
+                                        for (int i = 1; i < columnDifference; i++)
+                                        {
+                                            if (boardLayout.Layout[from.Row - i][from.Column + i].Piece != null) { return false; }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (int i = 1; i < columnDifference; i++)
+                                        {
+                                            if (boardLayout.Layout[from.Row - i][from.Column - i].Piece != null) { return false; }
+                                        }
+                                    }
+                                }
+                            }                            
                             break;
 
                         case Knight:
@@ -144,6 +206,48 @@ namespace Chess_AdvancedSE
                             break;
 
                         case Rook:
+                            if (destinationPiece?.Color != movingPieceColor)
+                            {
+                                int rowDifference = Math.Abs(to.Row - from.Row);
+                                int columnDifference = Math.Abs(to.Column - from.Column);
+
+                                if (rowDifference == 0)
+                                {
+                                    if (to.Column > from.Column)
+                                    {
+                                        for (int i = from.Column + 1; i < to.Column; i++)
+                                        {
+                                            if (boardLayout.Layout[from.Row][i].Piece != null) { return false; }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (int i = from.Column - 1; i > to.Column; i--)
+                                        {
+                                            if (boardLayout.Layout[from.Row][i].Piece != null) { return false; }
+                                        }
+                                    }
+                                    return true; //nothing in the way
+                                }
+                                else if (columnDifference == 0)
+                                {
+                                    if (to.Row > from.Row)
+                                    {
+                                        for (int i = from.Row + 1; i < to.Row; i++)
+                                        {
+                                            if (boardLayout.Layout[i][from.Column].Piece != null) { return false; }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (int i = from.Row - 1; i > to.Row; i--)
+                                        {
+                                            if (boardLayout.Layout[i][from.Column].Piece != null) { return false; }
+                                        }
+                                    }
+                                    return true; //nothing in the way
+                                }
+                            }
                             break;
 
                         case Pawn:
