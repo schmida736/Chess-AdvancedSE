@@ -18,44 +18,36 @@
 \tableofcontents
 \newpage
 
-\section{Introduction}
-Make it possible for all to write documents with \LaTeX{}!
+\section{Intro}
 
-\paragraph{Outline}
-First we start with a little example of the article class, which is an 
-important documentclass. But there would be other documentclasses like 
-book \ref{book}, report \ref{report} and letter \ref{letter} which are 
-described in Section \ref{documentclasses}. Finally, Section 
-\ref{conclusions} gives the conclusions.
+Da wir, David und Moritz, schon immer gerne Schach gegeneinander spielten um auch in Lernpausen unseren Geist nicht zu unterfordern, entschieden wir uns ein eigenes Schach zu programmieren. 
+Zudem sind wir davon überzeugt, dass Schach eine perfekte Grundlage für objektorientiertes Programmieren bietet, aufgrund der vielen Figuren die jeweils gerade und schräge Züge individuell ausführen.
 
+\section{Clean-Architekture} \label{sec:cleanArc}
+Zusammengefasst ermöglicht eine Clean Architecture die Veränderung der Umgebung, bzw. des Systems, ohne den eigentlichen Kern des Codes anpassen zu müssen.
+Das bedeutet, dass wir theoretisch unser Spiel um ein echtes Spielbrett mit LEDs und Arduino- Raspberry-Steuerung erweitern könnten, ohne unseren Schach-Code zu verädnern.
 
+\subsection{Entitys}
+Die Entitys sind der Kern unseres Spiels. Unabhängig von der Umgebung sind die einzelnen Figuren virtuell auf einem Feld positioniert und können umplatziert werden.
+Dadurch ergeben sich grundlegend Folgende Klassen: 
 
-\section{Documentclasses} \label{documentclasses}
+\begin{center}
+	\begin{itemize}
+		\item Board,
+		\item Square
+		\item und Piece.
+	\end{itemize}
+\end{center}
 
-\begin{itemize}
-\item article
-\item book 
-\item report 
-\item letter 
-\end{itemize}
+Ein Board besteht aus vielen Squares, auf denen jeweils ein Piece stehen kann. Um dies zu implementieren und später auch verschiedene Pieces zu benutzen, zeigt folgendes UML-Diagramm alle Klassen welche unser Kern der Clean-Architektur beinhalten soll:
 
+\begin{figure}
+	\begin{center}
+		%\includegraphics[width=\textwidth]{} TODO!
+		%\caption{\label{pic:umlEntitys}}
+	\end{center}
+\end{figure}
 
-\begin{enumerate}
-\item article
-\item book 
-\item report 
-\item letter 
-\end{enumerate}
-
-\begin{description}
-\item[article\label{article}]{Article is \ldots}
-\item[book\label{book}]{The book class \ldots}
-\item[report\label{report}]{Report gives you \ldots}
-\item[letter\label{letter}]{If you want to write a letter.}
-\end{description}
-
-
-\section{Conclusions}\label{conclusions}
-There is no longer \LaTeX{} example which was written by \cite{doe}.
+\section{Fazit}\label{sec:end}
 
 \end{document}
