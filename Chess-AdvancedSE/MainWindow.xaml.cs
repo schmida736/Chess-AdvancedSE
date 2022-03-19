@@ -24,8 +24,8 @@ namespace Chess_AdvancedSE
         {
             InitializeComponent();
 
-            Game game = new();
-            MainWindowGrid.Children.Add(new BoardControl(game));
+            Game game = new(); ///TODO: Initalize Class Instance from Game instead of here
+            MainWindowGrid.Children.Add(new BoardControl(new PlayerTranslator(game)));
         }
     }
 }

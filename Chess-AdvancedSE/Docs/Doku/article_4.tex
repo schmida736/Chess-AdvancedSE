@@ -23,7 +23,7 @@
 Da wir, David und Moritz, schon immer gerne Schach gegeneinander spielten um auch in Lernpausen unseren Geist nicht zu unterfordern, entschieden wir uns ein eigenes Schach zu programmieren. 
 Zudem sind wir davon überzeugt, dass Schach eine perfekte Grundlage für objektorientiertes Programmieren bietet, aufgrund der vielen Figuren die jeweils gerade und schräge Züge individuell ausführen.
 
-\section{Clean-Architekture} \label{sec:cleanArc}
+\section{Clean-Architecture} \label{sec:cleanArc}
 Zusammengefasst ermöglicht eine Clean Architecture die Veränderung der Umgebung, bzw. des Systems, ohne den eigentlichen Kern des Codes anpassen zu müssen.
 Das bedeutet, dass wir theoretisch unser Spiel um ein echtes Spielbrett mit LEDs und Arduino- Raspberry-Steuerung erweitern könnten, ohne unseren Schach-Code zu verädnern.
 
@@ -33,9 +33,9 @@ Dadurch ergeben sich grundlegend Folgende Klassen:
 
 \begin{center}
 	\begin{itemize}
-		\item Board,
+		\item Board
 		\item Square
-		\item und Piece.
+		\item Piece
 	\end{itemize}
 \end{center}
 
@@ -47,6 +47,25 @@ Ein Board besteht aus vielen Squares, auf denen jeweils ein Piece stehen kann. U
 		%\caption{\label{pic:umlEntitys}}
 	\end{center}
 \end{figure}
+
+\section{Programmierprizipien}
+\subsection{pros/cons/wieso wir?}
+\subsection{SOLID}
+\subsection{GRASP}
+\subsection{DRY}
+
+\section{Unit Testing}
+\subsection{pros/cons/wieso wir?}
+\subsection{ATRIP}
+\subsection{Code Coverage}
+\subsection{Mocking}
+
+\section{Refactoring}
+\subsection{Beispiele und Begründungen}
+\subsection{Code Smells}
+
+\section{Entwurfsmuster}
+\subsection{Diagramme und Begründungen}
 
 \section{Fazit}\label{sec:end}
 

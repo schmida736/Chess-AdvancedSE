@@ -37,7 +37,7 @@
             </ItemsControl>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid Name="BoardGrid" PreviewMouseDown="SquareClickedEventHandler" Background="Transparent">
+    <Grid Name="BoardGrid" PreviewMouseDown="OnSquareClicked" Background="Transparent">
         <ItemsControl x:Name="GridColumn" ItemTemplate="{DynamicResource RowTemplate}"/>
     </Grid>
 </UserControl>

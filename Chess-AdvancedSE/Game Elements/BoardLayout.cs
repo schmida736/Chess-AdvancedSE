@@ -11,17 +11,17 @@ namespace Chess_AdvancedSE
     {
         public BoardLayout()
         {
-            Layout = new();
+            layout = new();
         }
 
         private List<List<Square>> _layout;
-        public List<List<Square>> Layout
+        public List<List<Square>> layout
         {
             get => _layout;
             set
             {
                 _layout = value;
-                NotifyPropertyChanged(nameof(Layout));
+                NotifyPropertyChanged(nameof(layout));
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;

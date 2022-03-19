@@ -20,10 +20,12 @@ namespace Chess_AdvancedSE
     /// </summary>
     public partial class BoardControl : UserControl
     {
-
-        public BoardControl(Game game)
+        PlayerTranslator pTrans;
+        public BoardControl(PlayerTranslator playerTranslator)
         {
             InitializeComponent();
+
+            this.pTrans = playerTranslator;
 
             //Set board background
             ScaleTransform flipBoard = new();
@@ -33,7 +35,7 @@ namespace Chess_AdvancedSE
             ImageBrush brush = new();
             brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/board.png"));
             //flip board for black player
-            if (!game.player.Color)
+            if (!playerTranslator.getPlayerColor())
             {
                 brush.RelativeTransform = flipBoard;
             }
@@ -41,28 +43,16 @@ namespace Chess_AdvancedSE
 
             //game.board.LayoutChanged += UpdateBoard;
 
-            GridColumn.ItemsSource = game.board.boardLayout.Layout;
+            GridColumn.ItemsSource = playerTranslator.getBoardLayout().layout;
 
         }
 
-
-        public event EventHandler<Board> SquareClicked;
-
-
-        protected virtual void OnLayoutChanged(Board board)
-        {
-            EventHandler<Board> _handler = SquareClicked;
-            _handler?.Invoke(this, board);
-        }
-
-        //private static void UpdateBoard(object Sender, Board board)
-        //{
-        //    //Iterate through board square array and set piece backgrounds appropriately
-        //}
-        private void SquareClickedEventHandler(object Sender, MouseButtonEventArgs e)
+        public virtual void OnSquareClicked(object Sender, MouseButtonEventArgs e)
         {
             var clickPos = Mouse.GetPosition(BoardGrid);
-            MessageBox.Show(((int)clickPos.X/100).ToString() + " " + (7-(int)clickPos.Y/100).ToString());
+            int row = (int)clickPos.X / 100;
+            int col = 7 - ((int)clickPos.Y / 100);
+            pTrans.RequestMove(row, col);
         }
     }
 }
