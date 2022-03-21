@@ -52,7 +52,7 @@ namespace Chess_AdvancedSE
             var clickPos = Mouse.GetPosition(BoardGrid);
             int row = (int)clickPos.X / 100;
             int col = 7 - ((int)clickPos.Y / 100);
-            pTrans.RequestMove(row, col);
+            pTrans.RequestMove(row, col, row, col); //TODO: get two clicks and send both
         }
     }
 }

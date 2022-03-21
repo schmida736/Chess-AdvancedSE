@@ -19,10 +19,10 @@ namespace Chess_AdvancedSE
             return game.player.Color;
         }
 
-        public bool RequestMove(int row, int col)
+        public bool RequestMove(int from_row, int from_col, int to_row, int to_col)
         {
-            //TODO Send request to Board or Game?
             //TODO maybe process requests via event queue in Board???
+            game.RecieveMoveRequest(from_row, from_col, to_row, to_col);
             throw new NotImplementedException();
         }
 
