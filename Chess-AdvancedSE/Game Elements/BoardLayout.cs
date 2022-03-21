@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chess_AdvancedSE
 {
+    //TODO make ViewModel
     public class BoardLayout: INotifyPropertyChanged
     {
         public BoardLayout()

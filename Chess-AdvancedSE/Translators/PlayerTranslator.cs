@@ -18,12 +18,15 @@ namespace Chess_AdvancedSE
         public bool getPlayerColor() {
             return game.player.Color;
         }
-        public void RequestMove(int row, int col)
+
+        public bool RequestMove(int row, int col)
         {
-            //TODO
+            //TODO Send request to Board or Game?
+            //TODO maybe process requests via event queue in Board???
+            throw new NotImplementedException();
         }
 
-        public BoardLayout getBoardLayout()
+        public BoardLayout GetBoardLayout()
         {
             return game.board.boardLayout;
         }
