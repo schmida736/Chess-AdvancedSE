@@ -24,6 +24,11 @@ namespace Chess_AdvancedSE
             this._layout = layout;
         }
 
+        public Square GetSquareFromCoords(int row, int col)
+        {
+            return _layout[row][col];
+        }
+
         public void SetToStartLayout(Player player)
         {
             List<List<Square>> startLayout = new();

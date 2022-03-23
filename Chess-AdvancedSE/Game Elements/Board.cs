@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Chess_AdvancedSE
 {
@@ -17,9 +16,9 @@ namespace Chess_AdvancedSE
         //TODO: #12 For the love of GOD, clean up this function @Purdbull
         public bool MoveIsValid(Square from, Square to)
         {
-            if(from.Row == to.Row && from.Column == to.Column) { return false; }
+            if (from.Row == to.Row && from.Column == to.Column) { return false; }
 
-            if(layout.GetAsList()[from.Row][from.Column] != null)
+            if (layout.GetAsList()[from.Row][from.Column] != null)
             {
                 Piece movingPiece = layout.GetAsList()[from.Row][from.Column].Piece;
                 Piece destinationPiece = layout.GetAsList()[to.Row][to.Column].Piece;
@@ -43,18 +42,18 @@ namespace Chess_AdvancedSE
                                 int rowDifference = Math.Abs(to.Row - from.Row);
                                 int columnDifference = Math.Abs(to.Column - from.Column);
 
-                                if(rowDifference == 0)
+                                if (rowDifference == 0)
                                 {
                                     if (to.Column > from.Column)
                                     {
-                                        for (int i = from.Column+1; i < to.Column; i++)
+                                        for (int i = from.Column + 1; i < to.Column; i++)
                                         {
                                             if (layout.GetAsList()[from.Row][i].Piece != null) { return false; }
                                         }
                                     }
                                     else
                                     {
-                                        for (int i = from.Column-1; i > to.Column; i--)
+                                        for (int i = from.Column - 1; i > to.Column; i--)
                                         {
                                             if (layout.GetAsList()[from.Row][i].Piece != null) { return false; }
                                         }
@@ -81,9 +80,9 @@ namespace Chess_AdvancedSE
                                 }
                                 else
                                 {
-                                    if(to.Row > from.Row)
+                                    if (to.Row > from.Row)
                                     {
-                                        if(to.Column > from.Column)
+                                        if (to.Column > from.Column)
                                         {
                                             for (int i = 1; i < columnDifference; i++)
                                             {
@@ -160,7 +159,7 @@ namespace Chess_AdvancedSE
                                     }
                                 }
                                 return true; //nothing in the way
-                            }                            
+                            }
                             break;
 
                         case Knight:
@@ -222,10 +221,10 @@ namespace Chess_AdvancedSE
                             return false;
                     }
                 }
-                    
+
             }
             return false;
-        } 
+        }
 
         public bool MoveDoesNotCheck(Square from, Square to)
         {
@@ -236,12 +235,7 @@ namespace Chess_AdvancedSE
 
         public void MovePiece(Square from, Square to)
         {
-
-        }
-
-        public Square GetSquareFromCoords(int row, int col)
-        {
-            return layout.GetAsList()[row][col];
+            
         }
     }
 }
