@@ -8,7 +8,7 @@ namespace Chess_AdvancedSE
 {
     class EngineTranslator
     {
-        public BoardLayout GetBoardLayout()
+        public BoardLayout_ViewModel GetBoardLayout()
         {
             throw new NotImplementedException();
         }

@@ -5,61 +5,23 @@ namespace Chess_AdvancedSE
 {
     public class Board
     {
+        public BoardLayout_ViewModel viewModel = new();
+        public BoardLayout layout = new();
+
         public Board(Player player)
         {
-            boardLayout.layout = SetupLayout(player);
-        }
-
-        public BoardLayout boardLayout = new();
-
-
-        private static List<List<Square>> SetupLayout(Player player)
-        {
-            List<List<Square>> layoutSetup = new();
-            for (int row = 0; row < 8; row++)
-            {
-                layoutSetup.Add(new List<Square>());
-                for (int column = 0; column < 8; column++)
-                {
-                    layoutSetup[row].Add(new Square(row, column));
-                }
-            }
-            layoutSetup[0][0].Piece = new Rook(player.Color);
-            layoutSetup[0][1].Piece = new Knight(player.Color);
-            layoutSetup[0][2].Piece = new Bishop(player.Color);
-            layoutSetup[0][3].Piece = new King(player.Color);
-            layoutSetup[0][4].Piece = new Queen(player.Color);
-            layoutSetup[0][5].Piece = new Bishop(player.Color);
-            layoutSetup[0][6].Piece = new Knight(player.Color);
-            layoutSetup[0][7].Piece = new Rook(player.Color);
-
-            for(int column = 0; column < 8; column++)
-            {
-                layoutSetup[1][column].Piece = new Pawn(player.Color);
-                layoutSetup[6][column].Piece = new Pawn(!player.Color);
-            }
-
-
-            layoutSetup[7][0].Piece = new Rook(!player.Color);
-            layoutSetup[7][1].Piece = new Knight(!player.Color);
-            layoutSetup[7][2].Piece = new Bishop(!player.Color);
-            layoutSetup[7][3].Piece = new King(!player.Color);
-            layoutSetup[7][4].Piece = new Queen(!player.Color);
-            layoutSetup[7][5].Piece = new Bishop(!player.Color);
-            layoutSetup[7][6].Piece = new Knight(!player.Color);
-            layoutSetup[7][7].Piece = new Rook(!player.Color);
-
-            return layoutSetup;
+            this.layout.SetToStartLayout(player);
+            viewModel.layout = layout.GetAsList();
         }
 
         public bool MoveIsValid(Square from, Square to)
         {
             if(from.Row == to.Row && from.Column == to.Column) { return false; }
 
-            if(boardLayout.layout[from.Row][from.Column] != null)
+            if(layout.GetAsList()[from.Row][from.Column] != null)
             {
-                Piece movingPiece = boardLayout.layout[from.Row][from.Column].Piece;
-                Piece destinationPiece = boardLayout.layout[to.Row][to.Column].Piece;
+                Piece movingPiece = layout.GetAsList()[from.Row][from.Column].Piece;
+                Piece destinationPiece = layout.GetAsList()[to.Row][to.Column].Piece;
 
                 bool movingPieceColor = movingPiece.Color;
 
@@ -86,14 +48,14 @@ namespace Chess_AdvancedSE
                                     {
                                         for (int i = from.Column+1; i < to.Column; i++)
                                         {
-                                            if (boardLayout.layout[from.Row][i].Piece != null) { return false; }
+                                            if (layout.GetAsList()[from.Row][i].Piece != null) { return false; }
                                         }
                                     }
                                     else
                                     {
                                         for (int i = from.Column-1; i > to.Column; i--)
                                         {
-                                            if (boardLayout.layout[from.Row][i].Piece != null) { return false; }
+                                            if (layout.GetAsList()[from.Row][i].Piece != null) { return false; }
                                         }
                                     }
                                     return true; //nothing in the way
@@ -104,14 +66,14 @@ namespace Chess_AdvancedSE
                                     {
                                         for (int i = from.Row + 1; i < to.Row; i++)
                                         {
-                                            if (boardLayout.layout[i][from.Column].Piece != null) { return false; }
+                                            if (layout.GetAsList()[i][from.Column].Piece != null) { return false; }
                                         }
                                     }
                                     else
                                     {
                                         for (int i = from.Row - 1; i > to.Row; i--)
                                         {
-                                            if (boardLayout.layout[i][from.Column].Piece != null) { return false; }
+                                            if (layout.GetAsList()[i][from.Column].Piece != null) { return false; }
                                         }
                                     }
                                     return true; //nothing in the way
@@ -124,14 +86,14 @@ namespace Chess_AdvancedSE
                                         {
                                             for (int i = 1; i < columnDifference; i++)
                                             {
-                                                if (boardLayout.layout[from.Row + i][from.Column + i].Piece != null) { return false; }
+                                                if (layout.GetAsList()[from.Row + i][from.Column + i].Piece != null) { return false; }
                                             }
                                         }
                                         else
                                         {
                                             for (int i = 1; i < columnDifference; i++)
                                             {
-                                                if (boardLayout.layout[from.Row + i][from.Column - i].Piece != null) { return false; }
+                                                if (layout.GetAsList()[from.Row + i][from.Column - i].Piece != null) { return false; }
                                             }
                                         }
                                     }
@@ -141,14 +103,14 @@ namespace Chess_AdvancedSE
                                         {
                                             for (int i = 1; i < columnDifference; i++)
                                             {
-                                                if (boardLayout.layout[from.Row - i][from.Column + i].Piece != null) { return false; }
+                                                if (layout.GetAsList()[from.Row - i][from.Column + i].Piece != null) { return false; }
                                             }
                                         }
                                         else
                                         {
                                             for (int i = 1; i < columnDifference; i++)
                                             {
-                                                if (boardLayout.layout[from.Row - i][from.Column - i].Piece != null) { return false; }
+                                                if (layout.GetAsList()[from.Row - i][from.Column - i].Piece != null) { return false; }
                                             }
                                         }
                                     }
@@ -168,14 +130,14 @@ namespace Chess_AdvancedSE
                                     {
                                         for (int i = 1; i < columnDifference; i++)
                                         {
-                                            if (boardLayout.layout[from.Row + i][from.Column + i].Piece != null) { return false; }
+                                            if (layout.GetAsList()[from.Row + i][from.Column + i].Piece != null) { return false; }
                                         }
                                     }
                                     else
                                     {
                                         for (int i = 1; i < columnDifference; i++)
                                         {
-                                            if (boardLayout.layout[from.Row + i][from.Column - i].Piece != null) { return false; }
+                                            if (layout.GetAsList()[from.Row + i][from.Column - i].Piece != null) { return false; }
                                         }
                                     }
                                 }
@@ -185,14 +147,14 @@ namespace Chess_AdvancedSE
                                     {
                                         for (int i = 1; i < columnDifference; i++)
                                         {
-                                            if (boardLayout.layout[from.Row - i][from.Column + i].Piece != null) { return false; }
+                                            if (layout.GetAsList()[from.Row - i][from.Column + i].Piece != null) { return false; }
                                         }
                                     }
                                     else
                                     {
                                         for (int i = 1; i < columnDifference; i++)
                                         {
-                                            if (boardLayout.layout[from.Row - i][from.Column - i].Piece != null) { return false; }
+                                            if (layout.GetAsList()[from.Row - i][from.Column - i].Piece != null) { return false; }
                                         }
                                     }
                                 }
@@ -219,14 +181,14 @@ namespace Chess_AdvancedSE
                                     {
                                         for (int i = from.Column + 1; i < to.Column; i++)
                                         {
-                                            if (boardLayout.layout[from.Row][i].Piece != null) { return false; }
+                                            if (layout.GetAsList()[from.Row][i].Piece != null) { return false; }
                                         }
                                     }
                                     else
                                     {
                                         for (int i = from.Column - 1; i > to.Column; i--)
                                         {
-                                            if (boardLayout.layout[from.Row][i].Piece != null) { return false; }
+                                            if (layout.GetAsList()[from.Row][i].Piece != null) { return false; }
                                         }
                                     }
                                     return true; //nothing in the way
@@ -237,14 +199,14 @@ namespace Chess_AdvancedSE
                                     {
                                         for (int i = from.Row + 1; i < to.Row; i++)
                                         {
-                                            if (boardLayout.layout[i][from.Column].Piece != null) { return false; }
+                                            if (layout.GetAsList()[i][from.Column].Piece != null) { return false; }
                                         }
                                     }
                                     else
                                     {
                                         for (int i = from.Row - 1; i > to.Row; i--)
                                         {
-                                            if (boardLayout.layout[i][from.Column].Piece != null) { return false; }
+                                            if (layout.GetAsList()[i][from.Column].Piece != null) { return false; }
                                         }
                                     }
                                     return true; //nothing in the way
@@ -274,6 +236,11 @@ namespace Chess_AdvancedSE
         public void MovePiece(Square from, Square to)
         {
 
+        }
+
+        public Square GetSquareFromCoords(int row, int col)
+        {
+            return layout.GetAsList()[row][col];
         }
     }
 }

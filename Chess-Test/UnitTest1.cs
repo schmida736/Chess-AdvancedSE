@@ -1,12 +1,16 @@
 using System;
 using Xunit;
+using Moq;
+
+using
 
 namespace Chess_Test
 {
-    public class UnitTest1
+    public class TestBoard
     {
+        private 
         [Fact]
-        public void Test1()
+        public void GetSquareCoords_()
         {
 
         }

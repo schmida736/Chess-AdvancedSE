@@ -1,35 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Chess_AdvancedSE
 {
-    //TODO make ViewModel
-    public class BoardLayout: INotifyPropertyChanged
+    public class BoardLayout
     {
+        private List<List<Square>> _layout;
         public BoardLayout()
         {
-            layout = new();
+            this._layout = new();
         }
 
-        private List<List<Square>> _layout;
-        public List<List<Square>> layout
+        public List<List<Square>>GetAsList()
         {
-            get => _layout;
-            set
+            return this._layout;
+        }
+
+        public void Set(List<List<Square>> layout)
+        {
+            this._layout = layout;
+        }
+
+        public void SetToStartLayout(Player player)
+        {
+            List<List<Square>> startLayout = new();
+            for (int row = 0; row < 8; row++)
             {
-                _layout = value;
-                NotifyPropertyChanged(nameof(layout));
+                startLayout.Add(new List<Square>());
+                for (int column = 0; column < 8; column++)
+                {
+                    startLayout[row].Add(new Square(row, column));
+                }
             }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
+            startLayout[0][0].Piece = new Rook(player.Color);
+            startLayout[0][1].Piece = new Knight(player.Color);
+            startLayout[0][2].Piece = new Bishop(player.Color);
+            startLayout[0][3].Piece = new King(player.Color);
+            startLayout[0][4].Piece = new Queen(player.Color);
+            startLayout[0][5].Piece = new Bishop(player.Color);
+            startLayout[0][6].Piece = new Knight(player.Color);
+            startLayout[0][7].Piece = new Rook(player.Color);
 
-        public void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            for (int column = 0; column < 8; column++)
+            {
+                startLayout[1][column].Piece = new Pawn(player.Color);
+                startLayout[6][column].Piece = new Pawn(!player.Color);
+            }
+
+
+            startLayout[7][0].Piece = new Rook(!player.Color);
+            startLayout[7][1].Piece = new Knight(!player.Color);
+            startLayout[7][2].Piece = new Bishop(!player.Color);
+            startLayout[7][3].Piece = new King(!player.Color);
+            startLayout[7][4].Piece = new Queen(!player.Color);
+            startLayout[7][5].Piece = new Bishop(!player.Color);
+            startLayout[7][6].Piece = new Knight(!player.Color);
+            startLayout[7][7].Piece = new Rook(!player.Color);
+
+            this._layout = startLayout;
         }
     }
 }

@@ -1,19 +1,26 @@
-\contentsline {section}{\numberline {1}Intro}{2}{}%
-\contentsline {section}{\numberline {2}Clean-Architecture}{2}{}%
-\contentsline {subsection}{\numberline {2.1}Entitys}{2}{}%
-\contentsline {section}{\numberline {3}Programmierprizipien}{3}{}%
-\contentsline {subsection}{\numberline {3.1}pros/cons/wieso wir?}{3}{}%
-\contentsline {subsection}{\numberline {3.2}SOLID}{3}{}%
-\contentsline {subsection}{\numberline {3.3}GRASP}{3}{}%
-\contentsline {subsection}{\numberline {3.4}DRY}{3}{}%
-\contentsline {section}{\numberline {4}Unit Testing}{3}{}%
-\contentsline {subsection}{\numberline {4.1}pros/cons/wieso wir?}{3}{}%
-\contentsline {subsection}{\numberline {4.2}ATRIP}{3}{}%
-\contentsline {subsection}{\numberline {4.3}Code Coverage}{3}{}%
-\contentsline {subsection}{\numberline {4.4}Mocking}{3}{}%
-\contentsline {section}{\numberline {5}Refactoring}{3}{}%
-\contentsline {subsection}{\numberline {5.1}Beispiele und Begründungen}{3}{}%
-\contentsline {subsection}{\numberline {5.2}Code Smells}{3}{}%
-\contentsline {section}{\numberline {6}Entwurfsmuster}{3}{}%
-\contentsline {subsection}{\numberline {6.1}Diagramme und Begründungen}{3}{}%
-\contentsline {section}{\numberline {7}Fazit}{3}{}%
+\contentsline {section}{\numberline {1}Intro}{3}{}%
+\contentsline {section}{\numberline {2}Clean-Architecture}{3}{}%
+\contentsline {subsection}{\numberline {2.1}Entitys}{3}{}%
+\contentsline {section}{\numberline {3}Programmierprizipien}{4}{}%
+\contentsline {subsection}{\numberline {3.1}pros/cons/wieso wir?}{4}{}%
+\contentsline {subsection}{\numberline {3.2}SOLID}{4}{}%
+\contentsline {subsubsection}{\numberline {3.2.1}Single Resposibility Principle}{4}{}%
+\contentsline {subsubsection}{\numberline {3.2.2}Open/Closed Principle}{4}{}%
+\contentsline {subsubsection}{\numberline {3.2.3}Liskov' Substitution Principle}{4}{}%
+\contentsline {subsubsection}{\numberline {3.2.4}Interface Segregation Principle}{4}{}%
+\contentsline {subsubsection}{\numberline {3.2.5}Dependency Inversion Principle}{4}{}%
+\contentsline {subsection}{\numberline {3.3}GRASP}{4}{}%
+\contentsline {subsubsection}{\numberline {3.3.1}Low Coupling}{4}{}%
+\contentsline {subsubsection}{\numberline {3.3.2}High Cohesion}{4}{}%
+\contentsline {subsection}{\numberline {3.4}DRY (Don't Repeat Yourself)}{4}{}%
+\contentsline {section}{\numberline {4}Unit Testing}{4}{}%
+\contentsline {subsection}{\numberline {4.1}pros/cons/wieso wir?}{4}{}%
+\contentsline {subsection}{\numberline {4.2}ATRIP}{4}{}%
+\contentsline {subsection}{\numberline {4.3}Code Coverage}{4}{}%
+\contentsline {subsection}{\numberline {4.4}Mocking}{4}{}%
+\contentsline {section}{\numberline {5}Refactoring}{4}{}%
+\contentsline {subsection}{\numberline {5.1}Beispiele und Begründungen}{4}{}%
+\contentsline {subsection}{\numberline {5.2}Code Smells}{4}{}%
+\contentsline {section}{\numberline {6}Entwurfsmuster}{4}{}%
+\contentsline {subsection}{\numberline {6.1}Diagramme und Begründungen}{4}{}%
+\contentsline {section}{\numberline {7}Fazit}{4}{}%

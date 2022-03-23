@@ -28,7 +28,7 @@ namespace Chess_AdvancedSE
 
         public BoardLayout GetBoardLayout()
         {
-            return game.board.boardLayout;
+            return game.board.layout;
         }
     }
 }

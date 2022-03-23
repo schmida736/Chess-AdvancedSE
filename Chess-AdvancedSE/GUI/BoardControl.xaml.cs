@@ -43,7 +43,7 @@ namespace Chess_AdvancedSE
 
             //game.board.LayoutChanged += UpdateBoard;
 
-            GridColumn.ItemsSource = playerTranslator.GetBoardLayout().layout;
+            GridColumn.ItemsSource = playerTranslator.GetBoardLayout().GetAsList();
 
         }
 
