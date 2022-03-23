@@ -10,7 +10,7 @@ namespace Chess_AdvancedSE.Tests
         [Fact]
         public void GetSquareFromCoords_TestEmptySquare()
         {
-
+            //TODO: #10 Implement Unit Tests @schmida736
         }
     }
 }

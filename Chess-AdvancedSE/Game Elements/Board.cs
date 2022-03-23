@@ -14,6 +14,7 @@ namespace Chess_AdvancedSE
             viewModel.layout = layout.GetAsList();
         }
 
+        //TODO: #12 For the love of GOD, clean up this function @Purdbull
         public bool MoveIsValid(Square from, Square to)
         {
             if(from.Row == to.Row && from.Column == to.Column) { return false; }
@@ -25,7 +26,7 @@ namespace Chess_AdvancedSE
 
                 bool movingPieceColor = movingPiece.Color;
 
-                if (movingPiece.IsMoveable(from, to) && MoveDoesntCheck(from, to)) //hehe, codesmell
+                if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
                 {
                     switch (movingPiece)
                     {
@@ -226,7 +227,7 @@ namespace Chess_AdvancedSE
             return false;
         } 
 
-        public bool MoveDoesntCheck(Square from, Square to)
+        public bool MoveDoesNotCheck(Square from, Square to)
         {
             //move pice
             //check check
