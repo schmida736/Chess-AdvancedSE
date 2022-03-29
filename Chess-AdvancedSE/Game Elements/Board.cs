@@ -25,7 +25,11 @@ namespace Chess_AdvancedSE
 
                 bool movingPieceColor = movingPiece.Color;
 
+<<<<<<< Updated upstream
                 if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
+=======
+                if (movingPiece.IsMoveable(from, to) && MoveDoesntCheck(from, to)) // TODO: #13 cleanup wrong logic @Purdbull
+>>>>>>> Stashed changes
                 {
                     switch (movingPiece)
                     {
@@ -154,6 +158,7 @@ namespace Chess_AdvancedSE
                                     {
                                         for (int i = 1; i < columnDifference; i++)
                                         {
+                                            // TODO: #11 fckn move it to the right somehow @Purdbull
                                             if (layout.GetAsList()[from.Row - i][from.Column - i].Piece != null) { return false; }
                                         }
                                     }
