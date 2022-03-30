@@ -7,14 +7,11 @@
 \author{Moritz Knapp  \\
 	SICK AG  \\
 	\and 
-	DAvid Schmidt \\
+	David Schmidt \\
 	SICK AG \\
 	}
 
 \date{\today}
-% Hint: \title{what ever}, \author{who care} and \date{when ever} could stand 
-% before or after the \begin{document} command 
-% BUT the \maketitle command MUST come AFTER the \begin{document} command! 
 \begin{document}
 
 \maketitle
@@ -29,6 +26,13 @@ Zudem sind wir davon überzeugt, dass Schach eine perfekte Grundlage für objekt
 
 \section{Clean-Architecture} \label{sec:cleanArc}
 Bereits vor dem Studium hat David schonmal ein Schach programmiert. Dabei handelte es sich um ca 3000 Zeilen hochineffizienten Arduino Code. In diesem Projrekt wollten wir unseren früheren Ichs beweisen wie viel eleganter so etwas umsetzbar ist. Der erste Schritt dazu ist die Clean-Architecture.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width = \textwidth]{onion.pdf}
+		\caption{Übersicht über die Clean Architecture}
+	\end{center}
+\end{figure}
 
 Zusammengefasst ermöglicht eine Clean Architecture die Veränderung der Umgebung, bzw. des Systems, ohne den eigentlichen Kern des Codes anpassen zu müssen.
 Das bedeutet, dass wir theoretisch unser Spiel um ein echtes Spielbrett mit LEDs und Arduino- Raspberry-Steuerung erweitern könnten, ohne unseren Schach-Code zu verädnern.
@@ -71,7 +75,12 @@ Der Use-Case initialisiert das Board, wodurch die Farbe des unten spielenden Spi
 So eine Anfrage ist von \texttt{Game} definiert (z.B. 'e5,e6' = ''Zug von e5 nach e6''). \\
 Wird nun eine solche Anfrage gestellt, verlangt \texttt{Game} von \texttt{Board} eine Auskunft über die Farbe der Figur, welche sich auf dem \textit{von}-Feld befindet. Stimmt diese mit der Farbe des aktuell spielenden Spielers überein, kann der Zug nach Validitätsprüfung ausgeführt werden. Anhand dessen ob \texttt{MovePiece} \texttt{true} oder \texttt{false} zurückgibt, ist der andere Spieler daraufhin am Zug, oder nicht.
 \subsection{Schicht 3: Übersetzer}
-Sollte es dazu kommen, dass die Umgebung beispielsweise zu einer Ascii-Oberfläche geändert wird, müssen ab dieser Schicht Veränderungen am Code erfolgen. Solange jedoch die Zuganfragen richtig gestellt werden, funktioniert der Code in den unteren Schichten immer gleich. In der 3. Schicht befindet sich ein GUI- und Engine-Translator. Diese übersetzen Züge von Spieler und Engine und geben sie richtig Codiert an die zweite Schicht. solche ZUganfragen können völlig asynchron erfolgen, sie führen jedoch zu nichts, falls der Zug nicht den Regeln entspricht, oder der Spielende nicht am Zug ist.
+Sollte es dazu kommen, dass die Umgebung beispielsweise zu einer Ascii-Oberfläche geändert wird, müssen ab dieser Schicht Veränderungen am Code erfolgen. Solange jedoch die Zug-Anfragen richtig gestellt werden, arbeitet der Code in den unteren Schichten immer gleich. In der 3. Schicht befindet sich ein GUI- und Engine-Translator. Diese übersetzen Züge von Spieler und Engine und geben sie richtig Codiert an die zweite Schicht. solche Zug-Anfragen können völlig asynchron erfolgen, sie führen jedoch zu nichts, falls der Zug nicht den Regeln entspricht, oder der Spielende nicht am Zug ist.
+\subsection{Schicht 4: User-Interfaces}
+Auf dieser Ebene befinden sich die Interfaces für die Spieler. In unserem Fall sind das die GUI und die Schachengine. %David schreib was zur enginge hier ich hab kp
+Die GUI stellt das Schachbrett grafisch dar und bietet die Möglichkeit durch anklicken von Feldern Figuren zu ziehen (z.B. erster Klick auf \textit{E2}, zweiter Klick auf \textit{E3} $\Rightarrow$ \textit{E2 nach E3}). Diese Klicks werden von Schicht 3 für das Spiel übersetzt.
+
+
 \section{Programmierprizipien}
 \subsection{pros/cons/wieso wir?}
 \subsection{SOLID}
