@@ -348,10 +348,21 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-Chess-AdvancedSE/Docs/Doku/article_4.aux
-Chess-AdvancedSE/Docs/Doku/article_4.fdb_latexmk
-Chess-AdvancedSE/Docs/Doku/article_4.fls
-Chess-AdvancedSE/Docs/Doku/article_4.out
-Chess-AdvancedSE/Docs/Doku/article_4.pdf
-Chess-AdvancedSE/Docs/Doku/article_4.synctex.gz
-Chess-AdvancedSE/Docs/Doku/article_4.toc
+*.acn
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.glo
+*.ist
+*.lof
+*.log
+*.lol
+*.lot
+*.out
+*.pdf
+*.run.xml
+*.synctex.gz
+*.toc
