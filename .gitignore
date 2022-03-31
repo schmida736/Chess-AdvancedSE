@@ -362,7 +362,7 @@ MigrationBackup/
 *.lol
 *.lot
 *.out
-*.pdf
+**/article_4.pdf
 *.run.xml
 *.synctex.gz
 *.toc
