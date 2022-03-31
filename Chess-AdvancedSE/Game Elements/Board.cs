@@ -25,11 +25,7 @@ namespace Chess_AdvancedSE
 
                 bool movingPieceColor = movingPiece.Color;
 
-<<<<<<< Updated upstream
                 if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
-=======
-                if (movingPiece.IsMoveable(from, to) && MoveDoesntCheck(from, to)) // TODO: #13 cleanup wrong logic @Purdbull
->>>>>>> Stashed changes
                 {
                     switch (movingPiece)
                     {
