@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace Chess_AdvancedSE
 {
@@ -19,10 +14,10 @@ namespace Chess_AdvancedSE
             return game.player.Color;
         }
 
-        public bool RequestMove(int from_row, int from_col, int to_row, int to_col)
+        public bool RequestMove(Tuple<int, int> coords_from, Tuple<int, int> coords_to)
         {
             //TODO maybe process requests via event queue in Board???
-            game.RecieveMoveRequest(from_row, from_col, to_row, to_col);
+            game.RecieveMoveRequest(coords_from.Item1, coords_from.Item2, coords_to.Item1, coords_to.Item2);
             throw new NotImplementedException();
         }
 

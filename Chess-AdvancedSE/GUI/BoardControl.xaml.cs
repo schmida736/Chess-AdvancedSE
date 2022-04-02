@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Chess_AdvancedSE
 {
@@ -21,6 +12,8 @@ namespace Chess_AdvancedSE
     public partial class BoardControl : UserControl
     {
         PlayerTranslator pTrans;
+        Tuple<int, int> coords_from = null;
+        Tuple<int, int> coords_to = null;
         public BoardControl(PlayerTranslator playerTranslator)
         {
             InitializeComponent();
@@ -52,7 +45,15 @@ namespace Chess_AdvancedSE
             var clickPos = Mouse.GetPosition(BoardGrid);
             int row = (int)clickPos.X / 100;
             int col = 7 - ((int)clickPos.Y / 100);
-            pTrans.RequestMove(row, col, row, col); //TODO: get two clicks and send both
+
+            if(coords_from == null){
+                coords_to = Tuple.Create(row, col);
+            }
+            else{
+                coords_to = Tuple.Create(row, col);
+                pTrans.RequestMove(coords_to, coords_from);
+                coords_from = coords_to = null;
+            }
         }
     }
 }
