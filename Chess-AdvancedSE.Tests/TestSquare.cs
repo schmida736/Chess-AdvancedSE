@@ -2,10 +2,9 @@ using Xunit;
 
 namespace Chess_AdvancedSE.Tests
 {
-            //TODO: #10 Implement Unit Tests @schmida736
     public class TestSquare
     {
-        Player player = new(false); //TODO: replace with mock
+        Player player = new(true); //TODO: #15 Replace Player with mock @schmida736
         [Fact]
         public void GetSquareFromCoords_ReturnedSquare_IsEmpty()
         {
@@ -47,6 +46,5 @@ namespace Chess_AdvancedSE.Tests
             Assert.Equal(layout.GetSquareFromCoords(7, 5).Row, 7);
             Assert.Equal(layout.GetSquareFromCoords(7, 5).Column, 5);
         }
-
     }
 }
