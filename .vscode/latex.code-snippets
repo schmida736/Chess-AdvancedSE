@@ -1,0 +1,33 @@
+{
+	// Place your snippets for latex here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"Insert Matrikelnummer":{
+		"prefix": "\\matrikelnummer",
+		"body": ["\\hfill\\small{5418019}"],
+		"description": "Inserts Matrikelnummer 5418019"
+	},
+
+	"Insert prefilled figure environment":{
+		"prefix": "\\figure",
+		"body": [
+		"\\begin{figure}[ht]",
+        "\t\\capstart",
+        "\t\\includegraphics[width=\\linewidth]{${1:example-image-a}}",
+        "\t\\caption[${2:captionInLOF(for acronyms)}]{${2:captionInText}}",
+        "\t\\label{${3:fig:$UUID}}",
+		"\\end{figure}"
+		],
+		"description": "A prefilled \\figure environment, leave image as \"example-image-a\" to insert an image placeholder"
+	}
+}
