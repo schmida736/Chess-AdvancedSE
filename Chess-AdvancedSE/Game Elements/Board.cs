@@ -30,7 +30,9 @@ namespace Chess_AdvancedSE
 
                 if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
                 {
-                    switch (movingPiece)
+                    return movingPiece.MoveIsValid(from, to); //this is the way!!! 
+
+                    switch (movingPiece)//swich still there for doku snippets
                     {
                         case King:
                             if (destinationPiece?.Color != movingPieceColor)
