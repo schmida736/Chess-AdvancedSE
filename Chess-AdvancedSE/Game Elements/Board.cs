@@ -2,6 +2,7 @@
 
 namespace Chess_AdvancedSE
 {
+    
     public class Board
     {
         public BoardLayout_ViewModel viewModel = new();
@@ -12,6 +13,8 @@ namespace Chess_AdvancedSE
             this.layout.SetToStartLayout(player);
             viewModel.layout = layout.GetAsList();
         }
+
+        
 
         //TODO: #12 For the love of GOD, clean up this function @Purdbull
         public bool MoveIsValid(Square from, Square to)

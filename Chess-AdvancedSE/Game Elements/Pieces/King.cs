@@ -2,11 +2,14 @@
 {
     public class King : Piece
     {
-        public King(bool color) : base(color) {
+        public IBoardLayout board;
+        public King(bool color, IBoardLayout board) : base(color) {
             ImageSource += "k";
             if (color) { ImageSource += "l"; }
             else { ImageSource += "d"; }
             ImageSource += ".png";
+
+            this.board = board;
         }
 
         public bool IsMoveable(Square from, Square to)
@@ -29,6 +32,11 @@
                 }
             }
             return false;
+        }
+
+        bool MoveIsValid(Square from, Square to) //Except for check
+        {
+            return board.GetPiece(to) != board.GetPiece(from);
         }
     }
 }

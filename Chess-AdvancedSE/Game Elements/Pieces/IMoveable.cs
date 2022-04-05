@@ -8,6 +8,6 @@ namespace Chess_AdvancedSE
 {
     interface IMoveable
     {
-        public bool IsMoveable(Square from, Square to);
+        
     }
 }

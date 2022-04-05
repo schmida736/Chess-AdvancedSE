@@ -29,5 +29,10 @@ namespace Chess_AdvancedSE
         {
             throw new NotImplementedException();
         }
+
+        public bool MoveIsValid(Square from, Square to)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
