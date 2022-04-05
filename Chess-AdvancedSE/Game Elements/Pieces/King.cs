@@ -34,7 +34,7 @@
             return false;
         }
 
-        bool MoveIsValid(Square from, Square to) //Except for check
+        public bool MoveIsValid(Square from, Square to) //Except for check
         {
             return board.GetPiece(to) != board.GetPiece(from);
         }
