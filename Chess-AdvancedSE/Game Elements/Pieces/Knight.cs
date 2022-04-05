@@ -4,11 +4,15 @@ namespace Chess_AdvancedSE
 {
     public class Knight : Piece
     {
-        public Knight(bool color) : base(color) {
+
+        public IBoardLayout board;
+        public Knight(bool color, IBoardLayout board) : base(color) {
             ImageSource += "n";
             if (color) { ImageSource += "l"; }
             else { ImageSource += "d"; }
             ImageSource += ".png";
+
+            this.board = board;
         }
 
         public bool IsMoveable(Square from, Square to)
@@ -19,6 +23,11 @@ namespace Chess_AdvancedSE
             if ((rowDifference == 2) && (columnDifference == 1)) { return true; }
             if ((columnDifference == 2) && (rowDifference == 1)) { return true; }
             return false;
+        }
+
+        public bool MoveIsValid(Square from, Square to)
+        {
+            return to.Piece.Color != from.Piece.Color;           
         }
 
     }
