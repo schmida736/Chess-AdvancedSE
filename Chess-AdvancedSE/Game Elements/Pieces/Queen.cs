@@ -14,7 +14,7 @@ namespace Chess_AdvancedSE
             this.board = board;
         }
 
-        public bool IsMoveable(Square from, Square to)
+        public override bool IsMoveable(Square from, Square to)
         {
             int rowDifference = Math.Abs(to.Row - from.Row);
             int columnDifference = Math.Abs(to.Column - from.Column);
@@ -25,9 +25,9 @@ namespace Chess_AdvancedSE
             return false;
         }
 
-        public bool MoveIsValid(Square from, Square to)
+        public override bool MoveIsValid(Square from, Square to)
         {
-            if (to.Piece.Color != from.Piece.Color)
+            if (to.Piece?.Color != from.Piece.Color)
             {
                 int rowDifference = Math.Abs(to.Row - from.Row);
                 int columnDifference = Math.Abs(to.Column - from.Column);

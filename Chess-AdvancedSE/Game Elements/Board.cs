@@ -23,9 +23,9 @@ namespace Chess_AdvancedSE
 
             if (layout.GetAsList()[from.Row][from.Column] != null)
             {
-                Piece movingPiece = layout.GetAsList()[from.Row][from.Column].Piece;
-                Piece destinationPiece = layout.GetAsList()[to.Row][to.Column].Piece;
-
+                Piece movingPiece = layout.GetAsList()[from.Row][from.Column]?.Piece;
+                Piece destinationPiece = layout.GetAsList()[to.Row][to.Column]?.Piece;
+                if (movingPiece == null) { return false; }
                 bool movingPieceColor = movingPiece.Color; //TODO: #16 Fix crash @Purdbull
 
                 if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
@@ -236,7 +236,7 @@ namespace Chess_AdvancedSE
         {
             //move pice
             //check check
-            return false; //TODO: Implementation
+            return true; //TODO: Implementation
         }
 
         public bool MovePiece(int from_row, int from_col, int to_row, int to_col)

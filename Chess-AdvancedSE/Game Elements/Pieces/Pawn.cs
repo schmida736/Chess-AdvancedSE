@@ -11,7 +11,7 @@ namespace Chess_AdvancedSE
             ImageSource += ".png";
         }
 
-        public bool IsMoveable(Square from, Square to)
+        public override bool IsMoveable(Square from, Square to)
         {
             int rowDifference = Math.Abs(to.Row - from.Row);
             int columnDifference = Math.Abs(to.Column - from.Column);
@@ -21,6 +21,11 @@ namespace Chess_AdvancedSE
             
 
             return false;
+        }
+
+        public override bool MoveIsValid(Square from, Square to)
+        {
+            return true; //TODO
         }
 
     }

@@ -25,12 +25,12 @@ namespace Chess_AdvancedSE
         public string ImageSource { get; set; }
 
 
-        public bool IsMoveable(Square from, Square to)
+        public virtual bool IsMoveable(Square from, Square to)
         {
             throw new NotImplementedException();
         }
 
-        public bool MoveIsValid(Square from, Square to)
+        public virtual bool MoveIsValid(Square from, Square to)
         {
             throw new NotImplementedException();
         }

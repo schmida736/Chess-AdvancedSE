@@ -54,7 +54,7 @@ namespace Chess_AdvancedSE
             }
             else{
                 coords_to = Tuple.Create(row, col);
-                pTrans.RequestMove(coords_to, coords_from);
+                pTrans.RequestMove(coords_from, coords_to);
                 coords_from = coords_to = null;
             }
             GridColumn.Items.Refresh();

@@ -12,7 +12,7 @@
             this.board = board;
         }
 
-        public bool IsMoveable(Square from, Square to)
+        public override bool IsMoveable(Square from, Square to)
         {
             int rowDifference = from.Row - to.Row;
             int columnDifference = from.Column - to.Column;
@@ -34,7 +34,7 @@
             return false;
         }
 
-        public bool MoveIsValid(Square from, Square to) //Except for check
+        public override bool MoveIsValid(Square from, Square to) //Except for check
         {
             return board.GetPiece(to) != board.GetPiece(from);
         }
