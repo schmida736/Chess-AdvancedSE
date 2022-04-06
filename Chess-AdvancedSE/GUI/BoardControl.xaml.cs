@@ -12,13 +12,15 @@ namespace Chess_AdvancedSE
     public partial class BoardControl : UserControl
     {
         PlayerTranslator pTrans;
+        Game _game;
         Tuple<int, int> coords_from = null;
         Tuple<int, int> coords_to = null;
-        public BoardControl(PlayerTranslator playerTranslator)
+        public BoardControl(Game game)
         {
             InitializeComponent();
 
-            this.pTrans = playerTranslator;
+            pTrans = new PlayerTranslator(game);
+            this._game = game;
 
             //Set board background
             ScaleTransform flipBoard = new();
@@ -28,7 +30,7 @@ namespace Chess_AdvancedSE
             ImageBrush brush = new();
             brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/board.png"));
             //flip board for black player
-            if (!playerTranslator.getPlayerColor())
+            if (!game.player.Color)
             {
                 brush.RelativeTransform = flipBoard;
             }
@@ -36,24 +38,26 @@ namespace Chess_AdvancedSE
 
             //game.board.LayoutChanged += UpdateBoard;
 
-            GridColumn.ItemsSource = playerTranslator.GetBoardLayout().GetAsList();
+            GridColumn.ItemsSource = game.board.viewModel.layout;
 
         }
 
         public virtual void OnSquareClicked(object Sender, MouseButtonEventArgs e)
         {
             var clickPos = Mouse.GetPosition(BoardGrid);
-            int row = (int)clickPos.X / 100;
-            int col = 7 - ((int)clickPos.Y / 100);
+            Console.WriteLine(clickPos.X + " " + clickPos.Y);
+            int col = (int)clickPos.X / 100;
+            int row = ((int)clickPos.Y / 100);
 
             if(coords_from == null){
-                coords_to = Tuple.Create(row, col);
+                coords_from = Tuple.Create(row, col);
             }
             else{
                 coords_to = Tuple.Create(row, col);
                 pTrans.RequestMove(coords_to, coords_from);
                 coords_from = coords_to = null;
             }
+            GridColumn.Items.Refresh();
         }
     }
 }

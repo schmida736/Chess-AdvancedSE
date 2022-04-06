@@ -29,6 +29,10 @@ namespace Chess_AdvancedSE
             return _layout[row][col];
         }
 
+        public void ChangePiece(int row, int col, Piece piece){
+            this._layout[row][col].Piece = piece;
+        }
+
         public void SetToStartLayout(Player player)
         {
             List<List<Square>> startLayout = new();

@@ -15,7 +15,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <StackPanel>
-                            <Image Height="100" Width="100" Source="{Binding Piece.ImageSource}"/>
+                            <Image Height="100" Width="100" Source="{Binding Piece.ImageSource, Mode = TwoWay}"/>
                             <ContentPresenter>
                                 
                             </ContentPresenter>

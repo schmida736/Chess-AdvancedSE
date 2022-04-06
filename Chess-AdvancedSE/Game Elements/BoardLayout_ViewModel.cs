@@ -18,18 +18,21 @@ namespace Chess_AdvancedSE
         private List<List<Square>> _layout;
         public List<List<Square>> layout
         {
-            get => _layout;
+            get{
+                return _layout;
+            }
             set
             {
                 _layout = value;
-                NotifyPropertyChanged(nameof(layout));
+                OnPropertyChanged(nameof(layout));
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void NotifyPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

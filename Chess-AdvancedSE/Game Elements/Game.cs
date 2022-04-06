@@ -13,8 +13,8 @@
 
         public bool RecieveMoveRequest(int from_row, int from_col, int to_row, int to_col)
         {
-            //TODO: Ask Board if move is permitted
-            return false;
+            System.Console.WriteLine("Move detected");
+            return board.MovePiece(from_row, from_col, to_row, to_col);
         }
     }
 }

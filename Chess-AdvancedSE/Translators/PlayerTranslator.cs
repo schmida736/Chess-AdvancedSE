@@ -17,13 +17,12 @@ namespace Chess_AdvancedSE
         public bool RequestMove(Tuple<int, int> coords_from, Tuple<int, int> coords_to)
         {
             //TODO maybe process requests via event queue in Board???
-            game.RecieveMoveRequest(coords_from.Item1, coords_from.Item2, coords_to.Item1, coords_to.Item2);
-            throw new NotImplementedException();
+            return game.RecieveMoveRequest(coords_from.Item1, coords_from.Item2, coords_to.Item1, coords_to.Item2);
         }
 
-        public BoardLayout GetBoardLayout()
+        public BoardLayout_ViewModel GetBoardLayout()
         {
-            return game.board.layout;
+            return game.board.viewModel;
         }
     }
 }

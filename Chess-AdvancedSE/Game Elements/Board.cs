@@ -23,7 +23,7 @@ namespace Chess_AdvancedSE
                 Piece movingPiece = layout.GetAsList()[from.Row][from.Column].Piece;
                 Piece destinationPiece = layout.GetAsList()[to.Row][to.Column].Piece;
 
-                bool movingPieceColor = movingPiece.Color;
+                bool movingPieceColor = movingPiece.Color; //TODO: #16 Fix crash @Purdbull
 
                 if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
                 {
@@ -234,9 +234,17 @@ namespace Chess_AdvancedSE
             return false; //TODO: Implementation
         }
 
-        public void MovePiece(Square from, Square to)
+        public bool MovePiece(int from_row, int from_col, int to_row, int to_col)
         {
-            
+            Square fromSquare = this.layout.GetSquareFromCoords(from_row, from_col);
+            Square toSquare = this.layout.GetSquareFromCoords(to_row, to_col);
+            if (MoveIsValid(fromSquare, toSquare)){
+                this.layout.ChangePiece(from_row, from_col, null);
+                this.layout.ChangePiece(to_row, to_col, fromSquare.Piece);
+                viewModel.layout = this.layout.GetAsList();
+                return true;
+            }
+            else return false;
         }
     }
 }
