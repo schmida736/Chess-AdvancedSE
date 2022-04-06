@@ -119,7 +119,7 @@ Schon umgesetzt?
 \subsection{Mocking}
 
 \section{Refactoring}
-\subsection{Codesmell Long Method und Switch-case}
+\subsection{Codesmell: Long Method und Switch-case}
 Einer früheren Version des Codes war eine Methode zu entnehmen, welche gleich zwei übel riechende Codesmells aufwies. Zum einen war die Methode sehr lang, zum anderen streckte sich ein großes Switch-Case über die gesamte länge. Die Rede ist von jener Methode, welche festetellen soll ob ein Zug valide ist oder nicht. Die Validierung eines Zuges von einem Startfeld zu einem Zielfeld muss die folgenden Voraussetzungen erfüllen:
 \begin{center}
 	\begin{itemize}
@@ -165,8 +165,11 @@ public bool MoveIsValid(Square from, Square to)
 		  
 	\end{lstlisting}
 
-	Das Switch-Case über den Instanztyp der Figur soll nun ebenfalls durch einen Polymorphen Methodenaufruf eleminiert werden. Das Problem dabei ist nur, dass die Figur selbst keine Ahnung hat wo sich andere Figuren befinden. Diese Information ist dem Board vorbehalten. 
+	Das Switch-Case über den Instanztyp der Figur soll nun ebenfalls durch einen Polymorphen Methodenaufruf eleminiert werden. 
 
+	\subsection{Refactoring: Auflösen des Switchcase durch Polymorphismus}
+	Das Problem bei einem polymorphen Methodenaufruf hierbei ist, dass die Figur selbst keine Ahnung hat wo sich andere Figuren befinden. Diese Information ist dem Board vorbehalten. Eine Simple Lösung wäre sicherlich, das Board jeder Figur als Übergabeparameter zu geben, dabei geht jedoch die Sinnhaftigkeit der Logik verloren. Dependency Injection schafft heirbei Abhilfe. Es wird ermöglicht, von den Figuren aus Infos über einzelne Felder zu erfragen. Anstatt dass das Board für jedes, sich auf einem Zugpfad befindendes, Feld überprüft ob eine Figur im Weg steht, soll nun die Figur für jedes Feld erfragen, ob eine andere im Weg steht. Die Figur hat also keine Informationen über das Board, sondern nur einen Weg essenzielle Informationen zu erfragen. Umgesetzt wird dies durch ein Interface. 
+	
 
 
 
