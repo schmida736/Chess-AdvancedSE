@@ -2,6 +2,7 @@
 
 namespace Chess_AdvancedSE
 {
+    
     public class Board
     {
         public BoardLayout_ViewModel viewModel = new();
@@ -12,6 +13,8 @@ namespace Chess_AdvancedSE
             this.layout.SetToStartLayout(player);
             viewModel.layout = layout.GetAsList();
         }
+
+        
 
         //TODO: #12 For the love of GOD, clean up this function @Purdbull
         public bool MoveIsValid(Square from, Square to)
@@ -27,7 +30,9 @@ namespace Chess_AdvancedSE
 
                 if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
                 {
-                    switch (movingPiece)
+                    return movingPiece.MoveIsValid(from, to); //this is the way!!! 
+
+                    switch (movingPiece)//swich still there for doku snippets
                     {
                         case King:
                             if (destinationPiece?.Color != movingPieceColor)

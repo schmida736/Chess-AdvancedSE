@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Chess_AdvancedSE
 {
-    public class BoardLayout
+    public interface IBoardLayout
+    {
+        Square GetSquare(int row, int column);
+        Piece GetPiece(Square square);
+    }
+
+    public class BoardLayout : IBoardLayout
     {
         private List<List<Square>> _layout;
         public BoardLayout()
@@ -32,6 +38,15 @@ namespace Chess_AdvancedSE
         public void ChangePiece(int row, int col, Piece piece){
             this._layout[row][col].Piece = piece;
         }
+        public Square GetSquare(int row, int column)
+        {
+            return GetSquareFromCoords(row, column);
+        }
+
+        public Piece GetPiece(Square square)
+        {
+            return square.Piece;
+        }
 
         public void SetToStartLayout(Player player)
         {
@@ -44,14 +59,14 @@ namespace Chess_AdvancedSE
                     startLayout[row].Add(new Square(row, column));
                 }
             }
-            startLayout[0][0].Piece = new Rook(player.Color);
-            startLayout[0][1].Piece = new Knight(player.Color);
-            startLayout[0][2].Piece = new Bishop(player.Color);
-            startLayout[0][3].Piece = new King(player.Color);
-            startLayout[0][4].Piece = new Queen(player.Color);
-            startLayout[0][5].Piece = new Bishop(player.Color);
-            startLayout[0][6].Piece = new Knight(player.Color);
-            startLayout[0][7].Piece = new Rook(player.Color);
+            startLayout[0][0].Piece = new Rook(player.Color, this);
+            startLayout[0][1].Piece = new Knight(player.Color, this);
+            startLayout[0][2].Piece = new Bishop(player.Color, this);
+            startLayout[0][3].Piece = new King(player.Color, this);
+            startLayout[0][4].Piece = new Queen(player.Color, this);
+            startLayout[0][5].Piece = new Bishop(player.Color, this);
+            startLayout[0][6].Piece = new Knight(player.Color, this);
+            startLayout[0][7].Piece = new Rook(player.Color, this);
 
             for (int column = 0; column < 8; column++)
             {
@@ -60,14 +75,14 @@ namespace Chess_AdvancedSE
             }
 
 
-            startLayout[7][0].Piece = new Rook(!player.Color);
-            startLayout[7][1].Piece = new Knight(!player.Color);
-            startLayout[7][2].Piece = new Bishop(!player.Color);
-            startLayout[7][3].Piece = new King(!player.Color);
-            startLayout[7][4].Piece = new Queen(!player.Color);
-            startLayout[7][5].Piece = new Bishop(!player.Color);
-            startLayout[7][6].Piece = new Knight(!player.Color);
-            startLayout[7][7].Piece = new Rook(!player.Color);
+            startLayout[7][0].Piece = new Rook(!player.Color, this);
+            startLayout[7][1].Piece = new Knight(!player.Color, this);
+            startLayout[7][2].Piece = new Bishop(!player.Color, this);
+            startLayout[7][3].Piece = new King(!player.Color, this);
+            startLayout[7][4].Piece = new Queen(!player.Color, this);
+            startLayout[7][5].Piece = new Bishop(!player.Color, this);
+            startLayout[7][6].Piece = new Knight(!player.Color, this);
+            startLayout[7][7].Piece = new Rook(!player.Color, this);
 
             this._layout = startLayout;
         }
