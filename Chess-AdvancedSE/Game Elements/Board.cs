@@ -234,7 +234,7 @@ namespace Chess_AdvancedSE
 
         public bool MoveDoesNotCheck(Square from, Square to)
         {
-            //move pice
+            //move piece
             //check check
             return true; //TODO: Implementation
         }
@@ -244,8 +244,8 @@ namespace Chess_AdvancedSE
             Square fromSquare = this.layout.GetSquareFromCoords(from_row, from_col);
             Square toSquare = this.layout.GetSquareFromCoords(to_row, to_col);
             if (MoveIsValid(fromSquare, toSquare)){
-                this.layout.ChangePiece(from_row, from_col, null);
                 this.layout.ChangePiece(to_row, to_col, fromSquare.Piece);
+                this.layout.ChangePiece(from_row, from_col, null);
                 viewModel.layout = this.layout.GetAsList();
                 return true;
             }
