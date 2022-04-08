@@ -1,0 +1,209 @@
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+headinclude,footinclude, % Extra spacing for the header and footer
+BCOR5mm, % Binding correction
+]{scrartcl}
+
+\input{structure.tex} % Include the structure.tex file which specified the document structure and layout
+\hyphenation{Fortran hy-phen-ation} % Specify custom hyphenation points in words with dashes where you would like hyphenation to occur, or alternatively, don't put any dashes in a word to stop hyphenation altogether
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE AND AUTHOR(S)
+%----------------------------------------------------------------------------------------
+
+\title{\normalfont\spacedallcaps{Programmentwurf}} % The article title
+
+\subtitle{Check-Mate} % Uncomment to display a subtitle
+
+\author{\spacedlowsmallcaps{David Schmidt \& Moritz Knapp}} % The article author(s) - author affiliations need to be specified in the AUTHOR AFFILIATIONS block
+
+\date{} % An optional date to appear under the author(s)
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	HEADERS
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\sectionmark}[1]{\markright{\spacedlowsmallcaps{#1}}} % The header for all pages (oneside) or for even pages (twoside)
+%\renewcommand{\subsectionmark}[1]{\markright{\thesubsection~#1}} % Uncomment when using the twoside option - this modifies the header on odd pages
+\lehead{\mbox{\llap{\small\thepage\kern1em\color{halfgray} \vline}\color{halfgray}\hspace{0.5em}\rightmark\hfil}} % The header style
+
+\pagestyle{scrheadings} % Enable the headers specified in this block
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS & LISTS OF FIGURES AND TABLES
+%----------------------------------------------------------------------------------------
+
+\maketitle % Print the title/author/date block
+
+\setcounter{tocdepth}{2} % Set the depth of the table of contents to show sections and subsections only
+
+\tableofcontents % Print the table of contents
+
+\listoffigures % Print the list of figures
+
+\newpage % Start the article content on the second page, remove this if you have a longer abstract that goes onto the second page
+
+\section{Intro}
+
+Da wir, David und Moritz, schon immer gerne Schach gegeneinander spielten um auch in Lernpausen unseren Geist nicht zu unterfordern, entschieden wir uns ein eigenes Schach zu programmieren. 
+Zudem sind wir davon überzeugt, dass Schach eine perfekte Grundlage für objektorientiertes Programmieren bietet, aufgrund der vielen Figuren die jeweils gerade und schräge Züge individuell ausführen.
+
+\section{Clean-Architecture} \label{sec:cleanArc}
+Bereits vor dem Studium hat David schonmal ein Schach programmiert. Dabei handelte es sich um ca 3000 Zeilen hochineffizienten Arduino Code. In diesem Projrekt wollten wir unseren früheren Ichs beweisen wie viel eleganter so etwas umsetzbar ist. Der erste Schritt dazu ist die Clean-Architecture.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width = \textwidth]{onion.pdf}
+		\caption{Übersicht über die Clean Architecture}
+	\end{center}
+\end{figure}
+
+Zusammengefasst ermöglicht eine Clean Architecture die Veränderung der Umgebung, bzw. des Systems, ohne den eigentlichen Kern des Codes anpassen zu müssen.
+Das bedeutet, dass wir theoretisch unser Spiel um ein echtes Spielbrett mit LEDs und Arduino- Raspberry-Steuerung erweitern könnten, ohne unseren Schach-Code zu verädnern.
+
+\subsection{Schicht 1: Entitys}
+Die Entitys sind der Kern unseres Spiels. Unabhängig von der Umgebung sind die einzelnen Figuren virtuell auf einem Feld positioniert und können umplatziert werden.
+Dadurch ergeben sich grundlegend Folgende Klassen: 
+
+\begin{center}
+	\begin{itemize}
+		\item Board
+		\item Square
+		\item Piece
+	\end{itemize}
+\end{center}
+
+Ein Board besteht aus vielen Squares, auf denen jeweils ein Piece stehen kann. Um dies zu implementieren und später auch verschiedene Pieces zu benutzen, zeigt \autoref{pic:umlEntitys} alle Klassen welche unser Kern der Clean-Architektur beinhalten soll. 
+\newpage
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=10cm]{entitys.png}
+		\caption{\label{pic:umlEntitys} UML-Diagramm der Entitys}
+	\end{center}
+\end{figure}
+Das Diagramm zeigt die Schach-Logik im Kern unserer Clean Architecture, bzw. die Entitys. Das \texttt{Board} stellt das Schachbrett dar. Dieses besteht aus 64 \texttt{Squares}. Die Methode \texttt{SetupLayout} erstellt das Board und besetzt die richtigen Felder mit Pieces mit der entsprechenden Farbe.
+Von den eigentlichen \texttt{Pieces} ist hier nur der König gezeigt, da die anderen Figuren genau wie er die Methode \texttt{IsMoveable} implementieren. 
+Das Board bietet drei Methoden, von denen nur eine tatsächlich von weiteren Schichten verwendet wird: \texttt{MovePiece}. Die Methode überprüft mit \texttt{MoveIsVali} ob es sich um einen Validen Zug handelt. \texttt{MoveIsValid} ruft dabei die von Figuren implementierte Methode \texttt{IsMoveable} auf um zu überprüfen ob die Figur theoretisch in der Lage wäre den Zug durchzuführen.\\ Der wesentliche Unterschied zwischen \texttt{MoveIsValid} und \texttt{IsMoveable} besteht darin, dass Figuren das Board nicht kennen und auch nicht wissen wo sie sich befinden. \texttt{IsMoveable} signalisiert lediglich, ob ein Zug rein von den allgemeinen Zugmöglichkeiten der Figur möglich ist (zB. Läufer kann nur schräg laufen). \texttt{MoveIsValid} ist eine Methode des Boards und kann somit auch situationsbedingte Auskunft über die Validität des Zuges geben. Wenn die Figur \texttt{IsMoveable} ist, wird von \texttt{MoveIsValid} noch überprüft ob weitere Figuren im Weg stehen und der Zug sich selbst in Schach setzen würde (\texttt{MoveDoesNotCheck}). Ist alles überprüft, wird der Zug durchgeführt.
+
+\subsection{Schicht 2: Use-Case}
+Die Use-Cases bilden die zweite Schicht der Clean Architekture. Sie können informationen der ersten Schicht erhalten (Entitys), diese sind aber nicht abhängig von den Use-Cases.\\
+In unserem Fall haben wir nur einen Use-Case: Das Spiel, bzw. \texttt{Game}. Diese Klasse erstellt das Board, bzw ruft die Funktion \texttt{SetupLayout} auf, hat aber noch weitere Informationen die über das einfache Ziehen von Figuren hinausgehen:
+\begin{center}
+	\begin{itemize}
+		\item Spielerposition (z.B. Spieler 1 spielt unten),
+		\item Spielerfarbe (z.B. Spieler 1 ist weiß)
+		\item und aktueller Spieler (z.B. Spieler 1 ist dran).
+	\end{itemize}
+\end{center}
+Der Use-Case initialisiert das Board, wodurch die Farbe des unten spielenden Spielers zufällig gewählt wird. Logisch betrachtet spielt für das \texttt{Game} Spieler 1 in jedem Fall \textit{unten}. Da immer weiß beginnt, ist es zufällig ob Spieler 1 beginnen darf oder nicht. Welche Art von User-Interface nun Spieler 1 steuert, ist Aufgabe der dritten Schicht, welche in unserem Fall den Menschen an der Gui Spieler 1 und eine Schach-Engine Spieler 2 zuordnet. \texttt{Game} ist von dieser Information jedoch abgekapselt, da eine Zuganfrage in jedem Fall gleich aussieht.
+So eine Anfrage ist von \texttt{Game} definiert (z.B. 'e5,e6' = ''Zug von e5 nach e6''). \\
+Wird nun eine solche Anfrage gestellt, verlangt \texttt{Game} von \texttt{Board} eine Auskunft über die Farbe der Figur, welche sich auf dem \textit{von}-Feld befindet. Stimmt diese mit der Farbe des aktuell spielenden Spielers überein, kann der Zug nach Validitätsprüfung ausgeführt werden. Anhand dessen ob \texttt{MovePiece} \texttt{true} oder \texttt{false} zurückgibt, ist der andere Spieler daraufhin am Zug, oder nicht.
+\subsection{Schicht 3: Übersetzer}
+Sollte es dazu kommen, dass die Umgebung beispielsweise zu einer Ascii-Oberfläche geändert wird, müssen ab dieser Schicht Veränderungen am Code erfolgen. Solange jedoch die Zug-Anfragen richtig gestellt werden, arbeitet der Code in den unteren Schichten immer gleich. In der 3. Schicht befindet sich ein GUI- und Engine-Translator. Diese übersetzen Züge von Spieler und Engine und geben sie richtig Codiert an die zweite Schicht. solche Zug-Anfragen können völlig asynchron erfolgen, sie führen jedoch zu nichts, falls der Zug nicht den Regeln entspricht, oder der Spielende nicht am Zug ist.
+\subsection{Schicht 4: User-Interfaces}
+Auf dieser Ebene befinden sich die Interfaces für die Spieler. In unserem Fall sind das die GUI und die Schachengine. %David schreib was zur enginge hier ich hab kp
+Die GUI stellt das Schachbrett grafisch dar und bietet die Möglichkeit durch anklicken von Feldern Figuren zu ziehen (z.B. erster Klick auf \textit{E2}, zweiter Klick auf \textit{E3} $\Rightarrow$ \textit{E2 nach E3}). Diese Klicks werden von Schicht 3 für das Spiel übersetzt.
+
+\section{Programmierprizipien}
+\subsection{pros/cons/wieso wir?}
+\subsection{SOLID}
+\subsubsection{Single Resposibility Principle}
+\subsubsection{Open/Closed Principle}
+\subsubsection{Liskov' Substitution Principle}
+\subsubsection{Interface Segregation Principle}
+\subsubsection{Dependency Inversion Principle}
+Auf Translator anwenden
+\subsection{GRASP}
+\subsubsection{Low Coupling}
+\subsubsection{High Cohesion}
+\subsection{DRY (Don't Repeat Yourself)}
+Schon umgesetzt?
+
+
+\section{Unit Testing}
+\subsection{pros/cons/wieso wir?}
+\subsection{ATRIP}
+\subsection{Code Coverage}
+\subsection{Mocking}
+
+\section{Refactoring}
+\subsection{Codesmell: Long Method und Switch-case}
+Einer früheren Version des Codes war eine Methode zu entnehmen, welche gleich zwei übel riechende Codesmells aufwies. Zum einen war die Methode sehr lang, zum anderen streckte sich ein großes Switch-Case über die gesamte länge. Die Rede ist von jener Methode, welche festetellen soll ob ein Zug valide ist oder nicht. Die Validierung eines Zuges von einem Startfeld zu einem Zielfeld muss die folgenden Voraussetzungen erfüllen:
+\begin{center}
+	\begin{itemize}
+		\item 1. Ist das Zielfeld ein anderes als das Startfeld?
+		\item 2. Steht auf dem Startfeld eine Figur?
+		\item 3. Kann die Figur tatsächlich so ziehen?
+		\item 4. Würde der Zug das eigene Team in Schach setzen?
+		\item 5. Darf der Zug so ausgeführt werden (d.h. es sind keine Figuren im Weg und am Ziel befindet sich keine Figur der eigenen Mannschaft)?
+	\end{itemize}
+\end{center}
+Liefert eine dieser Fragen als Ergebnis \texttt{false} wird der Zug als nicht valide gewertet. Wie bereits unter Clean-Architecture erwähnt, kann das Board situationsbedingt Aussagen treffen, die Figur nur Aussagen über die theoretische Ausführung des Zuges. Dadurch ergab sich, dass die theoretische Ausführung eines Zuges polymorph gelöst und die situationsbedingt innerhalb der MoveIsValid-Methode evaluiert wurde. In folgendem Code-Ausschnitt ist zu sehen, wie unter \texttt{movingPiece.IsMoveable(from, to)} die Polymorphe Validierung erfolgt, wonach das große Switch-Case gestartet wird. Hierbei ist nur ein kleiner Teil der Validierung für den Fall einer Dame aufgeführt, um die Größe  und insbesondere den hohen Einrückgrad der Methode zu betonen. 
+
+	\begin{lstlisting}[language=c, style=mStyle]
+public bool MoveIsValid(Square from, Square to)
+{
+ if (from.Row == to.Row && from.Column == to.Column) { return false; }
+  if (layout.GetAsList()[from.Row][from.Column] != null)
+  {
+   Piece movingPiece = layout.GetAsList()[from.Row][from.Column].Piece;
+   Piece destinationPiece = layout.GetAsList()[to.Row][to.Column].Piece;
+
+   bool movingPieceColor = movingPiece.Color;
+
+   if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to))
+   {
+	if (!movingPiece.MoveIsValid(from, to)) { return false; }
+
+	switch (movingPiece)
+	{
+	 case Queen:
+	  if (destinationPiece?.Color != movingPieceColor)
+	  {
+	   int rowDifference = Math.Abs(to.Row - from.Row);
+	   int columnDifference = Math.Abs(to.Column - from.Column);
+
+	    if (rowDifference == 0)
+		{
+		 if (to.Column > from.Column)
+		 {
+		  for (int i = from.Column + 1; i < to.Column; i++)
+		  {
+		   if (layout.GetAsList()[from.Row][i].Piece != null) { return false; }
+		  
+	\end{lstlisting}
+
+	Das Switch-Case über den Instanztyp der Figur soll nun ebenfalls durch einen Polymorphen Methodenaufruf eleminiert werden. 
+
+	\subsection{Refactoring: Auflösen des Switchcase durch Polymorphismus}
+	Das Problem bei einem polymorphen Methodenaufruf hierbei ist, dass die Figur selbst keine Ahnung hat wo sich andere Figuren befinden. Diese Information ist dem Board vorbehalten. Eine Simple Lösung wäre sicherlich, das Board jeder Figur als Übergabeparameter zu geben, dabei geht jedoch die Sinnhaftigkeit der Logik verloren. Dependency Injection schafft heirbei Abhilfe. Es wird ermöglicht, von den Figuren aus Infos über einzelne Felder zu erfragen. Anstatt dass das Board für jedes, sich auf einem Zugpfad befindendes, Feld überprüft ob eine Figur im Weg steht, soll nun die Figur für jedes Feld erfragen, ob eine andere im Weg steht. Die Figur hat also keine Informationen über das Board, sondern nur einen Weg essenzielle Informationen zu erfragen. Umgesetzt wird dies durch ein Interface. 
+	
+
+
+
+\subsection{Beispiele und Begründungen}
+
+\subsection{Code Smells}
+
+\section{Entwurfsmuster}
+\subsection{Diagramme und Begründungen}
+
+\section{Fazit}\label{sec:end}
+
+%\renewcommand{\refname}{\spacedlowsmallcaps{References}} % For modifying the bibliography heading
+
+%\bibliographystyle{unsrt}
+
+%\bibliography{sample.bib} % The file containing the bibliography
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
