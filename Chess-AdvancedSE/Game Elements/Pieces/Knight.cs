@@ -27,7 +27,6 @@ namespace Chess_AdvancedSE
 
         public override bool MoveIsValid(Square from, Square to)
         {
-            //if(to.Piece?.Color == null) { return true; }
             return to.Piece?.Color != from.Piece.Color;           
         }
 

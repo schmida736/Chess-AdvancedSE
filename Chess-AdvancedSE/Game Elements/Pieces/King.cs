@@ -34,9 +34,9 @@
             return false;
         }
 
-        public override bool MoveIsValid(Square from, Square to) //Except for check
+        public override bool MoveIsValid(Square from, Square to)
         {
-            return board.GetPiece(to) != board.GetPiece(from);
+            return board.GetPiece(to)?.Color != board.GetPiece(from).Color;
         }
     }
 }

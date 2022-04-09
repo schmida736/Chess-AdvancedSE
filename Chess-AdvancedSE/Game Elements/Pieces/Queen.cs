@@ -4,7 +4,7 @@ namespace Chess_AdvancedSE
 {
     public class Queen : Piece
     {
-        public IBoardLayout board;
+        private IBoardLayout board;
         public Queen(bool color, IBoardLayout board) : base(color) {
             ImageSource += "q";
             if (color) { ImageSource += "l"; }

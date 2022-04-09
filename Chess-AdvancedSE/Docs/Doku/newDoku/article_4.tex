@@ -68,7 +68,7 @@ Bereits vor dem Studium hat David schonmal ein Schach programmiert. Dabei handel
 
 Zusammengefasst ermöglicht eine Clean Architecture die Veränderung der Umgebung, bzw. des Systems, ohne den eigentlichen Kern des Codes anpassen zu müssen.
 Das bedeutet, dass wir theoretisch unser Spiel um ein echtes Spielbrett mit LEDs und Arduino- Raspberry-Steuerung erweitern könnten, ohne unseren Schach-Code zu verädnern.
-
+\newpage
 \subsection{Schicht 1: Entitys}
 Die Entitys sind der Kern unseres Spiels. Unabhängig von der Umgebung sind die einzelnen Figuren virtuell auf einem Feld positioniert und können umplatziert werden.
 Dadurch ergeben sich grundlegend Folgende Klassen: 
@@ -82,7 +82,6 @@ Dadurch ergeben sich grundlegend Folgende Klassen:
 \end{center}
 
 Ein Board besteht aus vielen Squares, auf denen jeweils ein Piece stehen kann. Um dies zu implementieren und später auch verschiedene Pieces zu benutzen, zeigt \autoref{pic:umlEntitys} alle Klassen welche unser Kern der Clean-Architektur beinhalten soll. 
-\newpage
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=10cm]{entitys.png}
@@ -133,7 +132,7 @@ Schon umgesetzt?
 \subsection{ATRIP}
 \subsection{Code Coverage}
 \subsection{Mocking}
-
+\newpage
 \section{Refactoring}
 \subsection{Codesmell: Long Method und Switch-case}
 Einer früheren Version des Codes war eine Methode zu entnehmen, welche gleich zwei übel riechende Codesmells aufwies. Zum einen war die Methode sehr lang, zum anderen streckte sich ein großes Switch-Case über die gesamte länge. Die Rede ist von jener Methode, welche festetellen soll ob ein Zug valide ist oder nicht. Die Validierung eines Zuges von einem Startfeld zu einem Zielfeld muss die folgenden Voraussetzungen erfüllen:
@@ -156,13 +155,10 @@ public bool MoveIsValid(Square from, Square to)
   {
    Piece movingPiece = layout.GetAsList()[from.Row][from.Column].Piece;
    Piece destinationPiece = layout.GetAsList()[to.Row][to.Column].Piece;
-
    bool movingPieceColor = movingPiece.Color;
-
    if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to))
    {
 	if (!movingPiece.MoveIsValid(from, to)) { return false; }
-
 	switch (movingPiece)
 	{
 	 case Queen:
@@ -184,9 +180,24 @@ public bool MoveIsValid(Square from, Square to)
 	Das Switch-Case über den Instanztyp der Figur soll nun ebenfalls durch einen Polymorphen Methodenaufruf eleminiert werden. 
 
 	\subsection{Refactoring: Auflösen des Switchcase durch Polymorphismus}
-	Das Problem bei einem polymorphen Methodenaufruf hierbei ist, dass die Figur selbst keine Ahnung hat wo sich andere Figuren befinden. Diese Information ist dem Board vorbehalten. Eine Simple Lösung wäre sicherlich, das Board jeder Figur als Übergabeparameter zu geben, dabei geht jedoch die Sinnhaftigkeit der Logik verloren. Dependency Injection schafft heirbei Abhilfe. Es wird ermöglicht, von den Figuren aus Infos über einzelne Felder zu erfragen. Anstatt dass das Board für jedes, sich auf einem Zugpfad befindendes, Feld überprüft ob eine Figur im Weg steht, soll nun die Figur für jedes Feld erfragen, ob eine andere im Weg steht. Die Figur hat also keine Informationen über das Board, sondern nur einen Weg essenzielle Informationen zu erfragen. Umgesetzt wird dies durch ein Interface. 
-	
+	Das Problem bei einem polymorphen Methodenaufruf hierbei ist, dass die Figur selbst keine Ahnung hat wo sich andere Figuren befinden. Diese Information ist dem Board vorbehalten. Eine Simple Lösung wäre sicherlich, das Board jeder Figur als Übergabeparameter zu geben, dabei geht jedoch die Sinnhaftigkeit der Logik verloren. Dependency Injection schafft heirbei Abhilfe. Es wird ermöglicht, von den Figuren aus Infos über einzelne Felder zu erfragen. Anstatt dass das Board für jedes, sich auf einem Zugpfad befindendes, Feld überprüft ob eine Figur im Weg steht, soll nun die Figur für jedes Feld erfragen, ob eine andere im Weg steht. Die Figur hat also keine Informationen über das Board, sondern nur einen Weg essenzielle Informationen zu erfragen. Umgesetzt wird dies durch ein Interface. Das \texttt{Boardlayout} erbt und implementiert die beiden Methoden \texttt{GetSquare} und \texttt{GetPiece} des Interfaces \texttt{IBoardLayout}. Wie der Namensgebung zu entnehmen ist, geben die Methoden ein Piece oder Square zurück. EInzelne Figuren benötigen nun ein Objekt von \texttt{IBoardLayout}, welches im Konstruktor übergeben wird. Erzeugt nun das BoardLayout eine Dame, muss ein Verweis auf ein \texttt{IBoardLayout} übergeben werden. Eine Erzeugung sieht wie folgt aus:
 
+	\begin{lstlisting}[language=c, style=mStyle]
+	startLayout[0][0].Piece = new Queen(player.Color, this);
+	\end{lstlisting}
+
+	 der Parameter \texttt{this} verweist auf das BoardLayout, welches vom Interface \texttt{IBoardLayout} erbt. Im Konstruktor von Queen muss dieses einem lokalen \texttt{IBoardLayout} zugeteilt werden. Daraufhin kann über diese lokale Variable beispielsweise mit \texttt{variable.GetPiece(Square)} das Piece welches sich im BoardLayout auf dem benannten Square befindet abgerufen werden, ohne dass die Dame weitgehende Informationen über das Board besitzt.\\
+	 Infolge dessen implementiert nun jede Figur die Methode \texttt{<bool>MoveIsValid(<Square> from, <Square> to)}. Im folgenden ist die Implementierung von \texttt{MoveIsValid} des Königs gezeigt.
+
+	 \begin{lstlisting}[language=c, style=mStyle]
+	public override bool MoveIsValid(Square from, Square to)
+	{
+		return board.GetPiece(to)?.Color != board.GetPiece(from).Color;
+	}
+	 \end{lstlisting}
+	
+	 \texttt{board} ist die Instanz von \texttt{IBoardLayout}. Dabei wird überprüft, ob sich auf dem Zielfeld eine Figur des eigenen Teams befindet. ist dies der Fall, darf der Zug nicht ausgeführt werden.\\
+	 Innerhalb der Board-Klasse wird nun das riesige Switchcase durch den einfachen Methodenaufruf \texttt{movingPiece.MoveIsValid(from, to);} ersetzt.
 
 
 \subsection{Beispiele und Begründungen}
