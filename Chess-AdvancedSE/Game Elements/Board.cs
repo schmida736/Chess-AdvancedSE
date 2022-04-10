@@ -8,6 +8,11 @@ namespace Chess_AdvancedSE
         public BoardLayout_ViewModel viewModel = new();
         public BoardLayout layout = new();
 
+        private Piece getPieceFrom(Square square)
+        {
+            return layout.GetAsList()[square.Row][square.Column]?.Piece;
+        }
+
         public Board(Player player)
         {
             this.layout.SetToStartLayout(player);
@@ -20,17 +25,13 @@ namespace Chess_AdvancedSE
         public bool MoveIsValid(Square from, Square to)
         {
             if (from.Row == to.Row && from.Column == to.Column) { return false; }
-
             if (layout.GetAsList()[from.Row][from.Column] != null)
             {
-                Piece movingPiece = layout.GetAsList()[from.Row][from.Column]?.Piece;
-                Piece destinationPiece = layout.GetAsList()[to.Row][to.Column]?.Piece;
-                if (movingPiece == null) { return false; }
-                bool movingPieceColor = movingPiece.Color; //TODO: #16 Fix crash @Purdbull
+                if (getPieceFrom(from) == null) { return false; }
 
-                if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
+                if (getPieceFrom(from).IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
                 {
-                    return movingPiece.MoveIsValid(from, to); //this is the way!!!                    
+                    return getPieceFrom(from).MoveIsValid(from, to); //this is the way!!!                    
                 }
             }
             return false;

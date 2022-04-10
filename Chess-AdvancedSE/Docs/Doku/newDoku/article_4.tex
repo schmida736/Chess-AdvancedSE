@@ -179,7 +179,7 @@ public bool MoveIsValid(Square from, Square to)
 
 	Das Switch-Case über den Instanztyp der Figur soll nun ebenfalls durch einen Polymorphen Methodenaufruf eleminiert werden. 
 
-	\subsection{Refactoring: Auflösen des Switchcase durch Polymorphismus}
+	\subsection{Refactoring: Replace Conditional with Polymorphism}
 	Das Problem bei einem polymorphen Methodenaufruf hierbei ist, dass die Figur selbst keine Ahnung hat wo sich andere Figuren befinden. Diese Information ist dem Board vorbehalten. Eine Simple Lösung wäre sicherlich, das Board jeder Figur als Übergabeparameter zu geben, dabei geht jedoch die Sinnhaftigkeit der Logik verloren. Dependency Injection schafft heirbei Abhilfe. Es wird ermöglicht, von den Figuren aus Infos über einzelne Felder zu erfragen. Anstatt dass das Board für jedes, sich auf einem Zugpfad befindendes, Feld überprüft ob eine Figur im Weg steht, soll nun die Figur für jedes Feld erfragen, ob eine andere im Weg steht. Die Figur hat also keine Informationen über das Board, sondern nur einen Weg essenzielle Informationen zu erfragen. Umgesetzt wird dies durch ein Interface. Das \texttt{Boardlayout} erbt und implementiert die beiden Methoden \texttt{GetSquare} und \texttt{GetPiece} des Interfaces \texttt{IBoardLayout}. Wie der Namensgebung zu entnehmen ist, geben die Methoden ein Piece oder Square zurück. EInzelne Figuren benötigen nun ein Objekt von \texttt{IBoardLayout}, welches im Konstruktor übergeben wird. Erzeugt nun das BoardLayout eine Dame, muss ein Verweis auf ein \texttt{IBoardLayout} übergeben werden. Eine Erzeugung sieht wie folgt aus:
 
 	\begin{lstlisting}[language=c, style=mStyle]
@@ -199,11 +199,27 @@ public bool MoveIsValid(Square from, Square to)
 	 \texttt{board} ist die Instanz von \texttt{IBoardLayout}. Dabei wird überprüft, ob sich auf dem Zielfeld eine Figur des eigenen Teams befindet. ist dies der Fall, darf der Zug nicht ausgeführt werden.\\
 	 Innerhalb der Board-Klasse wird nun das riesige Switchcase durch den einfachen Methodenaufruf \texttt{movingPiece.MoveIsValid(from, to);} ersetzt.
 
+	 \subsection{Refactoring: Replace Temp with Query}
+	 Innerhalb der neuen Methode \texttt{MoveIsValid} kann nun ein weiteres Refactoring angewendet werden. Infolgendem Listing ist die ganze Methode gezeigt.
 
-\subsection{Beispiele und Begründungen}
+	 \begin{lstlisting}[language=c, style=mStyle]
+	public bool MoveIsValid(Square from, Square to)
+	{
+		if (from.Row == to.Row && from.Column == to.Column) { return false; }
+		if (layout.GetAsList()[from.Row][from.Column] != null)
+		{
+			Piece movingPiece = layout.GetAsList()[from.Row][from.Column]?.Piece;
+			if (movingPiece == null) { return false; }
 
-\subsection{Code Smells}
-
+			if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
+			{
+				return movingPiece.MoveIsValid(from, to); //this is the way!!!                    
+			}
+		}
+		return false;
+	}
+	 \end{lstlisting}
+	 Zu erkennen ist hierbei die oft genutzte lokale Variable \texttt{movingPiece}. Sie bezeichnet jene Figur, die den zu evaluierenden Zug ausführt. Das hier aufgeführte Refactoring soll die lokale Variable in eine Funktion auslagern, da ein lokaler Cache performancetechnisch ineffizienter ist. Die neue Methode \texttt{getPieceFrom(Square)} gibt die Figur zurück, welche sich auf dem angegebenen Square befindet. Die neue Methode \texttt{MoveIsValid} ohne lokale Variable ist in der Datei Board.cs ab Zeile 25 zu sehen.
 \section{Entwurfsmuster}
 \subsection{Diagramme und Begründungen}
 
