@@ -4,25 +4,25 @@ namespace Chess_AdvancedSE
 {
     public class PlayerTranslator
     {
-        private Game game;
+        private Game _game;
         public PlayerTranslator(Game game)
         {
-            this.game = game;
+            this._game = game;
         }
 
         public bool getPlayerColor() {
-            return game.player.Color;
+            return _game.player.Color;
         }
 
         public bool RequestMove(Tuple<int, int> coords_from, Tuple<int, int> coords_to)
         {
             //TODO maybe process requests via event queue in Board???
-            return game.RecieveMoveRequest(coords_from.Item1, coords_from.Item2, coords_to.Item1, coords_to.Item2);
+            return _game.RecieveMoveRequest(coords_from.Item1, coords_from.Item2, coords_to.Item1, coords_to.Item2);
         }
 
         public BoardLayout_ViewModel GetBoardLayout()
         {
-            return game.board.viewModel;
+            return _game.board.viewModel;
         }
     }
 }

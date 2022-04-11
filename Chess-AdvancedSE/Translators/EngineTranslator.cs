@@ -8,14 +8,20 @@ namespace Chess_AdvancedSE
 {
     class EngineTranslator
     {
-        public BoardLayout_ViewModel GetBoardLayout()
+        private Game _game;
+        public EngineTranslator(Game game) => _game = game;
+        public string GetBoardLayout()
         {
-            throw new NotImplementedException();
+            //TODO later: Translate layout to UCI string
+            BoardLayout layout = _game.board.layout;
+            return new String("");
         }
 
-        public bool RequestMove(int row, int col)
+        public bool RequestMove(string moveAsAlgebraicNotation)
         {
-            throw new NotImplementedException();
+            //TODO later: calculate coords from Algebraic Notation string
+            int from_row = 0, from_col = 0, to_row = 0, to_col = 0;
+            return _game.RecieveMoveRequest(from_row, from_col, to_row, to_col);
         }
     }
 }
