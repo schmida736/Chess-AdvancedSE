@@ -63,6 +63,7 @@ Bereits vor dem Studium hat David schonmal ein Schach programmiert. Dabei handel
 	\begin{center}
 		\includegraphics[width = \textwidth]{onion.pdf}
 		\caption{Übersicht über die Clean Architecture}
+		\label{fig:umlEntities}
 	\end{center}
 \end{figure}
 
@@ -81,7 +82,7 @@ Dadurch ergeben sich grundlegend Folgende Klassen:
 	\end{itemize}
 \end{center}
 
-Ein Board besteht aus vielen Squares, auf denen jeweils ein Piece stehen kann. Um dies zu implementieren und später auch verschiedene Pieces zu benutzen, zeigt \autoref{pic:umlEntitys} alle Klassen welche unser Kern der Clean-Architektur beinhalten soll. 
+Ein Board besteht aus vielen Squares, auf denen jeweils ein Piece stehen kann. Um dies zu implementieren und später auch verschiedene Pieces zu benutzen, zeigt \autoref{fig:umlEntities} alle Klassen welche unser Kern der Clean-Architektur beinhalten soll. 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=10cm]{entitys.png}
@@ -108,21 +109,30 @@ Wird nun eine solche Anfrage gestellt, verlangt \texttt{Game} von \texttt{Board}
 \subsection{Schicht 3: Übersetzer}
 Sollte es dazu kommen, dass die Umgebung beispielsweise zu einer Ascii-Oberfläche geändert wird, müssen ab dieser Schicht Veränderungen am Code erfolgen. Solange jedoch die Zug-Anfragen richtig gestellt werden, arbeitet der Code in den unteren Schichten immer gleich. In der 3. Schicht befindet sich ein GUI- und Engine-Translator. Diese übersetzen Züge von Spieler und Engine und geben sie richtig Codiert an die zweite Schicht. solche Zug-Anfragen können völlig asynchron erfolgen, sie führen jedoch zu nichts, falls der Zug nicht den Regeln entspricht, oder der Spielende nicht am Zug ist.
 \subsection{Schicht 4: User-Interfaces}
-Auf dieser Ebene befinden sich die Interfaces für die Spieler. In unserem Fall sind das die GUI und die Schachengine. %David schreib was zur enginge hier ich hab kp
+Auf dieser Ebene befinden sich die Interfaces für die Spieler. In unserem Fall sind das die GUI und die Schachengine.
+
+ %David schreib was zur enginge hier ich hab kp
 Die GUI stellt das Schachbrett grafisch dar und bietet die Möglichkeit durch anklicken von Feldern Figuren zu ziehen (z.B. erster Klick auf \textit{E2}, zweiter Klick auf \textit{E3} $\Rightarrow$ \textit{E2 nach E3}). Diese Klicks werden von Schicht 3 für das Spiel übersetzt.
 
 \section{Programmierprizipien}
 \subsection{pros/cons/wieso wir?}
 \subsection{SOLID}
 \subsubsection{Single Resposibility Principle}
+
 \subsubsection{Open/Closed Principle}
+\colorbox{yellow}{Engine eine liste von commands abarbeiten lassen anstatt Anfragen zu hardcoden}
 \subsubsection{Liskov' Substitution Principle}
+Piece -> Queen
 \subsubsection{Interface Segregation Principle}
+\colorbox{yellow}{Interface wo?}
 \subsubsection{Dependency Inversion Principle}
-Auf Translator anwenden
+Bei Translator wird game eingesetzt statt game direkt zu übergeben. Methoden werden dann auf Translator angewendet.
 \subsection{GRASP}
 \subsubsection{Low Coupling}
+Translator: Game kennt Engine und Player nicht mehr, interessiert sich nur an befehlen.
 \subsubsection{High Cohesion}
+\colorbox{yellow}{Player auslagern mit eigener Setcolor funktion usw. (Playername??)}
+
 \subsection{DRY (Don't Repeat Yourself)}
 Schon umgesetzt?
 
