@@ -4,7 +4,7 @@
     {
         //TODO: MAKE COLOR CLASS
         //TODO: Create color internally
-        public Player(bool color)
+        public Player(bool color = true)
         {
             Color = color;
         }

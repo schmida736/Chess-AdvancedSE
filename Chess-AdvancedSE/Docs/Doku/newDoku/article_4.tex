@@ -185,11 +185,29 @@ An dieses Prinzip haben wir uns in sämtlichen Unit Test gehalten. Unsere Tests 
 \subsubsection{Thorough}
 \colorbox{yellow}{Todo wenn alle Tests geschrieben sind}
 \subsubsection{Repeatable}
-Unit Tests sollten wiederholbar sein, was bedeutet, dass sie nicht auf veränderlichen Daten aufbauen sollten. Solche veränderlichen Daten sind beispielsweise Zufallszahlen, die aktuelle Uhrzeit oder die Anzahl von Dateien im Projektordner. 
+Unit Tests sollten wiederholbar sein, was bedeutet, dass sie nicht auf veränderlichen Daten aufbauen sollten. Solche veränderlichen Daten sind beispielsweise Zufallszahlen, die aktuelle Uhrzeit oder die Anzahl von Dateien im Projektordner. Diese Art von Daten haben wir natürlich konsequent vermieden.
 \subsubsection{Independent}
+Die Kernaussage von independent Tests ist, dass die Ergebnisse oder die Funktion der Tests nicht abhängig von ihrer Reihenfolge oder Zusammenstellung sein dürfen. Jeder Test sollte vollständig unabhängig von allen anderen Tests sein. Dies haben wir erreicht, indem keine Ressource, die in einem Test verwendet wird, außerhalb dieses Tests weiterbesteht. Stattdessen wird jede Ressource, die ein Test benötigt in seiner Arrange-Phase erstellt und begrenzt sich damit auf den Scope des Tests.
 \subsubsection{Professional}
+Professionelle Unit Tests sind so einfach verständlich wie möglich gestaltet. Damit soll vermieden werden, das sich Fehler in den Test-Code einschleichen, da diese besonders schwierig und damit besonders teuer zu finden und beheben sind.
+Unsere Unit Tests sind klein und überschaubar. Zudem ist unsere Namensgebung so gewählt, dass alle informationen über einen Test durch das Lesen seines Namens erhältlich sind. Ein Beispiel hierfür ist der folgende Unit Test:
+\begin{lstlisting}[language=c, style=mStyle]
+	[Fact]
+	public void GetSquareFromCoords_ReturnedSquare_IsEmpty()
+	{
+		// Given
+		BoardLayout layout = new();
+
+		// When
+		layout.SetToStartLayout(new Player());
+		
+		// Then
+		Assert.Null(layout.GetSquareFromCoords(3, 3).Piece);
+	}
+\end{lstlisting}
 
 \subsection{Code Coverage}
+\colorbox{yellow}{TODO}
 \subsection{Mocking}
 \newpage
 \section{Refactoring}

@@ -19,7 +19,7 @@ namespace Chess_AdvancedSE.Tests
             BoardLayout layout = new();
 
             // When
-            layout.SetToStartLayout(new Player(true));
+            layout.SetToStartLayout(new Player());
             
             // Then
             Assert.Null(layout.GetSquareFromCoords(3, 3).Piece);
