@@ -9,7 +9,7 @@ namespace Chess_AdvancedSE.Tests
         public void MoveIsValid_InvalidPathing_ReturnsFalse()
         {
             // Given
-        
+             
             // When
         
             // Then
