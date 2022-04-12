@@ -70,8 +70,8 @@ Bereits vor dem Studium hat David schonmal ein Schach programmiert. Dabei handel
 Zusammengefasst ermöglicht eine Clean Architecture die Veränderung der Umgebung, bzw. des Systems, ohne den eigentlichen Kern des Codes anpassen zu müssen.
 Das bedeutet, dass wir theoretisch unser Spiel um ein echtes Spielbrett mit LEDs und Arduino- Raspberry-Steuerung erweitern könnten, ohne unseren Schach-Code zu verädnern.
 \newpage
-\subsection{Schicht 1: Entitys}
-Die Entitys sind der Kern unseres Spiels. Unabhängig von der Umgebung sind die einzelnen Figuren virtuell auf einem Feld positioniert und können umplatziert werden.
+\subsection{Schicht 1: Entities}
+Die Entities sind der Kern unseres Spiels. Unabhängig von der Umgebung sind die einzelnen Figuren virtuell auf einem Feld positioniert und können umplatziert werden.
 Dadurch ergeben sich grundlegend Folgende Klassen: 
 
 \begin{center}
@@ -85,16 +85,16 @@ Dadurch ergeben sich grundlegend Folgende Klassen:
 Ein Board besteht aus vielen Squares, auf denen jeweils ein Piece stehen kann. Um dies zu implementieren und später auch verschiedene Pieces zu benutzen, zeigt \autoref{fig:umlEntities} alle Klassen welche unser Kern der Clean-Architektur beinhalten soll. 
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[width=10cm]{entitys.png}
-		\caption{\label{pic:umlEntitys} UML-Diagramm der Entitys}
+		\includegraphics[width=10cm]{entities.png}
+		\caption{\label{pic:umlEntities} UML-Diagramm der Entities}
 	\end{center}
 \end{figure}
-Das Diagramm zeigt die Schach-Logik im Kern unserer Clean Architecture, bzw. die Entitys. Das \texttt{Board} stellt das Schachbrett dar. Dieses besteht aus 64 \texttt{Squares}. Die Methode \texttt{SetupLayout} erstellt das Board und besetzt die richtigen Felder mit Pieces mit der entsprechenden Farbe.
+Das Diagramm zeigt die Schach-Logik im Kern unserer Clean Architecture, bzw. die Entities. Das \texttt{Board} stellt das Schachbrett dar. Dieses besteht aus 64 \texttt{Squares}. Die Methode \texttt{SetupLayout} erstellt das Board und besetzt die richtigen Felder mit Pieces mit der entsprechenden Farbe.
 Von den eigentlichen \texttt{Pieces} ist hier nur der König gezeigt, da die anderen Figuren genau wie er die Methode \texttt{IsMoveable} implementieren. 
 Das Board bietet drei Methoden, von denen nur eine tatsächlich von weiteren Schichten verwendet wird: \texttt{MovePiece}. Die Methode überprüft mit \texttt{MoveIsVali} ob es sich um einen Validen Zug handelt. \texttt{MoveIsValid} ruft dabei die von Figuren implementierte Methode \texttt{IsMoveable} auf um zu überprüfen ob die Figur theoretisch in der Lage wäre den Zug durchzuführen.\\ Der wesentliche Unterschied zwischen \texttt{MoveIsValid} und \texttt{IsMoveable} besteht darin, dass Figuren das Board nicht kennen und auch nicht wissen wo sie sich befinden. \texttt{IsMoveable} signalisiert lediglich, ob ein Zug rein von den allgemeinen Zugmöglichkeiten der Figur möglich ist (zB. Läufer kann nur schräg laufen). \texttt{MoveIsValid} ist eine Methode des Boards und kann somit auch situationsbedingte Auskunft über die Validität des Zuges geben. Wenn die Figur \texttt{IsMoveable} ist, wird von \texttt{MoveIsValid} noch überprüft ob weitere Figuren im Weg stehen und der Zug sich selbst in Schach setzen würde (\texttt{MoveDoesNotCheck}). Ist alles überprüft, wird der Zug durchgeführt.
 
 \subsection{Schicht 2: Use-Case}
-Die Use-Cases bilden die zweite Schicht der Clean Architekture. Sie können informationen der ersten Schicht erhalten (Entitys), diese sind aber nicht abhängig von den Use-Cases.\\
+Die Use-Cases bilden die zweite Schicht der Clean Architekture. Sie können informationen der ersten Schicht erhalten (Entities), diese sind aber nicht abhängig von den Use-Cases.\\
 In unserem Fall haben wir nur einen Use-Case: Das Spiel, bzw. \texttt{Game}. Diese Klasse erstellt das Board, bzw ruft die Funktion \texttt{SetupLayout} auf, hat aber noch weitere Informationen die über das einfache Ziehen von Figuren hinausgehen:
 \begin{center}
 	\begin{itemize}
@@ -107,14 +107,15 @@ Der Use-Case initialisiert das Board, wodurch die Farbe des unten spielenden Spi
 So eine Anfrage ist von \texttt{Game} definiert (z.B. 'e5,e6' = ''Zug von e5 nach e6''). \\
 Wird nun eine solche Anfrage gestellt, verlangt \texttt{Game} von \texttt{Board} eine Auskunft über die Farbe der Figur, welche sich auf dem \textit{von}-Feld befindet. Stimmt diese mit der Farbe des aktuell spielenden Spielers überein, kann der Zug nach Validitätsprüfung ausgeführt werden. Anhand dessen ob \texttt{MovePiece} \texttt{true} oder \texttt{false} zurückgibt, ist der andere Spieler daraufhin am Zug, oder nicht.
 \subsection{Schicht 3: Übersetzer}
-Sollte es dazu kommen, dass die Umgebung beispielsweise zu einer Ascii-Oberfläche geändert wird, müssen ab dieser Schicht Veränderungen am Code erfolgen. Solange jedoch die Zug-Anfragen richtig gestellt werden, arbeitet der Code in den unteren Schichten immer gleich. In der 3. Schicht befindet sich ein GUI- und Engine-Translator. Diese übersetzen Züge von Spieler und Engine und geben sie richtig Codiert an die zweite Schicht. solche Zug-Anfragen können völlig asynchron erfolgen, sie führen jedoch zu nichts, falls der Zug nicht den Regeln entspricht, oder der Spielende nicht am Zug ist.
+Sollte es dazu kommen, dass die Umgebung beispielsweise zu einer Ascii-Oberfläche geändert wird, müssen ab dieser Schicht Veränderungen am Code erfolgen. Solange jedoch die Zug-Anfragen richtig gestellt werden, arbeitet der Code in den unteren Schichten immer gleich. In der 3. Schicht befindet sich ein GUI- und Engine-Translator. Diese übersetzen Züge von Spieler und Engine und geben sie für diese lesbar codiert an die zweite Schicht. 
+Solche Zug-Anfragen können völlig asynchron erfolgen, sie führen jedoch zu nichts, falls der Zug nicht den Regeln entspricht, oder der Spielende nicht am Zug ist.
 \subsection{Schicht 4: User-Interfaces}
-Auf dieser Ebene befinden sich die Interfaces für die Spieler. In unserem Fall sind das die GUI und die Schachengine.
+Auf dieser Ebene befinden sich die Interfaces für die Spieler. In unserem Fall sind das die GUI und die Schachengine. Die GUI wurde mit WPF gebaut. Dieses stellt mithilfe eines Databindigs auf ein Viewmodel des Board-Layouts immer den aktuellen Stand des Spiels grafisch dar. 
+Die GUI bietet die Möglichkeit, mithilfe von Mausklicks Figuren zu ziehen (z.B. erster Klick auf \textit{E2}, zweiter Klick auf \textit{E3}~~ $\Rightarrow$ \textit{E2 nach E3}). Diese Klicks werden dann an den PlayerTranslator in Schicht 3 weitergegeben, welcher diese dann in eine für das Game verständliche Anweisungen übersetzt.
 
- %David schreib was zur enginge hier ich hab kp
-Die GUI stellt das Schachbrett grafisch dar und bietet die Möglichkeit durch anklicken von Feldern Figuren zu ziehen (z.B. erster Klick auf \textit{E2}, zweiter Klick auf \textit{E3} $\Rightarrow$ \textit{E2 nach E3}). Diese Klicks werden von Schicht 3 für das Spiel übersetzt.
-
-\section{Programmierprizipien}
+Die Einbindung der Engine funktioniert ähnlich, nämlich über einen EngineTranslator, der die Schnittstelle zwischen Game und der Engine ist. Der größte Unterschied ist hier, dass die Engine eine externe Kommandozeilenanwendung ist und daher erst einmal in unsere C\#-Anwendung eingebunden werden muss.
+Hierfür wird eine Instanz einer Engine-Klasse erstellt, welche den tatsächlichen Engine-Pozess startet und sich um sämtliche Kommunikation zwischen dem Engine-Prozess und dem EngineTranslator kümmert. Vom EngineTranslator wird hier regelmäßig das aktuelle Layout des Boards abgefragt. Dieses wird dann an die Engine weitergeleitet, welche daraufhin den nächsten besten Zug berechnet. Dieser berechnete Zug wird dann an den Translator zurückgegeben, welcher diesen dann übersetzt und an das Spiel weitergibt.
+\section{Programmierprinzipien}
 \subsection{pros/cons/wieso wir?}
 \subsection{SOLID}
 \subsubsection{Single Resposibility Principle}
@@ -139,6 +140,7 @@ Schon umgesetzt?
 
 \section{Unit Testing}
 \subsection{pros/cons/wieso wir?}
+Tests sind eine der grundlegenden Elemente einer jeder Software-Anwendung. Ohne sie kann der korrekte Ablauf der Anwendung nicht \dots getestet werden. Unit tests verwenden wir in unserem Projekt hauptsächlich dort, wo Berechnungen auf dem Brett durgeführt werden. Diese sind nämlich erfahrungsgemäß sehr fehleranfällig, besonders die Art von Fehlern, die sich erst durch erweitern einer ursprünglichen Funktion einschleichen, entstehen hier sehr schnell. So ist es zum Beispiel gut möglich dass die Bewegungen des Bauerns perfekt regelkonform umgesetzt werden, jedoch nach der zusätzlichen Einführung der \enquote{En passant} Schlagmöglichkeit plötzlich viele Züge wieder ausführbar sind, die gar nicht erlaubt sein sollten.
 \subsection{ATRIP}
 \subsection{Code Coverage}
 \subsection{Mocking}
