@@ -116,22 +116,31 @@ Die GUI bietet die Möglichkeit, mithilfe von Mausklicks Figuren zu ziehen (z.B.
 Die Einbindung der Engine funktioniert ähnlich, nämlich über einen EngineTranslator, der die Schnittstelle zwischen Game und der Engine ist. Der größte Unterschied ist hier, dass die Engine eine externe Kommandozeilenanwendung ist und daher erst einmal in unsere C\#-Anwendung eingebunden werden muss.
 Hierfür wird eine Instanz einer Engine-Klasse erstellt, welche den tatsächlichen Engine-Pozess startet und sich um sämtliche Kommunikation zwischen dem Engine-Prozess und dem EngineTranslator kümmert. Vom EngineTranslator wird hier regelmäßig das aktuelle Layout des Boards abgefragt. Dieses wird dann an die Engine weitergeleitet, welche daraufhin den nächsten besten Zug berechnet. Dieser berechnete Zug wird dann an den Translator zurückgegeben, welcher diesen dann übersetzt und an das Spiel weitergibt.
 \section{Programmierprinzipien}
-\subsection{pros/cons/wieso wir?}
-\subsection{SOLID}
-\subsubsection{Single Resposibility Principle}
-
-\subsubsection{Open/Closed Principle}
+Programmierprinzipien sind allgemeine, kontextunabhängige Regeln die als Grundlage für das Vorgehen in oft wiederkehrenden Situationen während der Programmierung dienen sollen.
+In diesem Kaptitel betrachten wir einige Prinzipien und zeigen, wie wir sie in unserem Projekt umgesetzt haben.
+\subsection{Single Resposibility Principle}
+\subsection{Open/Closed Principle}
 \colorbox{yellow}{Engine eine liste von commands abarbeiten lassen anstatt Anfragen zu hardcoden}
-\subsubsection{Liskov' Substitution Principle}
+\subsection{Liskov' Substitution Principle}
 Piece -> Queen
-\subsubsection{Interface Segregation Principle}
+
+Das Liskov Substitution Principle(LSP) besagt, dass jede Verwendung eines Objekts einer übergeordneten Klasse durch ein beliebiges Objekt einer ihrer Unterklassen ersetzbar sein soll. Durch das ersetzen darf sich die Korrektheit des Programms nicht ändern. Dies setzt voraus, das jede Subklasse sich so verhält wie ihre Superklasse. Eine Subklasse darf also nicht die Funktionalität der Klasse einschränken, von der sie erbt, sie darf sie nur übernehmen und/oder erweitern. Das Ziel ist es, strenge Regeln für Vererbungshierarchien zu definieren und damit auf dem Varianzensystem der Vererbung aufzubauen. Bei konsequenter Befolgung des LSP kann vermieden werden, dass bei der Verwendung von Klassen falsche Annahmen aufgrund von Eigenschaften wie zum Beispiel dem Klassennahmen getroffen werden. Man kann bei code der dem LSP folgt nämlich stets davon ausgehen, dass Unterklassen immer alle Funktionalitäten der Oberklasse bereitstellt.
+
+Wir halten uns überall, wo wir in unserem Projekt Vererbung einsetzen, an das LSP. Unsere Figurenhierarchie basiert sogar darauf, dass wir die Funktion der allgemeinen Oberklasse Piece in ihren Unterklassen erweitern. Wir benutzen Piece oft als eine verallgemeinerung der verschiedenen Figuren und durch polymorphe Aufrufe zur Laufzeit werden dann die Methoden der konkreten Figuren aufgerufen. \autoref{fig:be2bb473-a08a-4816-9d19-355c2e271155} ist ein Beispiel, in dem ein als Piece deklariertes Objekt zur Laufzeit eine Instanz einer ihrer Unterklassen zugewiesen wird und anschließend durch Laufzeitpolymorphie eine Methode dieser unterklasse ausgeführt wird.
+
+\begin{figure}[ht]
+	\includegraphics[width=\linewidth]{example-image-a}
+	\caption[captionInLOF(for acronyms)]{captionInLOF(for acronyms)}
+	\label{fig:be2bb473-a08a-4816-9d19-355c2e271155}
+\end{figure}
+\subsection{Interface Segregation Principle}
 \colorbox{yellow}{Interface wo?}
-\subsubsection{Dependency Inversion Principle}
+\subsection{Dependency Inversion Principle}
 Bei Translator wird game eingesetzt statt game direkt zu übergeben. Methoden werden dann auf Translator angewendet.
-\subsection{GRASP}
-\subsubsection{Low Coupling}
+\subsection{Low Coupling}
+Teil der GRASP-Prinzipien.
 Translator: Game kennt Engine und Player nicht mehr, interessiert sich nur an befehlen.
-\subsubsection{High Cohesion}
+\subsection{High Cohesion}
 \colorbox{yellow}{Player auslagern mit eigener Setcolor funktion usw. (Playername??)}
 
 \subsection{DRY (Don't Repeat Yourself)}
