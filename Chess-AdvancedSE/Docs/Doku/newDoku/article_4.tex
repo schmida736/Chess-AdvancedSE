@@ -119,13 +119,23 @@ Hierfür wird eine Instanz einer Engine-Klasse erstellt, welche den tatsächlich
 Programmierprinzipien sind allgemeine, kontextunabhängige Regeln die als Grundlage für das Vorgehen in oft wiederkehrenden Situationen während der Programmierung dienen sollen.
 In diesem Kaptitel betrachten wir einige Prinzipien und zeigen, wie wir sie in unserem Projekt umgesetzt haben.
 \subsection{Single Resposibility Principle}
+Das Single Resposibility Principle(SRP) besagt, dass eine Klasse immer nur einen Grund zur Veränderung haben darf. Dies bedeutet, dass jede Klasse sich auf eine klar abgegrenzte Tätigkeit beschränken sollte. 
+\\
+Durch Befolgung des SRP soll verhindert werden, dass riesige \enquote{alleskönner}-Klassen entstehen, die bei jeder Veränderung (z.B der externen Abhängigkeiten) komplett überarbeitet werden muss. Schlimmer noch kann bei Nichtbefolgung passieren, dass sich unbemerkt Zuständigkeitsüberlappungen zwischen mehreren Klassen bilden. Bei Veränderung muss dann nicht nur eine Klasse sondern gleich mehrere überarbeitet werden.
+\\
+Ein Beispiel für die Einhaltung des SRP in unserem Projekt findet sich in unserer Aufteilung von Board und BoardLayout. Hier übernimmt die Klasse Board die sämtliche Aufgaben, die mit Zugbefehlen und der Koordinierung der Schachfiguren zu tun haben. BoardLayout hingegen speichert und nimmt Einfluss auf die Aufstellung des Schachbretts.
+\\
+BoardLayout war ursprünglich teil der Board-Klasse, doch als die Klasse begann, immer größer zu werden und immer mehr Funktionalität in sich zu vereinen, beschlossen wir sie in zwei Klassen aufzuteilen.
+Board nutzt nun die Methoden von BoardLayout, um Einfluss auf die Aufstellung des Schachbretts zu nehmen.
+\\
+Diese Änderung ermöglicht es uns, die Schachbrett-Logik separat von der Zug und Figuren-Logik zu testen. Das vereinfacht das Erstellen der Tests und das Finden der Fehlerquelle beim Fehlschlagen eines Tests.
 \subsection{Open/Closed Principle}
 \colorbox{yellow}{Engine eine liste von commands abarbeiten lassen anstatt Anfragen zu hardcoden}
 \subsection{Liskov' Substitution Principle}
-Piece -> Queen
+Das Liskov Substitution Principle(LSP) besagt, dass jede Verwendung eines Objekts einer übergeordneten Klasse durch ein beliebiges Objekt einer ihrer Unterklassen ersetzbar sein soll. Durch das ersetzen darf sich die Korrektheit des Programms nicht ändern.
 
-Das Liskov Substitution Principle(LSP) besagt, dass jede Verwendung eines Objekts einer übergeordneten Klasse durch ein beliebiges Objekt einer ihrer Unterklassen ersetzbar sein soll. Durch das ersetzen darf sich die Korrektheit des Programms nicht ändern. Dies setzt voraus, das jede Subklasse sich so verhält wie ihre Superklasse. Eine Subklasse darf also nicht die Funktionalität der Klasse einschränken, von der sie erbt, sie darf sie nur übernehmen und/oder erweitern. Das Ziel ist es, strenge Regeln für Vererbungshierarchien zu definieren und damit auf dem Varianzensystem der Vererbung aufzubauen. Bei konsequenter Befolgung des LSP kann vermieden werden, dass bei der Verwendung von Klassen falsche Annahmen aufgrund von Eigenschaften wie zum Beispiel dem Klassennahmen getroffen werden. Man kann bei code der dem LSP folgt nämlich stets davon ausgehen, dass Unterklassen immer alle Funktionalitäten der Oberklasse bereitstellt.
-
+Dies setzt voraus, das jede Subklasse sich so verhält wie ihre Superklasse. Eine Subklasse darf also nicht die Funktionalität der Klasse einschränken, von der sie erbt, sie darf sie nur übernehmen und/oder erweitern. Das Ziel ist es, strenge Regeln für Vererbungshierarchien zu definieren und damit auf dem Varianzensystem der Vererbung aufzubauen. Bei konsequenter Befolgung des LSP kann vermieden werden, dass bei der Verwendung von Klassen falsche Annahmen aufgrund von Eigenschaften wie zum Beispiel dem Klassennahmen getroffen werden. Man kann bei code der dem LSP folgt nämlich stets davon ausgehen, dass Unterklassen immer alle Funktionalitäten der Oberklasse bereitstellt.
+\\
 Wir halten uns überall, wo wir in unserem Projekt Vererbung einsetzen, an das LSP. Unsere Figurenhierarchie basiert sogar darauf, dass wir die Funktion der allgemeinen Oberklasse Piece in ihren Unterklassen erweitern. Wir benutzen Piece oft als eine verallgemeinerung der verschiedenen Figuren und durch polymorphe Aufrufe zur Laufzeit werden dann die Methoden der konkreten Figuren aufgerufen. \autoref{fig:be2bb473-a08a-4816-9d19-355c2e271155} ist ein Beispiel, in dem ein als Piece deklariertes Objekt zur Laufzeit eine Instanz einer ihrer Unterklassen zugewiesen wird und anschließend durch Laufzeitpolymorphie eine Methode dieser unterklasse ausgeführt wird.
 
 \begin{figure}[ht]
