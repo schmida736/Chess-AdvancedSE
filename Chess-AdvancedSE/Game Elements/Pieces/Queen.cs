@@ -16,12 +16,9 @@ namespace Chess_AdvancedSE
 
         public override bool IsMoveable(Square from, Square to)
         {
-            int rowDifference = Math.Abs(to.Row - from.Row);
-            int columnDifference = Math.Abs(to.Column - from.Column);
-
-            if (rowDifference == columnDifference)              { return true; }
-            if ((rowDifference > 0) && (columnDifference == 0)) { return true; }
-            if ((columnDifference > 0) && (rowDifference == 0)) { return true; }
+            if (Difference(to.Row, from.Row) == Difference(to.Column, from.Column))              { return true; }
+            if ((Difference(to.Row, from.Row) > 0) && (Difference(to.Column, from.Column) == 0)) { return true; }
+            if ((Difference(to.Column, from.Column) > 0) && (Difference(to.Row, from.Row) == 0)) { return true; }
             return false;
         }
 
@@ -29,10 +26,7 @@ namespace Chess_AdvancedSE
         {
             if (to.Piece?.Color != from.Piece.Color)
             {
-                int rowDifference = Math.Abs(to.Row - from.Row);
-                int columnDifference = Math.Abs(to.Column - from.Column);
-
-                if (rowDifference == 0)
+                if (Difference(to.Row, from.Row) == 0)
                 {
                     if (to.Column > from.Column)
                     {
@@ -50,7 +44,7 @@ namespace Chess_AdvancedSE
                     }
                     return true; //nothing in the way
                 }
-                else if (columnDifference == 0)
+                else if (Difference(to.Column, from.Column) == 0)
                 {
                     if (to.Row > from.Row)
                     {
@@ -74,14 +68,14 @@ namespace Chess_AdvancedSE
                     {
                         if (to.Column > from.Column)
                         {
-                            for (int i = 1; i < columnDifference; i++)
+                            for (int i = 1; i < Difference(to.Column, from.Column); i++)
                             {
                                 if (board.GetPiece(board.GetSquare(from.Row + i, from.Column + i)) != null) { return false; }
                             }
                         }
                         else
                         {
-                            for (int i = 1; i < columnDifference; i++)
+                            for (int i = 1; i < Difference(to.Column, from.Column); i++)
                             {
                                 if (board.GetPiece(board.GetSquare(from.Row + i, from.Column - i)) != null) { return false; }
                             }
@@ -91,14 +85,14 @@ namespace Chess_AdvancedSE
                     {
                         if (to.Column > from.Column)
                         {
-                            for (int i = 1; i < columnDifference; i++)
+                            for (int i = 1; i < Difference(to.Column, from.Column); i++)
                             {
                                 if (board.GetPiece(board.GetSquare(from.Row - i, from.Column + i)) != null) { return false; }
                             }
                         }
                         else
                         {
-                            for (int i = 1; i < columnDifference; i++)
+                            for (int i = 1; i < Difference(to.Column, from.Column); i++)
                             {
                                 if (board.GetPiece(board.GetSquare(from.Row - i, from.Column - i)) != null) { return false; }
                             }
