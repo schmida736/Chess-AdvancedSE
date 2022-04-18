@@ -296,26 +296,31 @@ public override bool MoveIsValid(Square from, Square to)
 Innerhalb der Board-Klasse wird nun das riesige Switchcase durch den einfachen Methodenaufruf \texttt{movingPiece.MoveIsValid(from, to);} ersetzt.
 
 \subsection{Refactoring: Replace Temp with Query}
-Innerhalb der neuen Methode \texttt{MoveIsValid} kann nun ein weiteres Refactoring angewendet werden. Infolgendem Listing ist die ganze Methode gezeigt.
+Alle Figuren implementieren die Methode \texttt{IsMoveable}. Folgendes Listing zeigt beispielsweise eine ältere Version dieser Methode innerhalb der Klasse \texttt{Queen}.
+
 
 \begin{lstlisting}[language=c, style=mStyle]
-public bool MoveIsValid(Square from, Square to)
+public override bool IsMoveable(Square from, Square to)
 {
-if (from.Row == to.Row && from.Column == to.Column) { return false; }
-if (layout.GetAsList()[from.Row][from.Column] != null)
-{
-	Piece movingPiece = layout.GetAsList()[from.Row][from.Column]?.Piece;
-	if (movingPiece == null) { return false; }
+	int rowDifference = Math.Abs(to.Row - from.Row);
+	int columnDifference = Math.Abs(to.Column - from.Column);
 
-	if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
-	{
-		return movingPiece.MoveIsValid(from, to); //this is the way!!!                    
-	}
-}
-return false;
+	if (rowDifference == columnDifference)              { return true; }
+	if ((rowDifference > 0) && (columnDifference == 0)) { return true; }
+	if ((columnDifference > 0) && (rowDifference == 0)) { return true; }
+	return false;
 }
 \end{lstlisting}
-Zu erkennen ist hierbei die oft genutzte lokale Variable \texttt{movingPiece}. Sie bezeichnet jene Figur, die den zu evaluierenden Zug ausführt. Das hier aufgeführte Refactoring soll die lokale Variable in eine Funktion auslagern, da ein lokaler Cache performancetechnisch ineffizienter ist. Die neue Methode \texttt{getPieceFrom(Square)} gibt die Figur zurück, welche sich auf dem angegebenen Square befindet. Die neue Methode \texttt{MoveIsValid} ohne lokale Variable ist in der Datei Board.cs ab Zeile 25 zu sehen.
+Zu erkennen ist hierbei die unnötig oft genutzten lokalen Variablen \texttt{rowDifference} und \texttt{columnDiffernece}. Das hier aufgeführte Refactoring soll lokale Variablen in eine Methode auslagern. die Variablen \texttt{columnDifference} und \texttt{rowDifference} speichern beiden den Wert einer Differenz ab. Da solche lokalen Variablen nicht nur von der Dame sondern allen Figuren zur Zugvalidierung verwendet werden ist es sinnvoll eine ersetzende Methode innerhalb der \texttt{Piece}-Klasse zu definieren. Dadurch können alle Figuren darauf zugreifen. Folgendes Listing zeigt die Methode \texttt{GetDifference}:
+
+\begin{lstlisting}[language=c, style=mStyle]
+public int Difference(int from, int to)
+	{
+		return Math.Abs(to - from);
+	}
+\end{lstlisting}
+
+Innerhalb der Beispielmethode der Dame wird in dem Fall jeder Speicherzugriff von \texttt{rowDifference} durch den Methodenaufruf \texttt{getDifference(to.Row, from.Row)} ersetzt. Die überarbeiteten Methoden sind in der Datei \textit{Queen.cs} zu sehen. 
 \section{Entwurfsmuster}
 \subsection{Diagramme und Begründungen}
 

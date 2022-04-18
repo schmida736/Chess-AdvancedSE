@@ -34,5 +34,10 @@ namespace Chess_AdvancedSE
         {
             throw new NotImplementedException();
         }
+
+        public int Difference(int from, int to)
+        {
+            return Math.Abs(to - from);
+        }
     }
 }
