@@ -130,7 +130,7 @@ Board nutzt nun die Methoden von BoardLayout, um Einfluss auf die Aufstellung de
 \\
 Diese Änderung ermöglicht es uns, die Schachbrett-Logik separat von der Zug und Figuren-Logik zu testen. Das vereinfacht das Erstellen der Tests und das Finden der Fehlerquelle beim Fehlschlagen eines Tests.
 \subsection{Open/Closed Principle}
-\colorbox{yellow}{Engine eine liste von commands abarbeiten lassen anstatt Anfragen zu hardcoden}
+\colorbox{yellow}{Command pattern zwischen engine/Gui und Board implementieren -> befehle erweiterbar}
 \subsection{Liskov' Substitution Principle}
 Das Liskov Substitution Principle(LSP) besagt, dass jede Verwendung eines Objekts einer übergeordneten Klasse durch ein beliebiges Objekt einer ihrer Unterklassen ersetzbar sein soll. Durch das ersetzen darf sich die Korrektheit des Programms nicht ändern.
 
