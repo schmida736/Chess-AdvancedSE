@@ -86,13 +86,14 @@ Dadurch ergeben sich grundlegend die folgenden Klassen:
 \end{center}
 
 Ein \texttt{Board} besteht aus mehreren \texttt{Squares}, auf denen jeweils ein \texttt{Piece} stehen kann. Um dies zu implementieren und später auch verschiedene Pieces zu benutzen, zeigt \autoref{pic:umlEntities} alle Klassen welche unser Kern der Clean-Architektur beinhalten soll. 
-
+\vspace{0.5cm}
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[width=10cm]{entities.png}
+		\includegraphics[width=13cm]{entities.png}
 		\caption{\label{pic:umlEntities} UML-Diagramm der Entities}
 	\end{center}
 \end{figure}
+\vspace{0.5cm}
 
 \texttt{Board} stellt das Schachbrett dar. Dieses besteht aus 64 \texttt{Squares}. Die Methode \texttt{SetupLayout} erstellt das \texttt{Board} und besetzt einige der Felder mit Pieces einer entsprechenden Farbe.
 Von den eigentlichen Pieces ist hier nur der König gezeigt, da die anderen Figuren, genau wie er, die Methode \texttt{IsMoveable} implementieren. 
@@ -159,8 +160,26 @@ Translator: Game kennt Engine und Player nicht mehr, interessiert sich nur an be
 \colorbox{yellow}{Player auslagern mit eigener Setcolor funktion usw. (Playername??)}
 
 \subsection{DRY (Don't Repeat Yourself)}
-Schon umgesetzt?
+Um ihnen zu zeigen dass wir dieses Prinzip verstanden haben, sind im Folgenden sowohl ein Positiv- als auch ein Negativbeispiel dessen aufgezeigt. 
 
+\subsubsection{Negativbeispiel}
+Eine Übersicht über die hier zur Erklärung verwendeten Interfaces und Klassen ist in \autoref{pic:MoveInterfaces} gezeigt.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=11cm]{MoveInterfaces.png}
+		\caption{\label{pic:MoveInterfaces}Klassen und Interfaces für schräges und gerades Ziehen}
+	\end{center}
+\end{figure}
+
+Dame, Läufer und Turm sind in ihrem Handlungsspielraum recht ähnlich. Ein Läufer kann nur schräg, ein Turm nur geradeaus ziehen. Eine Dame beherrscht beide dieser Zugarten. In unserem Code haben wir sowohl ein Interface für gerade Züge, als auch schräge Züge. Die oben genannten drei Figuren implementieren jeweils die Methoden für IsMoveable und MoveIsValid. 
+
+
+
+Die Implementierung der Methode \texttt{StraightMoveIsValid} des Turms findet sich so $1:1$ bei der Dame wieder. Die Methode der Dame kopiert zudem auch die Methoden zur schrägen Zugvalidierung welche auch im Läufer zu finden sind. Dadurch sind die Methoden für schräges und gerades Laufen doppelt implementiert ohne Unterschied.
+
+\subsubsection{Positivbeispiel}
+Die unter \autoref{sec:replTemp} genutzte Methode \texttt{GetSquareDistance} wird von fast jeder Figur verwendet. Anstatt diese jeweils innerhalb einer Figurenklasse wie \texttt{Queen} zu platzieren, ist die Methode in \texttt{Piece} implementiert. Da alle Figuren von \texttt{Piece} erben, können sie auf die Methode zugreifen, welche jedoch nur ein einziges Mal im Code ausprogrammiert ist. Dadurch ist hierbei, wenn auch nur mit einer sehr simplem Methode \textit{DRY} umgesetzt.
 
 \section{Unit Testing}
 \subsection{pros/cons/wieso wir?}
@@ -301,6 +320,7 @@ public override bool MoveIsValid(Square from, Square to)
 Innerhalb der Board-Klasse wird nun das riesige Switchcase durch den einfachen Methodenaufruf \texttt{movingPiece.MoveIsValid(from, to);} ersetzt.
 
 \subsection{Refactoring: Replace Temp with Query}
+\label{sec:replTemp}
 Alle Figuren implementieren die Methode \texttt{IsMoveable}. Folgendes Listing zeigt beispielsweise eine ältere Version dieser Methode innerhalb der Klasse \texttt{Queen}.
 
 
@@ -316,16 +336,16 @@ public override bool IsMoveable(Square from, Square to)
 	return false;
 }
 \end{lstlisting}
-Zu erkennen ist hierbei die unnötig oft genutzten lokalen Variablen \texttt{rowDifference} und \texttt{columnDiffernece}. Das hier aufgeführte Refactoring soll lokale Variablen in eine Methode auslagern. die Variablen \texttt{columnDifference} und \texttt{rowDifference} speichern beiden den Wert einer Differenz ab. Da solche lokalen Variablen nicht nur von der Dame sondern allen Figuren zur Zugvalidierung verwendet werden ist es sinnvoll eine ersetzende Methode innerhalb der \texttt{Piece}-Klasse zu definieren. Dadurch können alle Figuren darauf zugreifen. Folgendes Listing zeigt die Methode \texttt{GetDifference}:
+Zu erkennen ist hierbei die unnötig oft genutzten lokalen Variablen \texttt{rowDifference} und \texttt{columnDiffernece}. Das hier aufgeführte Refactoring soll lokale Variablen in eine Methode auslagern. die Variablen \texttt{columnDifference} und \texttt{rowDifference} speichern beiden den Wert einer Differenz ab. Da solche lokalen Variablen nicht nur von der Dame sondern allen Figuren zur Zugvalidierung verwendet werden ist es sinnvoll eine ersetzende Methode innerhalb der \texttt{Piece}-Klasse zu definieren. Dadurch können alle Figuren darauf zugreifen. Folgendes Listing zeigt die Methode \texttt{GetSquareDistance}:
 
 \begin{lstlisting}[language=c, style=mStyle]
-public int Difference(int from, int to)
+public int GetSquareDistance(int from, int to)
 	{
 		return Math.Abs(to - from);
 	}
 \end{lstlisting}
 
-Innerhalb der Beispielmethode der Dame wird in dem Fall jeder Speicherzugriff von \texttt{rowDifference} durch den Methodenaufruf \texttt{getDifference(to.Row, from.Row)} ersetzt. Die überarbeiteten Methoden sind in der Datei \textit{Queen.cs} zu sehen. 
+Innerhalb der Beispielmethode der Dame wird in dem Fall jeder Speicherzugriff von \texttt{rowDifference} durch den Methodenaufruf \texttt{GetSquareDistance(to.Row, from.Row)} ersetzt. Die überarbeiteten Methoden sind in der Datei \textit{Queen.cs} zu sehen. 
 \section{Entwurfsmuster}
 \subsection{Diagramme und Begründungen}
 

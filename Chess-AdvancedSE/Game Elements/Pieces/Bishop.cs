@@ -2,7 +2,7 @@
 
 namespace Chess_AdvancedSE
 {
-    public class Bishop : Piece
+    public class Bishop : Piece, IDiagonal
     {
         public IBoardLayout board;
         public Bishop(bool color, IBoardLayout board) : base(color) {
@@ -16,14 +16,25 @@ namespace Chess_AdvancedSE
 
         public override bool IsMoveable(Square from, Square to)
         {
+            return IsDiagonalMoveable(from, to);
+        }
+
+        public override bool MoveIsValid(Square from, Square to)
+        {
+            return DiagonalMoveIsValid(from, to);
+        }
+
+        public bool IsDiagonalMoveable(Square from, Square to)
+        {
             int rowDifference = Math.Abs(to.Row - from.Row);
             int columnDifference = Math.Abs(to.Column - from.Column);
 
             return (rowDifference == columnDifference);
         }
 
-        public override bool MoveIsValid(Square from, Square to)
+        public bool DiagonalMoveIsValid(Square from, Square to)
         {
+
             if (to.Piece?.Color != from.Piece.Color)
             {
                 int rowDifference = Math.Abs(to.Row - from.Row);
@@ -66,6 +77,5 @@ namespace Chess_AdvancedSE
             }
             return false;
         }
-
     }
 }
