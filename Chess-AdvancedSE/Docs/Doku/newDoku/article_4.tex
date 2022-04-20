@@ -160,10 +160,10 @@ Translator: Game kennt Engine und Player nicht mehr, interessiert sich nur an be
 \colorbox{yellow}{Player auslagern mit eigener Setcolor funktion usw. (Playername??)}
 
 \subsection{DRY (Don't Repeat Yourself)}
-Um ihnen zu zeigen dass wir dieses Prinzip verstanden haben, sind im Folgenden sowohl ein Positiv- als auch ein Negativbeispiel dessen aufgezeigt. 
+Um ihnen zu zeigen, dass wir dieses Prinzip verstanden haben, sind im Folgenden sowohl ein Positiv- als auch ein Negativbeispiel dessen aufgezeigt. 
 
 \subsubsection{Negativbeispiel}
-Eine Übersicht über die hier zur Erklärung verwendeten Interfaces und Klassen ist in \autoref{pic:MoveInterfaces} gezeigt.
+Eine Übersicht über die hier zur Darstellung verwendeten Klassen und Interfaces ist in \autoref{pic:MoveInterfaces} gezeigt.
 
 \begin{figure}[h]
 	\begin{center}
@@ -172,14 +172,11 @@ Eine Übersicht über die hier zur Erklärung verwendeten Interfaces und Klassen
 	\end{center}
 \end{figure}
 
-Dame, Läufer und Turm sind in ihrem Handlungsspielraum recht ähnlich. Ein Läufer kann nur schräg, ein Turm nur geradeaus ziehen. Eine Dame beherrscht beide dieser Zugarten. In unserem Code haben wir sowohl ein Interface für gerade Züge, als auch schräge Züge. Die oben genannten drei Figuren implementieren jeweils die Methoden für IsMoveable und MoveIsValid. 
-
-
-
-Die Implementierung der Methode \texttt{StraightMoveIsValid} des Turms findet sich so $1:1$ bei der Dame wieder. Die Methode der Dame kopiert zudem auch die Methoden zur schrägen Zugvalidierung welche auch im Läufer zu finden sind. Dadurch sind die Methoden für schräges und gerades Laufen doppelt implementiert ohne Unterschied.
+Dame, Läufer und Turm sind in ihrem Handlungsspielraum recht ähnlich. Ein Läufer kann nur schräg, ein Turm nur geradeaus ziehen. Eine Dame beherrscht beide dieser Zugarten. In unserem Code haben wir ein Interface für sowohl gerade, als auch schräge Züge. Die oben genannten drei Figuren implementieren jeweils die zugspezifischen Methoden für IsMoveable und MoveIsValid. 
+Eine Implementierung der Methode \texttt{StraightMoveIsValid} des Turms findet sich $1:1$ bei der Dame wieder. Die Methode der Dame kopiert zudem auch die Methoden zur schrägen Zugvalidierung welche auch im Läufer zu finden sind. Dadurch sind die Methoden für schräges und gerades Laufen doppelt ohne Unterschied implementiert.
 
 \subsubsection{Positivbeispiel}
-Die unter \autoref{sec:replTemp} genutzte Methode \texttt{GetSquareDistance} wird von fast jeder Figur verwendet. Anstatt diese jeweils innerhalb einer Figurenklasse wie \texttt{Queen} zu platzieren, ist die Methode in \texttt{Piece} implementiert. Da alle Figuren von \texttt{Piece} erben, können sie auf die Methode zugreifen, welche jedoch nur ein einziges Mal im Code ausprogrammiert ist. Dadurch ist hierbei, wenn auch nur mit einer sehr simplem Methode \textit{DRY} umgesetzt.
+Die unter \autoref{sec:replTemp} genutzte Methode \texttt{GetSquareDistance} wird von fast jeder Figur verwendet. Anstatt diese jeweils innerhalb einer Figurenklasse wie \texttt{Queen} zu platzieren, wird die Methode von \texttt{Piece} implementiert. Da alle Figuren von \texttt{Piece} erben, können sie auf die Methode zugreifen, welche jedoch so nur ein einziges Mal im Code ausprogrammiert ist. Dadurch ist, wenn auch nur anhand einer sehr simplem Methode, \textit{DRY} umgesetzt.
 
 \section{Unit Testing}
 \subsection{pros/cons/wieso wir?}
@@ -255,17 +252,18 @@ Unsere Unit Tests sind klein und überschaubar. Zudem ist unsere Namensgebung so
 \newpage
 \section{Refactoring}
 \subsection{Codesmell: Long Method und Switch-case}
-Einer früheren Version des Codes war eine Methode zu entnehmen, welche gleich zwei übel riechende Codesmells aufwies. Zum einen war die Methode sehr lang, zum anderen streckte sich ein großes Switch-Case über die gesamte länge. Die Rede ist von jener Methode, welche festetellen soll ob ein Zug valide ist oder nicht. Die Validierung eines Zuges von einem Startfeld zu einem Zielfeld muss die folgenden Voraussetzungen erfüllen:
+Einer früheren Version des Codes war eine Methode zu entnehmen, welche gleich zwei übel riechende Codesmells aufwies. Zum einen war die Methode sehr lang, zum anderen streckte sich ein großes Switch-Case über die gesamte länge. Die Rede ist von jener Methode, welche festetellen soll ob ein Zug valide ist oder nicht. Zur Validierung muss ein Zug von einem Startfeld zu einem Zielfeld die folgenden Voraussetzungen erfüllen:
 \begin{center}
 	\begin{itemize}
-		\item 1. Ist das Zielfeld ein anderes als das Startfeld?
-		\item 2. Steht auf dem Startfeld eine Figur?
-		\item 3. Kann die Figur tatsächlich so ziehen?
-		\item 4. Würde der Zug das eigene Team in Schach setzen?
-		\item 5. Darf der Zug so ausgeführt werden (d.h. es sind keine Figuren im Weg und am Ziel befindet sich keine Figur der eigenen Mannschaft)?
+		\item Das Zielfeld ein anderes als das Startfeld.
+		\item Auf dem Startfeld steht eine Figur.
+		\item Die Figur kann tatsächlich so ziehen.
+		\item Der Zug würde das eigene Team nicht in Schach setzen.
+		\item Der Zug darf so ausgeführt werden (d.h. es sind keine Figuren im Weg und am Ziel befindet sich keine Figur der eigenen Mannschaft).
 	\end{itemize}
 \end{center}
-Liefert eine dieser Fragen als Ergebnis \texttt{false} wird der Zug als nicht valide gewertet. Wie bereits unter Clean-Architecture erwähnt, kann das Board situationsbedingt Aussagen treffen, die Figur nur Aussagen über die theoretische Ausführung des Zuges. Dadurch ergab sich, dass die theoretische Ausführung eines Zuges polymorph gelöst und die situationsbedingt innerhalb der MoveIsValid-Methode evaluiert wurde. In folgendem Code-Ausschnitt ist zu sehen, wie unter \texttt{movingPiece.IsMoveable(from, to)} die Polymorphe Validierung erfolgt, wonach das große Switch-Case gestartet wird. Hierbei ist nur ein kleiner Teil der Validierung für den Fall einer Dame aufgeführt, um die Größe  und insbesondere den hohen Einrückgrad der Methode zu betonen. 
+Ist eine dieser Anforderungen nicht erfüllt, wird der Zug als nicht valide gewertet. Wie bereits unter Clean-Architecture erwähnt, kann das Board situationsbedingte Aussagen treffen, die Figur nur über die theoretische Ausführung des Zuges. Dadurch ergab sich, dass die theoretische Ausführung eines Zuges polymorph gelöst und die situationsbedingte innerhalb von \texttt{MoveIsValid} evaluiert wurde. In folgendem Code-Ausschnitt ist zu sehen, wie unter \texttt{movingPiece.IsMoveable(from, to)} die Polymorphe Validierung erfolgt, wonach das große Switch-Case gestartet wird. Hierbei ist nur ein kleiner Teil der Validierung für den Fall einer Dame aufgeführt, um die Größe  und insbesondere den hohen Einrückgrad der Methode zu betonen. 
+\vspace{0.5cm}
 
 \begin{lstlisting}[language=c, style=mStyle]
 public bool MoveIsValid(Square from, Square to)
@@ -300,13 +298,7 @@ public bool MoveIsValid(Square from, Square to)
 Das Switch-Case über den Instanztyp der Figur soll nun ebenfalls durch einen Polymorphen Methodenaufruf eleminiert werden. 
 
 \subsection{Refactoring: Replace Conditional with Polymorphism}
-Das Problem bei einem polymorphen Methodenaufruf hierbei ist, dass die Figur selbst keine Ahnung hat wo sich andere Figuren befinden. Diese Information ist dem Board vorbehalten. Eine Simple Lösung wäre sicherlich, das Board jeder Figur als Übergabeparameter zu geben, dabei geht jedoch die Sinnhaftigkeit der Logik verloren. Dependency Injection schafft heirbei Abhilfe. Es wird ermöglicht, von den Figuren aus Infos über einzelne Felder zu erfragen. Anstatt dass das Board für jedes, sich auf einem Zugpfad befindendes, Feld überprüft ob eine Figur im Weg steht, soll nun die Figur für jedes Feld erfragen, ob eine andere im Weg steht. Die Figur hat also keine Informationen über das Board, sondern nur einen Weg essenzielle Informationen zu erfragen. Umgesetzt wird dies durch ein Interface. Das \texttt{Boardlayout} erbt und implementiert die beiden Methoden \texttt{GetSquare} und \texttt{GetPiece} des Interfaces \texttt{IBoardLayout}. Wie der Namensgebung zu entnehmen ist, geben die Methoden ein Piece oder Square zurück. EInzelne Figuren benötigen nun ein Objekt von \texttt{IBoardLayout}, welches im Konstruktor übergeben wird. Erzeugt nun das BoardLayout eine Dame, muss ein Verweis auf ein \texttt{IBoardLayout} übergeben werden. Eine Erzeugung sieht wie folgt aus:
-
-\begin{lstlisting}[language=c, style=mStyle]
-startLayout[0][0].Piece = new Queen(player.Color, this);
-\end{lstlisting}
-
-der Parameter \texttt{this} verweist auf das BoardLayout, welches vom Interface \texttt{IBoardLayout} erbt. Im Konstruktor von Queen muss dieses einem lokalen \texttt{IBoardLayout} zugeteilt werden. Daraufhin kann über diese lokale Variable beispielsweise mit \texttt{variable.GetPiece(Square)} das Piece welches sich im BoardLayout auf dem benannten Square befindet abgerufen werden, ohne dass die Dame weitgehende Informationen über das Board besitzt.\\
+Das Problem bei einem polymorphen Methodenaufruf hierbei ist, dass die Figur selbst keine Ahnung hat wo sich andere Figuren befinden. Diese Information ist dem Board vorbehalten. Eine Simple Lösung wäre sicherlich, das Board jeder Figur als Übergabeparameter zu geben, dabei geht jedoch die Sinnhaftigkeit der Logik verloren. Dependency Injection schafft heirbei Abhilfe. Es wird ermöglicht, von den Figuren aus Infos über einzelne Felder zu erfragen. Anstatt dass das Board für jedes, sich auf einem Zugpfad befindendes, Feld überprüft ob eine Figur im Weg steht, soll nun die Figur für jedes Feld erfragen, ob eine andere im Weg steht. Die Figur hat also keine Informationen über das Board, sondern nur einen Weg essenzielle Informationen zu erfragen. Genauere Eklärung dazu ist unter \autoref{sec:depInjec} zu lesen. Innerhalb einer Figurenklasse kann nun über die lokale Varialbe \texttt{board<IBoardLayout>} mit dem Aufruf von  \texttt{board.GetPiece(Square)} das Piece welches sich im BoardLayout auf dem benannten Square befindet abgerufen werden, ohne dass die Dame weitgehende Informationen über das Board besitzt.\\
 Infolge dessen implementiert nun jede Figur die Methode \texttt{<bool>MoveIsValid(<Square> from, <Square> to)}. Im folgenden ist die Implementierung von \texttt{MoveIsValid} des Königs gezeigt.
 
 \begin{lstlisting}[language=c, style=mStyle]
@@ -316,7 +308,7 @@ public override bool MoveIsValid(Square from, Square to)
 }
 \end{lstlisting}
 
-\texttt{board} ist die Instanz von \texttt{IBoardLayout}. Dabei wird überprüft, ob sich auf dem Zielfeld eine Figur des eigenen Teams befindet. ist dies der Fall, darf der Zug nicht ausgeführt werden.\\
+Hierbei wird überprüft, ob sich auf dem Zielfeld eine Figur des eigenen Teams befindet. ist dies der Fall, darf der Zug nicht ausgeführt werden.\\
 Innerhalb der Board-Klasse wird nun das riesige Switchcase durch den einfachen Methodenaufruf \texttt{movingPiece.MoveIsValid(from, to);} ersetzt.
 
 \subsection{Refactoring: Replace Temp with Query}
@@ -336,18 +328,40 @@ public override bool IsMoveable(Square from, Square to)
 	return false;
 }
 \end{lstlisting}
-Zu erkennen ist hierbei die unnötig oft genutzten lokalen Variablen \texttt{rowDifference} und \texttt{columnDiffernece}. Das hier aufgeführte Refactoring soll lokale Variablen in eine Methode auslagern. die Variablen \texttt{columnDifference} und \texttt{rowDifference} speichern beiden den Wert einer Differenz ab. Da solche lokalen Variablen nicht nur von der Dame sondern allen Figuren zur Zugvalidierung verwendet werden ist es sinnvoll eine ersetzende Methode innerhalb der \texttt{Piece}-Klasse zu definieren. Dadurch können alle Figuren darauf zugreifen. Folgendes Listing zeigt die Methode \texttt{GetSquareDistance}:
+Zu erkennen ist hierbei ein weiterer Codesmell: Die unnötig oft genutzten lokalen Variablen \texttt{rowDifference} und \texttt{columnDiffernece}. Das hier aufgeführte Refactoring soll lokale Variablen in eine Methode auslagern. die Variablen \texttt{columnDifference} und \texttt{rowDifference} speichern beiden den Wert einer Differenz ab. Da solche lokalen Variablen nicht nur von der Dame sondern allen Figuren zur Zugvalidierung verwendet werden ist es sinnvoll eine ersetzende Methode innerhalb der \texttt{Piece}-Klasse zu definieren. Dadurch können alle Figuren darauf zugreifen. Folgendes Listing zeigt die Methode \texttt{GetSquareDistance}:
 
 \begin{lstlisting}[language=c, style=mStyle]
 public int GetSquareDistance(int from, int to)
-	{
-		return Math.Abs(to - from);
-	}
+{
+	return Math.Abs(to - from);
+}
 \end{lstlisting}
 
 Innerhalb der Beispielmethode der Dame wird in dem Fall jeder Speicherzugriff von \texttt{rowDifference} durch den Methodenaufruf \texttt{GetSquareDistance(to.Row, from.Row)} ersetzt. Die überarbeiteten Methoden sind in der Datei \textit{Queen.cs} zu sehen. 
+
 \section{Entwurfsmuster}
-\subsection{Diagramme und Begründungen}
+
+\subsection{Dependency Injection}
+\label{sec:depInjec}
+Bei Dependency Injection wird eine Abhängigkeit in eine Klasse, bzw. dessen Objekt injeziert. In unserem Fall injeziert \texttt{BoardLayout} eine Abhängigkeit auf Pieces und Squares in die Figuren, da diese Informationen benötigt werden um Züge zu validieren. Die von uns verwendete Form von Dependency Injection ist die Constructor Injection. Hierbei wird die Abhängigkeit bereits im Konstruktor der abhängigen Klasse injeziert. Wir haben uns dafür entschieden, da die abhängige Klasse (z.B. \texttt{Queen}) von jener Klasse abhängig ist, welche sie erst erstellt. So kann direkt bei der Erstellung die Abhängigkeit mitgegeben werden. \autoref{pic:DependencyInjection} zeigt ein UML-Diagramm, welches Dependency Injection in unserem Code grafisch darfstellt.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=9cm]{DependencyInjection.png}
+		\caption{\label{pic:DependencyInjection}DependencyInjection in unserem Code}
+	\end{center}
+\end{figure}
+
+\texttt{Boardlayout} implementiert die beiden Methoden \texttt{GetSquare} und \texttt{GetPiece} des Interfaces \texttt{IBoardLayout}. Wie der Namensgebung zu entnehmen ist, geben die Methoden ein Piece oder Square zurück. Einzelne Figuren benötigen ein Objekt von \texttt{IBoardLayout}, welches im Konstruktor übergeben wird. Erzeugt nun das BoardLayout eine Dame, muss ein Verweis auf ein \texttt{IBoardLayout} übergeben werden. Eine Erzeugung sieht wie folgt aus:
+
+\begin{lstlisting}[language=c, style=mStyle]
+startLayout[0][0].Piece = new Queen(player.Color, this);
+\end{lstlisting}
+
+Der hier übergebene Parameter \texttt{this} verweist auf das BoardLayout, welches das Interface \texttt{IBoardLayout} implementiert. Im Konstruktor von Queen muss dieses einer lokalen Variable von \texttt{IBoardLayout} zugeteilt werden. Daraufhin können innerhalb von \texttt{Queen} nur die beiden Methoden des Interfaces verwendet werden, ohne weitere Methoden oder Variablen von \texttt{BoardLayout} zu kennen. 
+
+
+
 
 \section{Fazit}\label{sec:end}
 

@@ -31,6 +31,9 @@ dottedtoc % Dotted lines leading to the page numbers in the table of contents
 \usepackage{varioref} % More descriptive referencing
 
 \usepackage[german]{babel}
+
+\usepackage{hyperref}
+
 \usepackage{csquotes}
 
 \usepackage{tabularx}
@@ -50,6 +53,15 @@ dottedtoc % Dotted lines leading to the page numbers in the table of contents
     columns=flexible
 }
 
+%---------------------------------------------------------
+%   HYPERREF SETTINGS
+%---------------------------------------------------------
+\def\figureautorefname{Abbildung}
+\def\sectionautorefname{Abschnitt}
+\def\subsectionautorefname{Unterabschnitt}
+\def\subsubsectionautorefname{Unterunterabschnitt}
+
+
 %----------------------------------------------------------------------------------------
 %	THEOREM STYLES
 %---------------------------------------------------------------------------------------
@@ -61,19 +73,3 @@ dottedtoc % Dotted lines leading to the page numbers in the table of contents
 \newtheorem{theorem}{Theorem}
 
 \theoremstyle{remark} % Define theorem styles here based on the remark style (used for remarks and notes)
-
-%----------------------------------------------------------------------------------------
-%	HYPERLINKS
-%---------------------------------------------------------------------------------------
-
-\hypersetup{
-%draft, % Uncomment to remove all links (useful for printing in black and white)
-colorlinks=true, breaklinks=true, bookmarks=true,bookmarksnumbered,
-urlcolor=webbrown, linkcolor=RoyalBlue, citecolor=webgreen, % Link colors
-pdftitle={}, % PDF title
-pdfauthor={\textcopyright}, % PDF Author
-pdfsubject={}, % PDF Subject
-pdfkeywords={}, % PDF Keywords
-pdfcreator={pdfLaTeX}, % PDF Creator
-pdfproducer={LaTeX with hyperref and ClassicThesis} % PDF producer
-}
