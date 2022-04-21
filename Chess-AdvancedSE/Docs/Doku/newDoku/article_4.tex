@@ -157,10 +157,16 @@ Wir halten uns überall, wo wir in unserem Projekt Vererbung einsetzen, an das L
 \subsection{Dependency Inversion Principle}
 Bei Translator wird game eingesetzt statt game direkt zu übergeben. Methoden werden dann auf Translator angewendet.
 \subsection{Low Coupling}
-Teil der GRASP-Prinzipien.
-Translator: Game kennt Engine und Player nicht mehr, interessiert sich nur an befehlen.
+Low Coupling ist ein GRASP-Prinzip der Objektorientierten Softwarearchitektur, nach dem eine Klasse so unabhängig von ihrer Umgebung sein sollte wie möglich. Dies macht es einfacher, die Funtionsweise der Klasse nachzuvollziehen, weil man weniger Klassen verstehen muss, von denen diese eine Klasse abhängig ist. Des weiteren erzielt eine lose Kopplung einer Klasse auch eine deutlich höhere Testbarkeit, da weniger instanzen von abhängigen Klassen erstellt werden müssen, nur um eine Klasse zu testen(siehe Negativbeispiel).
+
+\subsubsection{Beispiel}
+Als Teil unserer Clean Architecture haben wir eine Architektur aufgebaut, die es den einzelnen Schichten erlaubt, unabhängig von den Elementen der über ihnen liegenden Schichten zu sein. So ist auf \autoref{pic:cleanArc} zu sehen, dass Game komplett unabhängig von PlayerTranslator und EngineTranslator ist. Es erhät ausschließlich Anweisungen per Methodenaufruf und führt diese aus. Game weiß nicht, dass es eine GUI oder eine Engine gibt, es interessiert sich nur an den von oben kommenden Befehlen. Dies bedeutet, dass Game abgekoppelt von sowohl den User-Interfaces, als auch von den Übersetzern ist.
+
+\subsubsection{Negativbeispiel}
+Ein Neagtivbeispiel für Low Coupling sind bei unserer Architektur die Kopplung zwischen der Klasse Board und den Pieces. Diese müssen miteinander kommunizieren können, und brauchen daher jeweils Referenzen aufeinander. Dies führt dazu, dass die Testbarkeit von Pieces erheblich reduziert ist. Sichtbar wird dies in den Unit Tests der Pieces (TestPieces.cs). Da jedes Piece eine Referenz auf das in Board enthaltene BoardLayout braucht, muss ein solches Layout in jedem Unit Test so erzeugt werden, wie der Test es gerade braucht.
+
 \subsection{High Cohesion}
-\colorbox{yellow}{Player auslagern mit eigener Setcolor funktion usw. (Playername??)}
+\colorbox{yellow}{TODO}
 
 \subsection{DRY (Don't Repeat Yourself)}
 Um ihnen zu zeigen, dass wir dieses Prinzip verstanden haben, sind im Folgenden sowohl ein Positiv- als auch ein Negativbeispiel dessen aufgezeigt. 
