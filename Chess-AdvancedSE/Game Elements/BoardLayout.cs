@@ -86,5 +86,20 @@ namespace Chess_AdvancedSE
 
             this._layout = startLayout;
         }
+
+        public void SetEmptyLayout()
+        {
+            List<List< Square >> startLayout = new();
+            for (int row = 0; row < 8; row++)
+            {
+                startLayout.Add(new List<Square>());
+                for (int column = 0; column < 8; column++)
+                {
+                    startLayout[row].Add(new Square(row, column));
+                }
+            }
+
+            this._layout = startLayout;
+        }
     }
 }

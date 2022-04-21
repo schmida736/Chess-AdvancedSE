@@ -47,8 +47,8 @@ namespace Chess_AdvancedSE.Tests
             layout.SetToStartLayout(new Player(true));
         
             // Then
-            Assert.Equal(layout.GetSquareFromCoords(7, 5).Row, 7);
-            Assert.Equal(layout.GetSquareFromCoords(7, 5).Column, 5);
+            Assert.Equal(7, layout.GetSquareFromCoords(7, 5).Row);
+            Assert.Equal(5, layout.GetSquareFromCoords(7, 5).Column);
         }
     }
 }
