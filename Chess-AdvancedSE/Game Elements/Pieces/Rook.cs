@@ -2,7 +2,7 @@
 
 namespace Chess_AdvancedSE
 {
-    public class Rook : Piece
+    public class Rook : Piece, IStraight
     {
         public IBoardLayout board;
         public Rook(bool color, IBoardLayout board) : base(color){
@@ -18,6 +18,16 @@ namespace Chess_AdvancedSE
 
         public override bool IsMoveable(Square from, Square to)
         {
+            return IsStraightMoveable(from, to);
+        }
+
+        public override bool MoveIsValid(Square from, Square to)
+        {
+            return StraightMoveIsValid(from, to);
+        }
+
+        public bool IsStraightMoveable(Square from, Square to)
+        {
             int rowDifference = Math.Abs(to.Row - from.Row);
             int columnDifference = Math.Abs(to.Column - from.Column);
 
@@ -26,7 +36,9 @@ namespace Chess_AdvancedSE
             return false;
         }
 
-        public override bool MoveIsValid(Square from, Square to)
+        
+
+        public bool StraightMoveIsValid(Square from, Square to)
         {
             if (to.Piece?.Color != from.Piece.Color)
             {
