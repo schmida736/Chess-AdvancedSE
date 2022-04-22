@@ -152,8 +152,10 @@ Wir halten uns überall, wo wir in unserem Projekt Vererbung einsetzen, an das L
 	\caption[captionInLOF(for acronyms)]{captionInLOF(for acronyms)}
 	\label{fig:be2bb473-a08a-4816-9d19-355c2e271155}
 \end{figure}
+
 \subsection{Interface Segregation Principle}
-\colorbox{yellow}{Interface wo?}
+Schon bei Beginn des Projekts war geplant, Interfaces für die Züge einzelner Figuren einzusetzen. Da jede Figur zur Zugvalidierung die Methoden \texttt{IsMoveable} und \texttt{MoveIsValid} besitzt, wäre hierfür ein Interface, welches diese Methodenb vordefiniert die richtige Wahl. Der erste Gedanke war ein Interface namens \texttt{IMoveable}, welches die oben genannten Methoden definiert. Jede Figur könnte so beide Methoden individuell implementieren. Dabei wäre aber das Interface Segregation Principle verletzt, da das Interface somit für alle möglichen Zugarten zuständig wäre. Eine Figur die schräg zieht, implementierte somit die gleichen Methoden wie ein Geradezieher. Daher haben wir das Interface in \texttt{IStraight} für gerade und \texttt{IDiagonal} für schräge Züge aufgeteilt. In \autoref{pic:MoveInterfaces} ist diese aufteilung zu sehen. Ein König würde ebenfalls sowohl \texttt{IStraight}, als auch \texttt{IDiagonal} implementieren. In seinem Fall jedoch im Gegensatz zur Dame nur mit einer maximalen Zuglänge von $1$.
+
 \subsection{Dependency Inversion Principle}
 Bei Translator wird game eingesetzt statt game direkt zu übergeben. Methoden werden dann auf Translator angewendet.
 \subsection{Low Coupling}
@@ -166,7 +168,20 @@ Als Teil unserer Clean Architecture haben wir eine Architektur aufgebaut, die es
 Ein Neagtivbeispiel für Low Coupling sind bei unserer Architektur die Kopplung zwischen der Klasse Board und den Pieces. Diese müssen miteinander kommunizieren können, und brauchen daher jeweils Referenzen aufeinander. Dies führt dazu, dass die Testbarkeit von Pieces erheblich reduziert ist. Sichtbar wird dies in den Unit Tests der Pieces (TestPieces.cs). Da jedes Piece eine Referenz auf das in Board enthaltene BoardLayout braucht, muss ein solches Layout in jedem Unit Test so erzeugt werden, wie der Test es gerade braucht.
 
 \subsection{High Cohesion}
-\colorbox{yellow}{TODO}
+Kohäsion ist ein Maß für den inneren zusammenhalt einer Klasse. Auch hier möchten wir ihnen zeigen dass wir das Prinzip verstanden haben, indem wir ein Positiv- und Negativbeispiel darstellen. Beide dieser Beispiele befinden sich ergeben sich aus der Klasse \texttt{Bishop}. Die klasse mit farblichen markierungen zur besseren Kohäsionsdarstellung ist in \autoref{pic:koh} gezeigt.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=\textwidth]{Kohaesion.pdf}
+		\caption{\label{pic:koh} Kohäsionsbeispiel anhand von \texttt{Bishop}}
+	\end{center}
+\end{figure}
+
+Blau markiert sind in diesem Beispiel Deklaration und Einsatz von \texttt{board}. Es wird verwendet um Züge zu validieren. Daher kommen die blauen Kringel neben den Methoden, wo die Variable verwendet wird. Die jeweils rot und grün markierten Methoden arbeiten zusammen. Innerhalb der Klasse sind sie zwar syntaktisch nicht verbunden, sie dienen aber semantisch dem gleichen Zweck. Dies ist in \autoref{pic:koh} durch den gelben Kringel verdeutlicht. Eine Methode welche \texttt{IsMoveable $\&\&$ MoveIsValid} als bool zurückgibt, gäbe eine fast vollständige Zugvalidierung zurück. Da jedoch noch andere Sachen wie beispielsweise das in Schachsetzen dabei eine Rolle spielen, ist dieser zusammenhalt in der Klasse \texttt{Board} und nicht hier aufgeführt. 
+Negativ zu bemerken sind die nicht-markierten Zeilen im Konstruktor der Klasse. Hierbei wird eine Bildquelle festgelegt, die jedoch mit dem Rest der Klasse nichts zu tun hat. Wäre dies abgekapselt, würde die Klasse eine extrem hohe Kohäsion nachweisen können.
+
+
+
 
 \subsection{DRY (Don't Repeat Yourself)}
 Um ihnen zu zeigen, dass wir dieses Prinzip verstanden haben, sind im Folgenden sowohl ein Positiv- als auch ein Negativbeispiel dessen aufgezeigt. 
@@ -351,7 +366,7 @@ Innerhalb der Beispielmethode der Dame wird in dem Fall jeder Speicherzugriff vo
 
 \subsection{Dependency Injection}
 \label{sec:depInjec}
-Bei Dependency Injection wird eine Abhängigkeit in eine Klasse, bzw. dessen Objekt injeziert. In unserem Fall injeziert \texttt{BoardLayout} eine Abhängigkeit auf Pieces und Squares in die Figuren, da diese Informationen benötigt werden um Züge zu validieren. Die von uns verwendete Form von Dependency Injection ist die Constructor Injection. Hierbei wird die Abhängigkeit bereits im Konstruktor der abhängigen Klasse injeziert. Wir haben uns dafür entschieden, da die abhängige Klasse (z.B. \texttt{Queen}) von jener Klasse abhängig ist, welche sie erst erstellt. So kann direkt bei der Erstellung die Abhängigkeit mitgegeben werden. \autoref{pic:DependencyInjection} zeigt ein UML-Diagramm, welches Dependency Injection in unserem Code grafisch darfstellt.
+Bei Dependency Injection wird eine Abhängigkeit in eine Klasse, bzw. dessen Objekt injeziert. In unserem Fall injeziert \texttt{BoardLayout} eine Abhängigkeit auf Pieces und Squares in die einzelnen Figuren, da diese Informationen benötigt werden um Züge zu validieren. Die von uns verwendete Form von Dependency Injection ist die Constructor Injection. Hierbei wird die Abhängigkeit bereits im Konstruktor der abhängigen Klasse injeziert. Wir haben uns dafür entschieden, da die abhängige Klasse (z.B. \texttt{Queen}) von jener Klasse abhängig ist, welche sie erstellt (\texttt{BoardLayout}). So kann direkt bei der Erstellung die Abhängigkeit mitgegeben werden. \autoref{pic:DependencyInjection} zeigt ein UML-Diagramm, welches Dependency Injection in unserem Code grafisch darfstellt.
 
 \begin{figure}[h]
 	\begin{center}
@@ -367,8 +382,8 @@ Einzelne Figuren benötigen ein Objekt von \texttt{IBoardLayout}, welches im Kon
 startLayout[0][0].Piece = new Queen(player.Color, this);
 \end{lstlisting}
 
-Der hier übergebene Parameter \texttt{this} verweist auf \texttt{BoardLayout}, welches das Interface \texttt{IBoardLayout} implementiert. Im Konstruktor von \texttt{Queen} muss dieses einer lokalen Variable von \texttt{IBoardLayout} zugeteilt werden. Daraufhin können innerhalb von \texttt{Queen} nur die beiden Methoden des Interfaces verwendet werden, ohne weitere Methoden oder Variablen von \texttt{BoardLayout} zu kennen. 
-
+Der hier übergebene Parameter \texttt{this} verweist auf \texttt{BoardLayout}, welches das Interface \texttt{IBoardLayout} implementiert. Im Konstruktor von \texttt{Queen} muss dieses einer lokalen Variable von \texttt{IBoardLayout} zugeteilt werden. Da \texttt{Queen} nur das Interface \texttt{IBoardLayout}
+und nicht das \texttt{BoardLayout} selbst kennt, kann sie auch nur auf die beiden Methoden des Interfaces zugreifen. Sie erhält damit eine Zugriffsmöglichkeit, bzw eine Schnittstelle, um die benötigten Ressourcen zu erhalten, ohne dabei eine Abhängigkeit auf die ganze Klasse zu haben. \texttt{Queen} ist dadurch auch von der Implementierung innerhalb von \texttt{BoardLayout} abgekapselt, da bei Änderung des Codes nur die Schnittstelle, gegeben durch das Interface, angepasst werden muss. Die Dame erhält ihre Informationen also nur aus der Schnittstelle und nicht direkt von \texttt{BoardLayout}.
 \newpage
 \section{Fazit}
 \label{sec:end}

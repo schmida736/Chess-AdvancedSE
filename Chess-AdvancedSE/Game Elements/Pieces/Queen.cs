@@ -21,8 +21,6 @@ namespace Chess_AdvancedSE
             return IsStraightMoveable(from, to) | IsDiagonalMoveable(from,to);
         }
 
-       
-
         public override bool MoveIsValid(Square from, Square to)
         {
             if(IsStraightMoveable(from, to)) { return StraightMoveIsValid(from, to); }

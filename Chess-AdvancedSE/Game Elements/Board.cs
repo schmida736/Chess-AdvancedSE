@@ -29,9 +29,9 @@ namespace Chess_AdvancedSE
             {
                 if (getPieceFrom(from) == null) { return false; }
 
-                if (getPieceFrom(from).IsMoveable(from, to) && MoveDoesNotCheck(from, to)) //hehe, codesmell
+                if (getPieceFrom(from).IsMoveable(from, to) && MoveDoesNotCheck(from, to))
                 {
-                    return getPieceFrom(from).MoveIsValid(from, to); //this is the way!!!                    
+                    return getPieceFrom(from).MoveIsValid(from, to);              
                 }
             }
             return false;
