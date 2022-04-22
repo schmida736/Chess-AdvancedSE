@@ -1,15 +1,14 @@
 using Xunit;
-using Moq;
 
 namespace Chess_AdvancedSE.Tests
 {
-    public class TestBoard {
-        private Mock layout;
+    public class TestBoard
+    {
         private Player player;
 
-        public TestBoard(){
+        public TestBoard()
+        {
             player = new Player();
-            layout = new Mock<BoardLayout>();
         }
 
 
@@ -35,9 +34,9 @@ namespace Chess_AdvancedSE.Tests
         public void MoveIsValid_BlockedPath_ReturnsFalse()
         {
             // Given
-        
+
             // When
-        
+
             // Then
         }
 
@@ -45,9 +44,9 @@ namespace Chess_AdvancedSE.Tests
         public void MoveIsValid_SelfCheck_ReturnsFalse()
         {
             // Given
-        
+
             // When
-        
+
             // Then
         }
 
@@ -55,19 +54,19 @@ namespace Chess_AdvancedSE.Tests
         public void MoveIsValid_TakingOwnPiece_ReturnsFalse()
         {
             // Given
-        
+
             // When
-        
+
             // Then
         }
-        
+
         [Fact]
         public void MoveIsValid_RegularMove_ReturnsTrue()
         {
             // Given
-        
+
             // When
-        
+
             // Then
         }
 
@@ -75,9 +74,9 @@ namespace Chess_AdvancedSE.Tests
         public void MoveIsValid_MoveWithTake_IsValid()
         {
             // Given
-        
+
             // When
-        
+
             // Then
         }
 
@@ -85,9 +84,9 @@ namespace Chess_AdvancedSE.Tests
         public void MoveDoesNotCheck_RegularMove_ReturnsTrue()
         {
             // Given
-        
+
             // When
-        
+
             // Then
         }
 
@@ -95,9 +94,9 @@ namespace Chess_AdvancedSE.Tests
         public void MoveDoesNotCheck_CheckingMove_ReturnsFalse()
         {
             // Given
-        
+
             // When
-        
+
             // Then
         }
 
@@ -105,9 +104,9 @@ namespace Chess_AdvancedSE.Tests
         public void MovePiece_MovesPiece()
         {
             // Given
-        
+
             // When
-        
+
             // Then
         }
     }

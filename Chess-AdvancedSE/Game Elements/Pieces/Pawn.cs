@@ -4,7 +4,8 @@ namespace Chess_AdvancedSE
 {
     public class Pawn : Piece
     {
-        public Pawn(bool color) : base(color) {
+        public Pawn(bool color) : base(color)
+        {
             ImageSource += "p";
             if (color) { ImageSource += "l"; }
             else { ImageSource += "d"; }
@@ -18,7 +19,7 @@ namespace Chess_AdvancedSE
 
             if ((rowDifference > 0) && (rowDifference < 3) && (columnDifference == 0)) { return true; }
             if ((rowDifference == columnDifference) && (rowDifference == 1)) { return true; }
-            
+
 
             return false;
         }

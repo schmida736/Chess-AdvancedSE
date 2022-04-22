@@ -10,7 +10,8 @@ namespace Chess_AdvancedSE
             this._game = game;
         }
 
-        public bool getPlayerColor() {
+        public bool getPlayerColor()
+        {
             return _game.player.Color;
         }
 

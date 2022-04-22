@@ -10,7 +10,7 @@
         }
         public bool Color { get; private set; }
 
-        
+
     }
 
 }

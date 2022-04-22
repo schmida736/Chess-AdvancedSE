@@ -5,7 +5,8 @@ namespace Chess_AdvancedSE
     public class Queen : Piece, IDiagonal, IStraight
     {
         private IBoardLayout board;
-        public Queen(bool color, IBoardLayout board) : base(color) {
+        public Queen(bool color, IBoardLayout board) : base(color)
+        {
             ImageSource += "q";
             if (color) { ImageSource += "l"; }
             else { ImageSource += "d"; }
@@ -14,16 +15,16 @@ namespace Chess_AdvancedSE
             this.board = board;
         }
 
-        
+
 
         public override bool IsMoveable(Square from, Square to)
         {
-            return IsStraightMoveable(from, to) | IsDiagonalMoveable(from,to);
+            return IsStraightMoveable(from, to) | IsDiagonalMoveable(from, to);
         }
 
         public override bool MoveIsValid(Square from, Square to)
         {
-            if(IsStraightMoveable(from, to)) { return StraightMoveIsValid(from, to); }
+            if (IsStraightMoveable(from, to)) { return StraightMoveIsValid(from, to); }
             else { return DiagonalMoveIsValid(from, to); }
         }
 

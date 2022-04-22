@@ -49,10 +49,12 @@ namespace Chess_AdvancedSE
             int col = (int)clickPos.X / 100;
             int row = ((int)clickPos.Y / 100);
 
-            if(coords_from == null){
+            if (coords_from == null)
+            {
                 coords_from = Tuple.Create(row, col);
             }
-            else{
+            else
+            {
                 coords_to = Tuple.Create(row, col);
                 pTrans.RequestMove(coords_from, coords_to);
                 coords_from = coords_to = null;

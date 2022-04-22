@@ -5,7 +5,8 @@ namespace Chess_AdvancedSE
     public class Rook : Piece, IStraight
     {
         public IBoardLayout board;
-        public Rook(bool color, IBoardLayout board) : base(color){
+        public Rook(bool color, IBoardLayout board) : base(color)
+        {
             ImageSource += "r";
             if (color) { ImageSource += "l"; }
             else { ImageSource += "d"; }
@@ -14,7 +15,7 @@ namespace Chess_AdvancedSE
             this.board = board;
         }
 
-        
+
 
         public override bool IsMoveable(Square from, Square to)
         {
@@ -36,7 +37,7 @@ namespace Chess_AdvancedSE
             return false;
         }
 
-        
+
 
         public bool StraightMoveIsValid(Square from, Square to)
         {

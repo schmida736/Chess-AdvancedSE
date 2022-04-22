@@ -3,7 +3,8 @@
     public class King : Piece, IDiagonal, IStraight
     {
         public IBoardLayout board;
-        public King(bool color, IBoardLayout board) : base(color) {
+        public King(bool color, IBoardLayout board) : base(color)
+        {
             ImageSource += "k";
             if (color) { ImageSource += "l"; }
             else { ImageSource += "d"; }
@@ -12,7 +13,7 @@
             this.board = board;
         }
 
-        
+
 
         public override bool MoveIsValid(Square from, Square to)
         {
@@ -27,8 +28,8 @@
 
         public bool IsStraightMoveable(Square from, Square to)
         {
-            return (GetSquareDistance(to.Row, from.Row) == 1 && GetSquareDistance(to.Column, from.Column) == 0) 
-                |  (GetSquareDistance(to.Row, from.Row) == 0 && GetSquareDistance(to.Column, from.Column) == 1);
+            return (GetSquareDistance(to.Row, from.Row) == 1 && GetSquareDistance(to.Column, from.Column) == 0)
+                | (GetSquareDistance(to.Row, from.Row) == 0 && GetSquareDistance(to.Column, from.Column) == 1);
         }
 
         public bool StraightMoveIsValid(Square from, Square to)

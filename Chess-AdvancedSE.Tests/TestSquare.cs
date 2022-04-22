@@ -1,5 +1,5 @@
-using Xunit;
 using Moq;
+using Xunit;
 
 namespace Chess_AdvancedSE.Tests
 {
@@ -8,7 +8,8 @@ namespace Chess_AdvancedSE.Tests
 
         private Mock player;
 
-        public TestSquare(){
+        public TestSquare()
+        {
             player = new Mock<Player>(); //TODO: #15 Replace Player with mock @schmida736
         }
 
@@ -20,7 +21,7 @@ namespace Chess_AdvancedSE.Tests
 
             // When
             layout.SetToStartLayout(new Player());
-            
+
             // Then
             Assert.Null(layout.GetSquareFromCoords(3, 3).Piece);
         }
@@ -30,10 +31,10 @@ namespace Chess_AdvancedSE.Tests
         {
             // Given
             BoardLayout layout = new();
-            
+
             // When
             layout.SetToStartLayout(new Player(true));
-        
+
             // Then
             Assert.IsType<Rook>(layout.GetSquareFromCoords(0, 0).Piece);
         }
@@ -45,7 +46,7 @@ namespace Chess_AdvancedSE.Tests
 
             // When
             layout.SetToStartLayout(new Player(true));
-        
+
             // Then
             Assert.Equal(7, layout.GetSquareFromCoords(7, 5).Row);
             Assert.Equal(5, layout.GetSquareFromCoords(7, 5).Column);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using Moq;
+﻿using Xunit;
 
 namespace Chess_AdvancedSE.Tests
 {
@@ -28,7 +22,7 @@ namespace Chess_AdvancedSE.Tests
             // Then
             Assert.False(piece.IsMoveable(from, to));
         }
-        
+
         [Fact]
         void TestKing_IsMoveable_WalkNone_ReturnsFalse()
         {
@@ -140,7 +134,7 @@ namespace Chess_AdvancedSE.Tests
             // Then
             Assert.True(piece.IsMoveable(from, to));
         }
-        
+
         [Fact]
         void TestRook_IsMoveable_WalkSideways_ReturnsTrue()
         {
@@ -221,7 +215,7 @@ namespace Chess_AdvancedSE.Tests
             // Then
             Assert.True(piece.IsMoveable(from, to));
         }
-        
+
         [Fact]
         void TestBishop_IsMoveable_WalkDiagonalSE_ReturnsTrue()
         {

@@ -5,7 +5,8 @@ namespace Chess_AdvancedSE
     public class Bishop : Piece, IDiagonal
     {
         public IBoardLayout board;
-        public Bishop(bool color, IBoardLayout board) : base(color) {
+        public Bishop(bool color, IBoardLayout board) : base(color)
+        {
             ImageSource += "b";
             if (color) { ImageSource += "l"; }
             else { ImageSource += "d"; }

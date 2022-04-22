@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Chess_AdvancedSE
 {
@@ -20,7 +16,7 @@ namespace Chess_AdvancedSE
             this._layout = new();
         }
 
-        public List<List<Square>>GetAsList()
+        public List<List<Square>> GetAsList()
         {
             return this._layout;
         }
@@ -35,7 +31,8 @@ namespace Chess_AdvancedSE
             return _layout[row][col];
         }
 
-        public void ChangePiece(int row, int col, Piece piece){
+        public void ChangePiece(int row, int col, Piece piece)
+        {
             this._layout[row][col].Piece = piece;
         }
         public Square GetSquare(int row, int column)
@@ -89,7 +86,7 @@ namespace Chess_AdvancedSE
 
         public void SetEmptyLayout()
         {
-            List<List< Square >> startLayout = new();
+            List<List<Square>> startLayout = new();
             for (int row = 0; row < 8; row++)
             {
                 startLayout.Add(new List<Square>());

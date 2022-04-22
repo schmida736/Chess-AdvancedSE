@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +16,8 @@ namespace Chess_AdvancedSE
             //_RunTask();
         }
 
-        private void _Init(){
+        private void _Init()
+        {
             _engineProcess = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -33,7 +31,8 @@ namespace Chess_AdvancedSE
             };
         }
 
-        private void _RunTask(){
+        private void _RunTask()
+        {
             _engineProcess.Start();
             StringBuilder sb = new StringBuilder();
             var outStream = _engineProcess.StandardOutput;

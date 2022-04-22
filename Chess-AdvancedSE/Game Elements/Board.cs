@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Chess_AdvancedSE
+﻿namespace Chess_AdvancedSE
 {
-    
+
     public class Board
     {
         public BoardLayout_ViewModel viewModel = new();
@@ -19,7 +17,7 @@ namespace Chess_AdvancedSE
             viewModel.layout = layout.GetAsList();
         }
 
-        
+
 
         //TODO: #12 For the love of GOD, clean up this function @Purdbull
         public bool MoveIsValid(Square from, Square to)
@@ -31,7 +29,7 @@ namespace Chess_AdvancedSE
 
                 if (getPieceFrom(from).IsMoveable(from, to) && MoveDoesNotCheck(from, to))
                 {
-                    return getPieceFrom(from).MoveIsValid(from, to);              
+                    return getPieceFrom(from).MoveIsValid(from, to);
                 }
             }
             return false;
@@ -48,7 +46,8 @@ namespace Chess_AdvancedSE
         {
             Square fromSquare = this.layout.GetSquareFromCoords(from_row, from_col);
             Square toSquare = this.layout.GetSquareFromCoords(to_row, to_col);
-            if (MoveIsValid(fromSquare, toSquare)){
+            if (MoveIsValid(fromSquare, toSquare))
+            {
                 this.layout.ChangePiece(to_row, to_col, fromSquare.Piece);
                 this.layout.ChangePiece(from_row, from_col, null);
                 viewModel.layout = this.layout.GetAsList();

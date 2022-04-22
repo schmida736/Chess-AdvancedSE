@@ -6,7 +6,8 @@ namespace Chess_AdvancedSE
     {
 
         public IBoardLayout board;
-        public Knight(bool color, IBoardLayout board) : base(color) {
+        public Knight(bool color, IBoardLayout board) : base(color)
+        {
             ImageSource += "n";
             if (color) { ImageSource += "l"; }
             else { ImageSource += "d"; }
@@ -27,7 +28,7 @@ namespace Chess_AdvancedSE
 
         public override bool MoveIsValid(Square from, Square to)
         {
-            return to.Piece?.Color != from.Piece.Color;           
+            return to.Piece?.Color != from.Piece.Color;
         }
 
     }

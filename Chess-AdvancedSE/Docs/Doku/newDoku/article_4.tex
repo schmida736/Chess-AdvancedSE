@@ -116,7 +116,7 @@ So eine Anfrage ist von \texttt{Game} definiert (z.B. 'e5,e6' = ''Zug von e5 nac
 Wird nun eine solche Anfrage gestellt, verlangt \texttt{Game} von \texttt{Board} eine Auskunft über die Farbe der Figur, welche sich auf dem \textit{von}-Feld befindet. Stimmt diese mit der Farbe des aktuell spielenden Spielers überein, kann der Zug nach Validitätsprüfung ausgeführt werden. Anhand dessen ob \texttt{MovePiece} \texttt{true} oder \texttt{false} zurückgibt, ist der andere Spieler daraufhin am Zug, oder nicht.
 \subsection{Schicht 3: Übersetzer}
 Sollte es dazu kommen, dass die Umgebung beispielsweise zu einer Ascii-Oberfläche geändert wird, müssen ab dieser Schicht Veränderungen am Code erfolgen. Solange jedoch die Zug-Anfragen richtig gestellt werden, arbeitet der Code in den unteren Schichten immer gleich. In der 3. Schicht befindet sich ein GUI- und Engine-Translator. Diese übersetzen Züge von Spieler und Engine und geben sie für diese lesbar codiert an die zweite Schicht. 
-Solche Zug-Anfragen können völlig asynchron erfolgen. Sie führen jedoch zu nichts, falls der Zug nicht Regelkomform, oder der Spielende nicht am Zug ist.
+Solche Zug-Anfragen können völlig asynchron erfolgen. Sie führen jedoch zu nichts, falls der Zug nicht regelkomform, oder der Spielende nicht am Zug ist.
 \subsection{Schicht 4: User-Interfaces}
 Auf dieser Ebene befinden sich Interfaces für die Spieler. In unserem Fall sind das GUI und Schachengine. Die GUI wurde mit WPF gebaut. Dieses stellt mithilfe eines Databindigs auf ein Viewmodel des Board-Layouts immer den aktuellen Stand des Spiels grafisch dar. 
 Die GUI bietet die Möglichkeit, mithilfe von Mausklicks Figuren zu ziehen (z.B. erster Klick auf \textit{E2}, zweiter Klick auf \textit{E3}~~ $\Rightarrow$ \textit{E2 nach E3}). Diese Klicks werden dann an \texttt{PlayerTranslator} in Schicht 3 weitergegeben, welcher diese dann in eine für\texttt{Game} verständliche Anweisungen übersetzt.
@@ -162,7 +162,7 @@ Bei Translator wird game eingesetzt statt game direkt zu übergeben. Methoden we
 Low Coupling ist ein GRASP-Prinzip der Objektorientierten Softwarearchitektur, nach dem eine Klasse so unabhängig von ihrer Umgebung sein sollte wie möglich. Dies macht es einfacher, die Funtionsweise der Klasse nachzuvollziehen, weil man weniger Klassen verstehen muss, von denen diese eine Klasse abhängig ist. Des weiteren erzielt eine lose Kopplung einer Klasse auch eine deutlich höhere Testbarkeit, da weniger instanzen von abhängigen Klassen erstellt werden müssen, nur um eine Klasse zu testen(siehe Negativbeispiel).
 
 \subsubsection{Beispiel}
-Als Teil unserer Clean Architecture haben wir eine Architektur aufgebaut, die es den einzelnen Schichten erlaubt, unabhängig von den Elementen der über ihnen liegenden Schichten zu sein. So ist auf \autoref{pic:cleanArc} zu sehen, dass Game komplett unabhängig von PlayerTranslator und EngineTranslator ist. Es erhät ausschließlich Anweisungen per Methodenaufruf und führt diese aus. Game weiß nicht, dass es eine GUI oder eine Engine gibt, es interessiert sich nur an den von oben kommenden Befehlen. Dies bedeutet, dass Game abgekoppelt von sowohl den User-Interfaces, als auch von den Übersetzern ist.
+Durch unsere Clean Architecture haben wir eine Architektur aufgebaut, die es den einzelnen Schichten erlaubt, unabhängig von den Elementen der über ihnen liegenden Schichten zu sein. So ist auf \autoref{pic:cleanArc} zu sehen, dass Game komplett unabhängig von PlayerTranslator und EngineTranslator ist. Es erhät ausschließlich Anweisungen per Methodenaufruf und führt diese aus. Game weiß nicht, dass es eine GUI oder eine Engine gibt, es interessiert sich nur an den von oben kommenden Befehlen. Dies bedeutet, dass Game abgekoppelt von sowohl den User-Interfaces, als auch von den Übersetzern ist.
 
 \subsubsection{Negativbeispiel}
 Ein Neagtivbeispiel für Low Coupling sind bei unserer Architektur die Kopplung zwischen der Klasse Board und den Pieces. Diese müssen miteinander kommunizieren können, und brauchen daher jeweils Referenzen aufeinander. Dies führt dazu, dass die Testbarkeit von Pieces erheblich reduziert ist. Sichtbar wird dies in den Unit Tests der Pieces (TestPieces.cs). Da jedes Piece eine Referenz auf das in Board enthaltene BoardLayout braucht, muss ein solches Layout in jedem Unit Test so erzeugt werden, wie der Test es gerade braucht.
@@ -206,7 +206,7 @@ Die unter \autoref{sec:replTemp} genutzte Methode \texttt{GetSquareDistance} wir
 \subsection{pros/cons/wieso wir?}
 Tests sind eine der grundlegenden Elemente einer jeder Software-Anwendung. Ohne sie kann der korrekte Ablauf der Anwendung nicht \dots getestet werden. Unit tests verwenden wir in unserem Projekt hauptsächlich dort, wo Berechnungen auf dem Brett durgeführt werden. Diese sind nämlich erfahrungsgemäß sehr fehleranfällig, besonders für die Art von Fehlern, die sich erst durch das Erweitern einer ursprünglichen Funktion einschleichen, entstehen hier sehr schnell. So ist es zum Beispiel gut möglich dass die Bewegungen des Bauerns perfekt regelkonform umgesetzt werden, jedoch nach der zusätzlichen Einführung der \enquote{En passant}-Schlagmöglichkeit plötzlich viele Züge wieder ausführbar sind, die gar nicht erlaubt sein sollten.
 
-Für unser Projekt nutzen wir das XUnit testing Framework, welches uns ermöglicht, ohne viel Aufwand Unit Tests zu erstellen.
+Für unser Projekt nutzen wir das C\# XUnit testing Framework, welches uns ermöglicht, ohne viel Aufwand Unit Tests zu erstellen.
 XUnit tests sind nach dem folgenden Schema aufgebaut:
 \begin{lstlisting}[language=c, style=mStyle]
 public class TestClass{
@@ -247,7 +247,18 @@ Gute Tests sollen automatisch, bedeutet ohne weiteres eingreifen des Entwicklers
 An dieses Prinzip haben wir uns in sämtlichen Unit Test gehalten. Unsere Tests sind nach dem AAA(Arrange, Act, Assert)-Schema aufgebaut, bauen also zu Beginn die nötigen Abhängigkeiten auf, nehmen dann Einfluss auf diese und führen anschließend eine einzige Methode der xUnit.Assert-Klasse aus, um die Korrektheit des Endzustands zu prüfen. Unsere IDE Microsoft VisualStudio haben wir so konfiguriert, dass sämtliche Unit Tests jedes mal automatisch ausgeführt werden, nachdem der Build-Step des Projekts durchgelaufen ist.
 
 \subsubsection{Thorough}
-\colorbox{yellow}{Todo wenn alle Tests geschrieben sind}
+Tests sind \enquote{gründlich genug}, wenn jede missionskritische Eigenschaft getestet wird. Bei unserem Schachspiel sind solche missionskritischen Eigenschaften beispielsweise das korrekte und regelkomforme Verhalten der Figuren. 
+\\
+Des weiteren ist für gründliche Tests nötig, dass nach Auftreten eines Softwarefehlers ein Test geschrieben wird, der die Software auf genau diesen Fehler prüft. Damit kann man ein erneutes Auftreten des Fehlers vermeiden.
+\\
+Wie oben erwähnt ist das Testen des Verhaltens der Figuren sehr wichtig für unser Projekt. Dies hat vor allem zwei Gründe:
+Zum einen würde ein Fehlverhalten der Figuren ein Schummeln der Spieler ermöglichen, und damit wahrscheinlich deren Spielspaß vermindern. 
+Der zweite Grund ist, dass die Logik der Züge sehr komplex ist, es ist also sehr wahrscheinlich, dass sich hier Fehler ansammeln, die durch Tests gefunden werden können.
+\\
+Wir haben also besonders viel Wert auf das Testen der Piece-Familie gelegt, was daraus ersichtlich ist, dass 33 unserer 43 Unit Tests sich mit den verschiedenen Figuren beschäftigen.
+
+Man kann allerdings bei unserm Testen noch nicht von \enquote{thorough} sprechen, denn die Board-Klasse ist auch sehr wichtig, konnte aber aus Zeitgründen nicht mehr vollständig mit Unit Tests abgedeckt werden.
+
 \subsubsection{Repeatable}
 Unit Tests sollten wiederholbar sein, was bedeutet, dass sie nicht auf veränderlichen Daten aufbauen sollten. Solche veränderlichen Daten sind beispielsweise Zufallszahlen, die aktuelle Uhrzeit oder die Anzahl von Dateien im Projektordner. Diese Art von Daten haben wir natürlich konsequent vermieden.
 \subsubsection{Independent}
@@ -271,6 +282,8 @@ Unsere Unit Tests sind klein und überschaubar. Zudem ist unsere Namensgebung so
 \end{lstlisting}
 
 \subsection{Code Coverage}
+Code Coverage ist eine Metrik die angibt, wie groß der Anteil des von Tests abgedeckten Codes ist. Häufig genutze Varianten des Code Coverage sind Line Coverage und Branch Coverage
+
 \colorbox{yellow}{TODO}
 \subsection{Mocking}
 \newpage
