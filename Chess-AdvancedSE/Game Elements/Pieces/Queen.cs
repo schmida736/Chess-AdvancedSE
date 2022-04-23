@@ -132,10 +132,7 @@ namespace Chess_AdvancedSE
 
         public bool IsDiagonalMoveable(Square from, Square to)
         {
-            int rowDifference = Math.Abs(to.Row - from.Row);
-            int columnDifference = Math.Abs(to.Column - from.Column);
-
-            return (rowDifference == columnDifference);
+            return (GetSquareDistance(to.Row, from.Row) == GetSquareDistance(to.Column, from.Column) && GetSquareDistance(to.Row, from.Row) > 0);
         }
     }
 }

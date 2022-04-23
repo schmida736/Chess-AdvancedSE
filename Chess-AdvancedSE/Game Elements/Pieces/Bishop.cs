@@ -27,7 +27,7 @@ namespace Chess_AdvancedSE
 
         public bool IsDiagonalMoveable(Square from, Square to)
         {
-            return (GetSquareDistance(to.Row, from.Row) == GetSquareDistance(to.Column, from.Column));
+            return (GetSquareDistance(to.Row, from.Row) == GetSquareDistance(to.Column, from.Column) && GetSquareDistance(to.Row, from.Row) > 0);
         }
 
         public bool DiagonalMoveIsValid(Square from, Square to)
