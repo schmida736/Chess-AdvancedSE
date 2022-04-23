@@ -3,7 +3,6 @@ using System.ComponentModel;
 
 namespace Chess_AdvancedSE
 {
-    //TODO move ViewModel to GUI layer instead of Board
     public class BoardLayout_ViewModel : INotifyPropertyChanged
     {
         public BoardLayout_ViewModel()

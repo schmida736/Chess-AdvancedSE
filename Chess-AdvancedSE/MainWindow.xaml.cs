@@ -11,7 +11,7 @@ namespace Chess_AdvancedSE
         {
             InitializeComponent();
 
-            Game game = new(); ///TODO: Initalize Class Instance from Game instead of here
+            Game game = new();
             Engine engine = new(game);
             MainWindowGrid.Children.Add(new BoardControl(game));
         }

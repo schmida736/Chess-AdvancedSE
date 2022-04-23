@@ -18,8 +18,6 @@
         }
 
 
-
-        //TODO: #12 For the love of GOD, clean up this function @Purdbull
         public bool MoveIsValid(Square from, Square to)
         {
             if (from.Row == to.Row && from.Column == to.Column) { return false; }
