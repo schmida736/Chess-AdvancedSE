@@ -282,7 +282,16 @@ Unsere Unit Tests sind klein und überschaubar. Zudem ist unsere Namensgebung so
 \end{lstlisting}
 
 \subsection{Code Coverage}
-Code Coverage ist eine Metrik die angibt, wie groß der Anteil des von Tests abgedeckten Codes ist. Häufig genutze Varianten des Code Coverage sind Line Coverage und Branch Coverage
+Code Coverage ist eine Metrik die angibt, wie groß der Anteil des von Tests abgedeckten Codes ist. Häufig genutze Varianten des Code Coverage sind Line Coverage und Branch Coverage. Diese 
+
+Wir nutzen das Tool \texttt{Coverlet} für die generierung eines coverage-reports in XML-Format und das \texttt{ReportGenerator}-Tool für die generierung einer HTML-Übersicht der Ergebnisse.
+
+Diese Übersicht sieht dann folgendermaßen aus:
+\begin{figure}[ht!]
+	\includegraphics[width=\linewidth]{coveragereport}
+\end{figure}
+
+Die vollständige HTML-Übersicht kann über \href{}{diesen Link} eingesehen werden
 
 \colorbox{yellow}{TODO}
 \subsection{Mocking}
