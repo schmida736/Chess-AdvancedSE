@@ -139,7 +139,14 @@ Board nutzt nun die Methoden von BoardLayout, um Einfluss auf die Aufstellung de
 \\
 Diese Änderung ermöglicht es uns, die Schachbrett-Logik separat von der Zug und Figuren-Logik zu testen. Das vereinfacht das Erstellen der Tests und das Finden der Fehlerquelle beim Fehlschlagen eines Tests.
 \subsection{Open/Closed Principle}
-\colorbox{yellow}{Command pattern zwischen engine/Gui und Board implementieren -> befehle erweiterbar}
+Das Open/Closed Principle besagt, dass existierender Code wenn möglich
+\begin{itemize}
+	\item offen für Erweiterung
+	\item geschlossen bezüglich Veränderung
+\end{itemize}
+sein sollte.
+Das bedeutet, ein Modul sollte über klar definierte Schnittstellen einfach erweiterbar sein, jedoch an sonsten keine/sehr wenig Modifikation an bestehendem Code für eben solche Erweiterungen benötigen.
+Ein Beispiel für dieses Prinzip an unserem Code wurde durch die Schichtarchitektur geschaffen. Über einen spezifischen \texttt{Translator} kann jede beliebige Schnittstelle hinzugefügt werden, um Züge an das Game zu schicken, es ist \textsl{offen bezüglich Erweiterung}. Das Game muss dafür nicht verändert werden, es ist \textsl{geschlossen bezüglich Veränderung}. So könnte zum Beispiel die Engine-Schnittstelle durch eine weiter GUI ersetzt werden, und so das Spiel für zwei Spieler spielbar werden. Hierfür müsste nur die Engine und der EngineTranslator entfernt werden, und ein spezifischer PlayerTranslator für die neue GUI geschrieben werden, der deren Züge in das für das Game verständliche Befehle umwandelt. Dieser kann dann die nötigen Methoden von Game aufrufen, ohne dass an diesem entwas verändert werden muss.
 \subsection{Liskov' Substitution Principle}
 Das Liskov Substitution Principle(LSP) besagt, dass jede Verwendung eines Objekts einer übergeordneten Klasse durch ein beliebiges Objekt einer ihrer Unterklassen ersetzbar sein soll. Durch das ersetzen darf sich die Korrektheit des Programms nicht ändern.
 
@@ -282,19 +289,26 @@ Unsere Unit Tests sind klein und überschaubar. Zudem ist unsere Namensgebung so
 \end{lstlisting}
 
 \subsection{Code Coverage}
-Code Coverage ist eine Metrik die angibt, wie groß der Anteil des von Tests abgedeckten Codes ist. Häufig genutze Varianten des Code Coverage sind Line Coverage und Branch Coverage. Diese 
+Code Coverage ist eine Metrik die angibt, wie 
+groß der Anteil des von Tests abgedeckten Codes ist. Häufig genutze Varianten des Code Coverage sind Line Coverage und Branch Coverage.
 
 Wir nutzen das Tool \texttt{Coverlet} für die generierung eines coverage-reports in XML-Format und das \texttt{ReportGenerator}-Tool für die generierung einer HTML-Übersicht der Ergebnisse.
-
+\\
 Diese Übersicht sieht dann folgendermaßen aus:
 \begin{figure}[ht!]
 	\includegraphics[width=\linewidth]{coveragereport}
 \end{figure}
 
-Die vollständige HTML-Übersicht kann über \href{}{diesen Link} eingesehen werden
+Sowohl Line Coverage als auch Branch Coverage sind hier aufgelistet. Unter den einzelnen Einträgen kann man sich dann die Details der Codeabdeckung ansehen.
+Hier ein Beispiel:
+\begin{figure}[ht!]
+	\includegraphics[width=\linewidth]{methodcovered}
+\end{figure}
 
-\colorbox{yellow}{TODO}
-\subsection{Mocking}
+Wie man sieht, weist uns das Tool hier auf ein Problem hin: Hier ist nämlich eine lange Zeile mit mehreren Aufrufen, in der eine Abzweigung versteckt ist. Es wurde allerdings während unseren Unit Tests noch nicht überprüft, was passiert, wenn die Abzweigung ausgeführt wird, nämlich wenn das zurückgegebene \texttt{Square} \textsl{null} ist. Dies muss also in unseren Tests ergänzt werden.
+\\
+Die vollständige HTML-Übersicht kann über \href{https://github.com/schmida736/Chess-AdvancedSE/tree/main/Chess-AdvancedSE.Tests/coverage%20results}{diesen Link} eingesehen werden.
+
 \newpage
 \section{Refactoring}
 \subsection{Codesmell: Long Method und Switch-case}
