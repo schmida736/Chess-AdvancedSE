@@ -54,40 +54,40 @@ BCOR5mm, % Binding correction
 \begin{onehalfspace}
 \section{Intro}
 
-Da wir, David und Moritz, schon immer gerne Schach gegeneinander spielten um auch in Lernpausen unseren Geist nicht zu unterfordern, entschieden wir uns ein eigenes Schach zu programmieren. 
-Zudem sind wir davon überzeugt, dass Schach eine gute Grundlage für objektorientiertes Programmieren bietet, aufgrund der vielen Figuren und ihren individuellen Zügen.
+Da wir, David und Moritz, schon immer gerne Schach gegeneinander spielten, um auch in Lernpausen unseren Geist nicht zu unterfordern, entschieden wir uns ein eigenes Schach zu programmieren. 
+Zudem sind wir davon überzeugt, dass dies eine gute Grundlage für objektorientiertes Programmieren bietet, aufgrund der vielen Figuren und deren individuellen Zügen.
 
 \section{Clean-Architecture} \label{sec:cleanArc}
-Bereits vor dem Studium hat David schonmal ein Schach programmiert. Dabei handelte es sich um ca. 3000 Zeilen hochineffizienten Arduino Code. Mit diesem Projrekt wollten wir unseren früheren Ichs beweisen, wie viel eleganter wir solche Projekte in der letzten Phase unseres Studiums umsetzen können. Der erste Schritt dazu ist die Clean-Architecture.
+Bereits vor dem Studium programmierte David bereits ein Schachspiel. Dabei handelte es sich um ca. 3000 Zeilen höchst ineffizienten Arduino-Code. Mit diesem Projekt wollten wir unseren früheren Ich's beweisen, wie viel eleganter wir solche Projekte in der letzten Phase unseres Studiums umsetzen können. Der erste Schritt dazu ist die Clean-Architecture.
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width = \textwidth]{onion.pdf}
-		\caption{Übersicht über die Clean Architecture}
+		\caption{Übersicht über unsere Form der Clean-Architecture}
 		\label{pic:cleanArc}
 	\end{center}
 \end{figure}
 
 
-Zusammengefasst ermöglicht eine Clean Architecture die Veränderung der Umgebung, bzw. des Systems, ohne den eigentlichen Kern des Codes anpassen zu müssen.
-Das bedeutet, dass wir theoretisch unser Spiel um ein echtes Spielbrett mit LED's und Arduino / Raspberry - Steuerung erweitern könnten, ohne den eigentlichen Schach-Code zu verädnern.
+Zusammengefasst ermöglicht eine Clean-Architecture die Veränderung der Umgebung, bzw. des Systems, ohne den eigentlichen Kern des Codes anpassen zu müssen.
+Das bedeutet, dass wir theoretisch unser Spiel um ein echtes Spielbrett mit LED's und Arduino- oder Raspberry-Steuerung erweitern könnten, ohne den eigentlichen Schach-Code zu verändern.
 
-\autoref{pic:cleanArc} zeigt eine grafische Übersicht über unsere realisierung einer Clean Architecture. Im Folgenden werden die hier zu sehenden einzelnen Schichten detailiert erklärt.
+\autoref{pic:cleanArc} zeigt eine grafische Übersicht über unsere Realisierung einer Clean-Architecture. Im Folgenden werden die hier zu sehenden einzelnen Schichten detailiert erklärt.
 
 \newpage
 \subsection{Schicht 1: Entities}
 Die Entities bilden Kern unseres Spiels. Unabhängig von der Umgebung sind die einzelnen Figuren virtuell auf einem Feld positioniert und können umplatziert werden.
-Dadurch ergeben sich die folgenden Klassen: 
+Folgende Klassen ergeben sich aus diesem Konzept: 
 
 \begin{center}
 	\begin{itemize}
-		\item Board
-		\item Square
-		\item Piece
+		\item \texttt{Board}
+		\item \texttt{Square}
+		\item \texttt{Piece}
 	\end{itemize}
 \end{center}
 
-Ein \texttt{Board} besteht aus mehreren \texttt{Squares}, auf denen jeweils ein \texttt{Piece} stehen kann. \autoref{pic:umlEntities} zeigt alle Klassen welche unser Kern der Clean-Architektur beinhalten soll. 
+\texttt{Board} besteht aus mehreren \texttt{Squares}, auf denen jeweils ein \texttt{Piece} stehen kann. \autoref{pic:umlEntities} zeigt alle Klassen welche unser Kern der Clean-Architektur beinhalten soll. 
 \vspace{0.4cm}
 \begin{figure}[h]
 	\begin{center}
@@ -96,14 +96,14 @@ Ein \texttt{Board} besteht aus mehreren \texttt{Squares}, auf denen jeweils ein 
 	\end{center}
 \end{figure}
 
-\texttt{Board} stellt das Schachbrett dar. Dieses besteht aus 64 \texttt{Squares}. Die Methode \texttt{SetupLayout} erstellt das \texttt{Board} und besetzt einige der Felder (\texttt{Square}) mit Figuren (\texttt{Piece}) einer entsprechenden Farbe.
-Von den eigentlichen Figuren ist hier nur der König gezeigt, da die alle anderen, genau wie er, die Methode \texttt{IsMoveable} implementieren. 
-\texttt{Board} bietet drei Methoden, wobei nur eine von weiteren Schichten verwendet wird: \texttt{MovePiece}. Diese Methode überprüft mit \texttt{MoveIsValid}, ob es sich um einen validen Zug handelt. \texttt{MoveIsValid} ruft dabei die von Figuren implementierte Methode \texttt{IsMoveable} auf um zu überprüfen ob die Figur theoretisch in der Lage wäre den Zug durchzuführen.\\ 
+Ein Schachbrett setzt sich aus 64 Feldern zusammen. Die Methode \texttt{SetupLayout} erstellt das Spielbrett (\texttt{Board}) und besetzt einige der Felder (\texttt{Square}) mit Figuren (\texttt{Piece}) einer entsprechenden Farbe.
+In \autoref{pic:umlEntities} steht der König (\texttt{King}) für alle Figuren. Die anderen implementieren, genau wie er, die Methode \texttt{IsMoveable}.
+\texttt{Board} bietet drei Methoden, wobei nur \texttt{MovePiece} von weiteren Schichten verwendet wird. Diese Methode überprüft mit \texttt{MoveIsValid}, ob es sich um einen validen Zug handelt. \texttt{MoveIsValid} ruft dabei die von Figuren implementierte Methode \texttt{IsMoveable} auf um zu überprüfen ob die Figur theoretisch in der Lage wäre den Zug durchzuführen.\\ 
 Der wesentliche Unterschied zwischen \texttt{MoveIsValid} und \texttt{IsMoveable} besteht darin, dass Figuren das Board nicht kennen und auch nicht wissen wo sie sich befinden. \texttt{IsMoveable} signalisiert lediglich, ob ein Zug rein von den allgemeinen Zugmöglichkeiten der Figur möglich ist (z.B. Läufer kann nur schräg laufen). \texttt{MoveIsValid} ist eine Methode des Boards und kann somit auch situationsbedingte Auskunft über die Validität des Zuges geben. Ist die Figur \texttt{IsMoveable}, wird von \texttt{MoveIsValid} noch überprüft ob weitere Figuren im Weg stehen und der Zug sich selbst in Schach setzen würde (\texttt{MoveDoesNotCheck}). Ist alles überprüft, wird der Zug durchgeführt.
 
 \subsection{Schicht 2: Use-Case}
-Use-Cases bilden die zweite Schicht der Clean Architekture. Sie können Informationen der ersten Schicht (Entities) erhalten. Diese sind aber nicht abhängig von den Use-Cases.
-Wir haben nur einen Use-Case: Das Spiel, bzw. \texttt{Game}. Diese Klasse erstellt das Board, bzw ruft die Funktion \texttt{SetupLayout} auf, hat aber noch weitere Informationen die über das einfache Ziehen von Figuren hinausgehen:
+Use-Cases bilden die zweite Schicht der Clean Architekture. Sie können Informationen der ersten Schicht (Entities) erhalten.\\
+Wir haben nur einen Use-Case: Das Spiel, bzw. \texttt{Game}. Diese Klasse erstellt ein \texttt{Board}, bzw ruft die Funktion \texttt{SetupLayout} auf. Sie besitzt aber noch weitere Informationen die über das einfache Ziehen von Figuren hinausgehen:
 \begin{center}
 	\begin{itemize}
 		\item Spielerposition (z.B. Spieler 1 spielt unten),
@@ -111,31 +111,31 @@ Wir haben nur einen Use-Case: Das Spiel, bzw. \texttt{Game}. Diese Klasse erstel
 		\item und aktueller Spieler (z.B. Spieler 1 ist dran).
 	\end{itemize}
 \end{center}
-\texttt{Game} initialisiert \texttt{Board}, wodurch die Farbe des unten spielenden Spielers zufällig gewählt wird. Logisch betrachtet spielt für \texttt{Game} Spieler 1 in jedem Fall \textit{unten}. Da immer weiß beginnt, ist es zufällig ob Spieler 1 beginnen darf oder nicht. Welche Art von User-Interface nun Spieler 1 steuert, ist Aufgabe der dritten Schicht, welche in unserem Fall den Menschen an der Gui Spieler 1 und eine Schach-Engine Spieler 2 zuordnet. \texttt{Game} ist von dieser Information jedoch abgekapselt, da eine Zuganfrage in jedem Fall gleich definiert ist.
-So eine Anfrage ist von \texttt{Game} definiert (z.B. 'e5,e6' = ''Zug von e5 nach e6''). \\
+Beim Erstellen von \texttt{Board} wird die Farbe des unten spielenden Spielers zufällig gewählt. Logisch betrachtet spielt für \texttt{Game} Spieler 1 in jedem Fall \textit{unten}. Da immer weiß beginnt, ist es zufällig, ob Spieler 1 beginnen darf, oder nicht. Welche Art von User-Interface nun Spieler 1 steuert, ist Aufgabe der dritten Schicht, welche in unserem Fall den Menschen, spielend übe die Benutzeroberfläche, Spieler 1 und eine Schach-Engine Spieler 2 zuordnet. \texttt{Game} ist von dieser Information jedoch abgekapselt, da eine Zuganfrage in jedem Fall gleich codiert ist.
+\texttt{Game} soll die Anfragen als String (z.B. 'e5,e6' = ''Zug von e5 nach e6'') definieren. \\
 Wird nun eine solche Anfrage gestellt, verlangt \texttt{Game} von \texttt{Board} eine Auskunft über die Farbe der Figur, welche sich auf dem \textit{von}-Feld befindet. Stimmt diese mit der Farbe des aktuell spielenden Spielers überein, kann der Zug nach Validitätsprüfung ausgeführt werden. Anhand dessen ob \texttt{MovePiece} \texttt{true} oder \texttt{false} zurückgibt, ist der andere Spieler daraufhin am Zug, oder nicht.
 \subsection{Schicht 3: Übersetzer}
-Sollte es dazu kommen, dass die Umgebung beispielsweise zu einer Ascii-Oberfläche geändert wird, müssen ab dieser Schicht Veränderungen am Code erfolgen. Solange jedoch die Zug-Anfragen richtig gestellt werden, arbeitet der Code in den unteren Schichten immer gleich. In der 3. Schicht befindet sich ein GUI- und Engine-Translator. Diese übersetzen Züge von Spieler und Engine und geben sie für diese lesbar codiert an die zweite Schicht. 
+Sollte es dazu kommen, dass die Umgebung beispielsweise gegen eine Ascii-Oberfläche ausgetauscht wird, müssen ab dieser Schicht Veränderungen am Code erfolgen. Solange jedoch die Zug-Anfragen richtig gestellt werden, arbeitet der Code in den unteren Schichten immer gleich. In der dritten Schicht befindet sich ein GUI- und Engine-Translator. Diese übersetzen Züge von Benutzeroberfläche / Engine und geben sie codiert an die zweite Schicht. 
 Solche Zug-Anfragen können völlig asynchron erfolgen. Sie führen jedoch zu nichts, falls der Zug nicht regelkomform, oder der Spielende nicht am Zug ist.
 \subsection{Schicht 4: User-Interfaces}
-Auf dieser Ebene befinden sich Interfaces für die Spieler. In unserem Fall sind das GUI und Schachengine. Die GUI wurde mit WPF gebaut. Dieses stellt mithilfe eines Databindigs auf ein Viewmodel des Board-Layouts immer den aktuellen Stand des Spiels grafisch dar. 
-Die GUI bietet die Möglichkeit, mithilfe von Mausklicks Figuren zu ziehen (z.B. erster Klick auf \textit{E2}, zweiter Klick auf \textit{E3}~~ $\Rightarrow$ \textit{E2 nach E3}). Diese Klicks werden dann an \texttt{PlayerTranslator} in Schicht 3 weitergegeben, welcher diese dann in eine für\texttt{Game} verständliche Anweisungen übersetzt.
+Auf dieser Ebene befinden sich Interfaces für die Spieler. In unserem Fall sind das Benutzeroberfläche und Schachengine. Die Oberfläche wurde mit WPF gebaut. Dieses stellt mithilfe eines Databindigs auf ein Viewmodel von \texttt{Board-Layouts} immer den aktuellen Stand des Spiels grafisch dar. 
+Dabei ist die Möglichkeit geboten, mithilfe von Mausklicks Figuren zu ziehen (z.B. erster Klick auf \textit{E2}, zweiter Klick auf \textit{E3}~~ $\Rightarrow$ \textit{E2 nach E3}). Diese Klicks werden dann an \texttt{PlayerTranslator} in der dritten Schicht weitergegeben, welcher diese dann in eine für \texttt{Game} verständliche Anweisungen übersetzt.
 
-Die Einbindung der Engine funktioniert ähnlich, nämlich über \texttt{EngineTranslator}, der die Schnittstelle zwischen \texttt{Game} und der Engine ist. Der größte Unterschied ist hier, dass die Engine als eine externe Kommandozeilenanwendung realisiert ist und daher erst einmal in unsere C\#-Anwendung eingebunden werden muss.
+Die Einbindung der Engine funktioniert ähnlich, nämlich über \texttt{EngineTranslator}, welcher als Schnittstelle zwischen \texttt{Game} und Engine dient. Der größte Unterschied ist hier, dass die Engine als eine externe Kommandozeilenanwendung realisiert ist und daher erst einmal in unsere C\#-Anwendung eingebunden werden muss.
 Hierfür wird eine Instanz einer Engine-Klasse erstellt, welche den tatsächlichen Engine-Pozess startet und sich um sämtliche Kommunikation zwischen dem Engine-Prozess und dem \texttt{EngineTranslator} kümmert. Vom EngineTranslator wird hier regelmäßig das aktuelle Layout des Boards abgefragt. Dieses wird dann an die Engine weitergeleitet, welche daraufhin den nächsten besten Zug berechnet. Dieser berechnete Zug wird dann an den Translator zurückgegeben, welcher diesen dann übersetzt und an das Spiel weitergibt.
 \newpage
 \section{Programmierprinzipien}
-Programmierprinzipien sind allgemeine, kontextunabhängige Regeln die als Grundlage für das Vorgehen in oft wiederkehrenden Situationen während der Programmierung dienen sollen.
+Programmierprinzipien sind allgemeine, kontextunabhängige Regeln, die als Grundlage für das Vorgehen in oft wiederkehrenden Situationen während der Programmierung dienen sollen.\\
 In diesem Kaptitel betrachten wir einige Prinzipien und zeigen, wie wir sie in unserem Projekt umgesetzt haben.
 \subsection{Single Resposibility Principle}
 Das Single Resposibility Principle(SRP) besagt, dass eine Klasse immer nur einen Grund zur Veränderung haben darf. Dies bedeutet, dass jede Klasse sich auf eine klar abgegrenzte Tätigkeit beschränken sollte. 
 \\
-Durch Befolgung des SRP soll verhindert werden, dass riesige \enquote{alleskönner}-Klassen entstehen, die bei jeder Veränderung (z.B der externen Abhängigkeiten) komplett überarbeitet werden muss. Schlimmer noch kann bei Nichtbefolgung passieren, dass sich unbemerkt Zuständigkeitsüberlappungen zwischen mehreren Klassen bilden. Bei Veränderung muss dann nicht nur eine Klasse sondern gleich mehrere überarbeitet werden.
+Durch Befolgung des SRP soll verhindert werden, dass riesige \enquote{alleskönner}-Klassen entstehen, die bei jeder Veränderung (z.B der externen Abhängigkeiten) komplett überarbeitet werden müssen. Schlimmer noch kann bei Nichtbefolgung passieren, dass sich unbemerkt Zuständigkeitsüberlappungen zwischen mehreren Klassen bilden. Bei Veränderung müssen dann nicht nur eine Klasse sondern gleich mehrere überarbeitet werden.
 \\
-Ein Beispiel für die Einhaltung des SRP in unserem Projekt findet sich in unserer Aufteilung von Board und BoardLayout. Hier übernimmt die Klasse Board die sämtliche Aufgaben, die mit Zugbefehlen und der Koordinierung der Schachfiguren zu tun haben. BoardLayout hingegen speichert und nimmt Einfluss auf die Aufstellung des Schachbretts.
+Ein Beispiel für die Einhaltung des SRP in unserem Projekt findet sich in unserer Aufteilung von Board und BoardLayout. Hier übernimmt die Klasse \texttt{Board} sämtliche Aufgaben, die mit Zugbefehlen und der Koordinierung der Schachfiguren zu tun haben. BoardLayout hingegen speichert und beeinflusst die Aufstellung des Schachbretts.
 \\
-BoardLayout war ursprünglich teil der Board-Klasse, doch als die Klasse begann, immer größer zu werden und immer mehr Funktionalität in sich zu vereinen, beschlossen wir sie in zwei Klassen aufzuteilen.
-Board nutzt nun die Methoden von BoardLayout, um Einfluss auf die Aufstellung des Schachbretts zu nehmen.
+BoardLayout war ursprünglich Teil der Board-Klasse, doch als die Klasse begann immer größer zu werden und immer mehr Funktionalität in sich zu vereinen, beschlossen wir sie in zwei Klassen aufzuteilen.
+\texttt{Board} nutzt nun die Methoden von \texttt{BoardLayout}, um Einfluss auf die Aufstellung des Schachbretts zu nehmen.
 \\
 Diese Änderung ermöglicht es uns, die Schachbrett-Logik separat von der Zug und Figuren-Logik zu testen. Das vereinfacht das Erstellen der Tests und das Finden der Fehlerquelle beim Fehlschlagen eines Tests.
 \subsection{Open/Closed Principle}
@@ -161,7 +161,7 @@ Wir halten uns überall, wo wir in unserem Projekt Vererbung einsetzen, an das L
 \end{figure}
 
 \subsection{Interface Segregation Principle}
-Schon bei Beginn des Projekts war geplant, Interfaces für die Züge einzelner Figuren einzusetzen. Da jede Figur zur Zugvalidierung die Methoden \texttt{IsMoveable} und \texttt{MoveIsValid} besitzt, wäre hierfür ein Interface, welches diese Methodenb vordefiniert die richtige Wahl. Der erste Gedanke war ein Interface namens \texttt{IMoveable}, welches die oben genannten Methoden definiert. Jede Figur könnte so beide Methoden individuell implementieren. Dabei wäre aber das Interface Segregation Principle verletzt, da das Interface somit für alle möglichen Zugarten zuständig wäre. Eine Figur die schräg zieht, implementierte somit die gleichen Methoden wie ein Geradezieher. Daher haben wir das Interface in \texttt{IStraight} für gerade und \texttt{IDiagonal} für schräge Züge aufgeteilt. In \autoref{pic:MoveInterfaces} ist diese aufteilung zu sehen. Ein König würde ebenfalls sowohl \texttt{IStraight}, als auch \texttt{IDiagonal} implementieren. In seinem Fall jedoch im Gegensatz zur Dame nur mit einer maximalen Zuglänge von $1$.
+Schon bei Beginn des Projekts war geplant, Interfaces für die Züge einzelner Figuren einzusetzen. Da jede Figur zur Zugvalidierung die Methoden \texttt{IsMoveable} und \texttt{MoveIsValid} besitzt, wäre hierfür ein Interface, welches diese Methoden vordefiniert die richtige Wahl. Der erste Gedanke war ein Interface namens \texttt{IMoveable}, welches die oben genannten Methoden definiert. Jede Figur könnte so beide Methoden individuell implementieren. Dabei wäre aber das Interface Segregation Principle verletzt, da das Interface somit für alle möglichen Zugarten zuständig wäre. Eine Figur die schräg zieht, implementierte somit die gleichen Methoden wie ein Geradezieher. Daher haben wir das Interface in \texttt{IStraight} für gerade und \texttt{IDiagonal} für schräge Züge aufgeteilt. In \autoref{pic:MoveInterfaces} ist diese aufteilung zu sehen. Ein König würde ebenfalls sowohl \texttt{IStraight}, als auch \texttt{IDiagonal} implementieren. In seinem Fall jedoch im Gegensatz zur Dame nur mit einer maximalen Zuglänge von $1$.
 
 \subsection{Dependency Inversion Principle}
 Bei Translator wird game eingesetzt statt game direkt zu übergeben. Methoden werden dann auf Translator angewendet.
@@ -175,7 +175,7 @@ Durch unsere Clean Architecture haben wir eine Architektur aufgebaut, die es den
 Ein Neagtivbeispiel für Low Coupling sind bei unserer Architektur die Kopplung zwischen der Klasse Board und den Pieces. Diese müssen miteinander kommunizieren können, und brauchen daher jeweils Referenzen aufeinander. Dies führt dazu, dass die Testbarkeit von Pieces erheblich reduziert ist. Sichtbar wird dies in den Unit Tests der Pieces (TestPieces.cs). Da jedes Piece eine Referenz auf das in Board enthaltene BoardLayout braucht, muss ein solches Layout in jedem Unit Test so erzeugt werden, wie der Test es gerade braucht.
 
 \subsection{High Cohesion}
-Kohäsion ist ein Maß für den inneren zusammenhalt einer Klasse. Auch hier möchten wir ihnen zeigen dass wir das Prinzip verstanden haben, indem wir ein Positiv- und Negativbeispiel darstellen. Beide dieser Beispiele befinden sich ergeben sich aus der Klasse \texttt{Bishop}. Die klasse mit farblichen markierungen zur besseren Kohäsionsdarstellung ist in \autoref{pic:koh} gezeigt.
+Kohäsion ist ein Maß für den inneren Zusammenhalt einer Klasse. Hierbei möchten wir Ihnen zeigen, dass wir das Prinzip verstanden haben, indem wir ein Positiv- und Negativbeispiel darstellen. Beide dieser Beispiele befinden sich in der Klasse \texttt{Bishop}. Die Klasse, mit farblichen Markierungen zur besseren Kohäsionsdarstellung, ist in \autoref{pic:koh} gezeigt.
 
 \begin{figure}[h]
 	\begin{center}
@@ -184,14 +184,14 @@ Kohäsion ist ein Maß für den inneren zusammenhalt einer Klasse. Auch hier mö
 	\end{center}
 \end{figure}
 
-Blau markiert sind in diesem Beispiel Deklaration und Einsatz von \texttt{board}. Es wird verwendet um Züge zu validieren. Daher kommen die blauen Kringel neben den Methoden, wo die Variable verwendet wird. Die jeweils rot und grün markierten Methoden arbeiten zusammen. Innerhalb der Klasse sind sie zwar syntaktisch nicht verbunden, sie dienen aber semantisch dem gleichen Zweck. Dies ist in \autoref{pic:koh} durch den gelben Kringel verdeutlicht. Eine Methode welche \texttt{IsMoveable $\&\&$ MoveIsValid} als bool zurückgibt, gäbe eine fast vollständige Zugvalidierung zurück. Da jedoch noch andere Sachen wie beispielsweise das in Schachsetzen dabei eine Rolle spielen, ist dieser zusammenhalt in der Klasse \texttt{Board} und nicht hier aufgeführt. 
+Blau markiert sind in diesem Beispiel Deklaration und Einsatz von \texttt{board}. Es wird verwendet, um Züge zu validieren. Daher kommen auch die blauen Kringel neben den Methoden, wo die Variable verwendet wird. Die jeweils rot und grün markierten Methoden arbeiten zusammen. Innerhalb der Klasse sind sie zwar syntaktisch nicht verbunden, sie dienen aber semantisch dem gleichen Zweck. Dies ist in \autoref{pic:koh} durch den gelben Kringel verdeutlicht. Eine Methode welche \texttt{IsMoveable $\&\&$ MoveIsValid} als bool zurückgibt, gäbe eine fast vollständige Zugvalidierung zurück. Da jedoch noch andere Sachen wie beispielsweise das in Schachsetzen dabei eine Rolle spielen, ist dieser Zusammenhalt in der Klasse \texttt{Board} und nicht hier aufgeführt. 
 Negativ zu bemerken sind die nicht-markierten Zeilen im Konstruktor der Klasse. Hierbei wird eine Bildquelle festgelegt, die jedoch mit dem Rest der Klasse nichts zu tun hat. Wäre dies abgekapselt, würde die Klasse eine extrem hohe Kohäsion nachweisen können.
 
 
 
 
 \subsection{DRY (Don't Repeat Yourself)}
-Um ihnen zu zeigen, dass wir dieses Prinzip verstanden haben, sind im Folgenden sowohl ein Positiv- als auch ein Negativbeispiel dessen aufgezeigt. 
+Im Folgenden sind auch bei diesem Prinzip sowohl ein Positiv- als auch ein Negativbeispiel für DRY aufgezeigt. 
 
 \subsubsection{Negativbeispiel}
 Eine Übersicht über die hier zur Darstellung verwendeten Klassen und Interfaces ist in \autoref{pic:MoveInterfaces} gezeigt.
@@ -203,11 +203,11 @@ Eine Übersicht über die hier zur Darstellung verwendeten Klassen und Interface
 	\end{center}
 \end{figure}
 
-Dame, Läufer und Turm sind in ihrem Handlungsspielraum recht ähnlich. Ein Läufer kann nur schräg, ein Turm nur geradeaus ziehen. Eine Dame beherrscht beide dieser Zugarten. In unserem Code haben wir ein Interface für sowohl gerade, als auch schräge Züge. Die oben genannten drei Figuren implementieren jeweils die zugspezifischen Methoden für IsMoveable und MoveIsValid. 
-Eine Implementierung der Methode \texttt{StraightMoveIsValid} des Turms findet sich $1:1$ bei der Dame wieder. Die Methode der Dame kopiert zudem auch die Methoden zur schrägen Zugvalidierung welche auch im Läufer zu finden sind. Dadurch sind die Methoden für schräges und gerades Laufen doppelt ohne Unterschied implementiert.
+Dame, Läufer und Turm sind in ihrem Handlungsspielraum recht ähnlich. Ein Läufer kann nur schräg, ein Turm nur geradeaus ziehen. Eine Dame beherrscht beide dieser Zugarten. In unserem Code haben wir ein Interface für sowohl gerade, als auch schräge Züge. Die oben genannten drei Figuren implementieren jeweils die zugspezifischen Methoden für \texttt{IsMoveable} und \texttt{MoveIsValid}. 
+Eine Implementierung der Methode \texttt{StraightMoveIsValid} des Turms findet sich $1:1$ bei der Dame wieder. \texttt{Queen} kopiert zudem auch die Methoden zur schrägen Zugvalidierung welche auch im Läufer zu finden sind. Dadurch sind die Methoden für schräges und gerades Laufen doppelt ohne Unterschied implementiert. Eine komplexere Klassenhierarchie für die einzelnen Figuren hätte hier Abhilfe schaffen können. Dadurch wären die besagten Methoden an einem zentralen Punkt vorgegeben und werden von einzelnen Figuren nur geerbt, ohne dass sie hier doppelt zu implementieren sind.
 
 \subsubsection{Positivbeispiel}
-Die unter \autoref{sec:replTemp} genutzte Methode \texttt{GetSquareDistance} wird von fast jeder Figur verwendet. Anstatt diese jeweils innerhalb einer Figurenklasse wie \texttt{Queen} zu platzieren, wird die Methode von \texttt{Piece} implementiert. Da alle Figuren von \texttt{Piece} erben, können sie auf die Methode zugreifen, welche jedoch so nur ein einziges Mal im Code ausprogrammiert ist. Dadurch ist, wenn auch nur anhand einer sehr simplem Methode, \textit{DRY} umgesetzt.
+Die unter \autoref{sec:replTemp} genutzte Methode \texttt{GetSquareDistance} wird von fast jeder Figur verwendet. Anstatt diese jeweils innerhalb einer Figurenklasse wie \texttt{Queen} zu platzieren, wird die Methode von \texttt{Piece} implementiert. Da alle Figuren von \texttt{Piece} erben, können sie auf die Methode zugreifen, welche jedoch so nur ein einziges Mal im Code ausprogrammiert ist. Dadurch ist, wenn auch nur anhand einer simplem Methode, \textit{DRY} richtig dargestellt.
 \newpage
 \section{Unit Testing}
 \subsection{pros/cons/wieso wir?}
@@ -312,17 +312,17 @@ Die vollständige HTML-Übersicht kann über \href{https://github.com/schmida736
 \newpage
 \section{Refactoring}
 \subsection{Codesmell: Long Method und Switch-case}
-Einer früheren Version des Codes war eine Methode zu entnehmen, welche gleich zwei übel riechende Codesmells aufwies. Zum einen war die Methode sehr lang, zum anderen streckte sich ein großes Switch-Case über die gesamte länge. Die Rede ist von jener Methode, welche festetellen soll ob ein Zug valide ist oder nicht. Zur Validierung muss ein Zug von einem Startfeld zu einem Zielfeld die folgenden Voraussetzungen erfüllen:
+Einer früheren Version des Codes war eine Methode zu entnehmen, welche gleich zwei übel riechende Codesmells aufwies. Zum einen war die Methode sehr lang, zum anderen erstreckte sich ein großes Switch-Case über fast die gesamte Länge. Die Rede ist von jener Methode, welche festetellen soll, ob ein Zug valide ist, oder nicht. Zur Validierung muss ein Zug von einem Startfeld zu einem Zielfeld die folgenden Voraussetzungen erfüllen:
 \begin{center}
 	\begin{itemize}
-		\item Das Zielfeld ein anderes als das Startfeld.
+		\item Das Zielfeld ist ein anderes als das Startfeld.
 		\item Auf dem Startfeld steht eine Figur.
 		\item Die Figur kann tatsächlich so ziehen.
 		\item Der Zug würde das eigene Team nicht in Schach setzen.
 		\item Der Zug darf so ausgeführt werden (d.h. es sind keine Figuren im Weg und am Ziel befindet sich keine Figur der eigenen Mannschaft).
 	\end{itemize}
 \end{center}
-Ist eine dieser Anforderungen nicht erfüllt, wird der Zug als nicht valide gewertet. Wie bereits unter Clean-Architecture erwähnt, kann das Board situationsbedingte Aussagen treffen, die Figur nur über die theoretische Ausführung des Zuges. Dadurch ergab sich, dass die theoretische Ausführung eines Zuges polymorph gelöst und die situationsbedingte innerhalb von \texttt{MoveIsValid} evaluiert wurde. 
+Ist eine dieser Anforderungen nicht erfüllt, wird der Zug als nicht valide gewertet. Wie bereits unter Clean-Architecture erwähnt, kann das Board situationsbedingte, die Figur hingegen nur über die theoretische Ausführung des Zuges Aussagen treffen. Dadurch ergab sich, dass die theoretische Ausführung eines Zuges polymorph innerhalb der Figuren und die situationsbedingte innerhalb von \texttt{MoveIsValid} evaluiert wurde. 
 \vspace{0.5cm}
 
 \begin{lstlisting}[language=c, style=mStyle]
@@ -354,12 +354,12 @@ public bool MoveIsValid(Square from, Square to)
 		   if (layout.GetAsList()[from.Row][i].Piece != null) { return false; }
 		  
 \end{lstlisting}
-In dem oben aufgeführten Code-Ausschnitt ist zu sehen, wie met der Methode \texttt{movingPiece.IsMoveable(from, to)} die polymorphe Validierung erfolgt, wonach das große Switch-Case gestartet wird. Hierbei ist nur ein kleiner Teil der Validierung für den Fall einer Dame aufgeführt, um die Größe  und insbesondere den hohen Einrückgrad der Methode zu betonen. \\
+In dem oben aufgeführten Code-Ausschnitt ist zu sehen, wie mit der Methode \texttt{movingPiece.IsMoveable(from, to)} die polymorphe Validierung erfolgt, wonach das große Switch-Case gestartet wird. Hierbei ist nur ein kleiner Teil der Validierung für den Fall einer Dame aufgeführt, um die Größe  und insbesondere den hohen Einrückgrad der Methode zu betonen. \\
 Das Switch-Case über den Instanztyp der Figur soll nun ebenfalls durch einen Polymorphen Methodenaufruf eleminiert werden. 
 
 \subsection{Refactoring: Replace Conditional with Polymorphism}
-Das Problem bei einem polymorphen Methodenaufruf hierbei ist, dass die Figur selbst keine Ahnung hat wo sich andere Figuren befinden. Diese Information ist dem Board vorbehalten. Eine Simple Lösung wäre sicherlich, das Board jeder Figur als Übergabeparameter zu geben, dabei geht jedoch die Sinnhaftigkeit der Logik verloren. Dependency Injection schafft heirbei Abhilfe. Es wird ermöglicht, von den Figuren aus Infos über einzelne Felder zu erfragen. Anstatt dass das Board für jedes, sich auf einem Zugpfad befindendes, Feld überprüft ob eine Figur im Weg steht, soll nun die Figur für jedes Feld erfragen, ob eine andere im Weg steht. Die Figur hat also keine Informationen über das Board, sondern nur einen Weg essenzielle Informationen zu erfragen. Genauere Eklärung dazu ist unter \autoref{sec:depInjec} zu lesen. Innerhalb einer Figurenklasse kann nun über die lokale Varialbe \texttt{board<IBoardLayout>} mit dem Aufruf von  \texttt{board.GetPiece(Square)} das Piece welches sich im BoardLayout auf dem benannten Square befindet abgerufen werden, ohne dass die Dame weitgehende Informationen über das Board besitzt.
-Infolge dessen implementiert nun jede Figur die Methode \texttt{MoveIsValid(from, to)}. Im folgenden ist die Implementierung von \texttt{MoveIsValid} des Königs gezeigt.
+Das Problem bei einem polymorphen Methodenaufruf hierbei ist, dass die Figur keinen Schimmer davon hat, wo sich andere Figuren befinden. Diese Information ist \texttt{Board} vorbehalten. Eine Simple Lösung wäre sicherlich, \texttt{Board} jeder Figur als Übergabeparameter zu geben Dabei würde jedoch die Sinnhaftigkeit der Logik verloren gehen. Dependency Injection schafft heirbei Abhilfe. Es wird ermöglicht, von den Figuren aus, Infos über einzelne Felder zu erfragen. Anstatt dass das Board für jedes, sich auf einem Zugpfad befindendes, Feld überprüft ob eine Figur im Weg steht, soll nun die Figur für jedes Feld erfragen, ob eine andere im Weg steht. Die Figur hat also keine Informationen über das Board, sondern nur einen Weg essenzielle Informationen zu erfragen. Eine detailierte Eklärung dazu ist unter \autoref{sec:depInjec} zu Lesen. Innerhalb einer Figurenklasse kann nun über die lokale Varialbe \texttt{board<IBoardLayout>} mit dem Aufruf von  \texttt{board.GetPiece(Square)} das Piece, welches sich im \texttt{BoardLayout} auf dem benannten \texttt{Square} befindet abgerufen werden, ohne dass die Dame weitgehende Informationen über das \texttt{Board} besitzt.
+Infolge dessen implementiert nun jede Figur die Methode \texttt{MoveIsValid(from, to)}. Im Folgenden ist die Implementierung von \texttt{MoveIsValid} des Königs gezeigt.
 
 \begin{lstlisting}[language=c, style=mStyle]
 public override bool MoveIsValid(Square from, Square to)
@@ -368,7 +368,7 @@ public override bool MoveIsValid(Square from, Square to)
 }
 \end{lstlisting}
 
-Hierbei wird überprüft, ob sich auf dem Zielfeld eine Figur des eigenen Teams befindet. ist dies der Fall, darf der Zug nicht ausgeführt werden.\\
+Hierbei wird überprüft, ob sich auf dem Zielfeld eine Figur des eigenen Teams befindet. Ist dies der Fall, darf der Zug nicht ausgeführt werden.\\
 Innerhalb der Board-Klasse wird nun das riesige Switchcase durch den einfachen Methodenaufruf \texttt{movingPiece.MoveIsValid(from, to);} ersetzt.
 
 \subsection{Refactoring: Replace Temp with Query}
@@ -402,7 +402,7 @@ Innerhalb der Beispielmethode der Dame wird in dem Fall jeder Speicherzugriff vo
 
 \subsection{Dependency Injection}
 \label{sec:depInjec}
-Bei Dependency Injection wird eine Abhängigkeit in eine Klasse, bzw. dessen Objekt injeziert. In unserem Fall injeziert \texttt{BoardLayout} eine Abhängigkeit auf Pieces und Squares in die einzelnen Figuren, da diese Informationen benötigt werden um Züge zu validieren. Die von uns verwendete Form von Dependency Injection ist die Constructor Injection. Hierbei wird die Abhängigkeit bereits im Konstruktor der abhängigen Klasse injeziert. Wir haben uns dafür entschieden, da die abhängige Klasse (z.B. \texttt{Queen}) von jener Klasse abhängig ist, welche sie erstellt (\texttt{BoardLayout}). So kann direkt bei der Erstellung die Abhängigkeit mitgegeben werden. \autoref{pic:DependencyInjection} zeigt ein UML-Diagramm, welches Dependency Injection in unserem Code grafisch darfstellt.
+Bei Dependency Injection wird eine Abhängigkeit in eine Klasse, bzw. dessen Objekt injeziert. In unserem Fall injeziert \texttt{BoardLayout} eine Abhängigkeit auf \texttt{Pieces} und \texttt{Squares} in die einzelnen Figuren, da diese Informationen benötigt werden, um Züge zu validieren. Die von uns verwendete Form von Dependency Injection ist die Constructor Injection. Hierbei wird die Abhängigkeit bereits im Konstruktor der abhängigen Klasse injeziert. Wir haben uns dafür entschieden, da die abhängige Klasse (z.B. \texttt{Queen}) von jener Klasse abhängig ist, welche sie erstellt (\texttt{BoardLayout}). So kann direkt bei der Erstellung die Abhängigkeit übergeben werden. \autoref{pic:DependencyInjection} zeigt ein UML-Diagramm, welches Dependency Injection aus unserem Code grafisch darfstellt.
 
 \begin{figure}[h]
 	\begin{center}
@@ -411,7 +411,7 @@ Bei Dependency Injection wird eine Abhängigkeit in eine Klasse, bzw. dessen Obj
 	\end{center}
 \end{figure}
 
-\texttt{Boardlayout} implementiert die beiden Methoden \texttt{GetSquare} und \texttt{GetPiece} des Interfaces \texttt{IBoardLayout}. Wie der Namensgebung zu entnehmen ist, geben die Methoden ein Piece oder Square zurück. \\
+\texttt{Boardlayout} implementiert die beiden Methoden \texttt{GetSquare} und \texttt{GetPiece} des Interfaces \texttt{IBoardLayout}. Wie der Namensgebung zu entnehmen ist, geben die Methoden ein \texttt{Piece} oder \texttt{Square} zurück. \\
 Einzelne Figuren benötigen ein Objekt von \texttt{IBoardLayout}, welches im Konstruktor übergeben wird. Erzeugt nun das BoardLayout eine Dame, muss ein Verweis auf ein \texttt{IBoardLayout} übergeben werden. Eine Erzeugung sieht wie folgt aus:
 
 \begin{lstlisting}[language=c, style=mStyle]
@@ -419,7 +419,7 @@ startLayout[0][0].Piece = new Queen(player.Color, this);
 \end{lstlisting}
 
 Der hier übergebene Parameter \texttt{this} verweist auf \texttt{BoardLayout}, welches das Interface \texttt{IBoardLayout} implementiert. Im Konstruktor von \texttt{Queen} muss dieses einer lokalen Variable von \texttt{IBoardLayout} zugeteilt werden. Da \texttt{Queen} nur das Interface \texttt{IBoardLayout}
-und nicht das \texttt{BoardLayout} selbst kennt, kann sie auch nur auf die beiden Methoden des Interfaces zugreifen. Sie erhält damit eine Zugriffsmöglichkeit, bzw eine Schnittstelle, um die benötigten Ressourcen zu erhalten, ohne dabei eine Abhängigkeit auf die ganze Klasse zu haben. \texttt{Queen} ist dadurch auch von der Implementierung innerhalb von \texttt{BoardLayout} abgekapselt, da bei Änderung des Codes nur die Schnittstelle, gegeben durch das Interface, angepasst werden muss. Die Dame erhält ihre Informationen also nur aus der Schnittstelle und nicht direkt von \texttt{BoardLayout}.
+und nicht das \texttt{BoardLayout} selbst kennt, kann sie auch nur auf die beiden Methoden des Interfaces zugreifen. Sie erhält damit lediglich eine Zugriffsmöglichkeit, bzw eine Schnittstelle, um die benötigten Ressourcen zu erhalten, ohne dabei eine Abhängigkeit auf die ganze Klasse zu haben. \texttt{Queen} ist dadurch auch von der Implementierung innerhalb von \texttt{BoardLayout} abgekapselt, da bei Änderung des Codes nur die Schnittstelle, gegeben durch das Interface, angepasst werden muss. Die Dame erhält ihre Informationen also nur aus der Schnittstelle und nicht direkt von \texttt{BoardLayout}.
 \newpage
 \section{Fazit}
 \label{sec:end}
