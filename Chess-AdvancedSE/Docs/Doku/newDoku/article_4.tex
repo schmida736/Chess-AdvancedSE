@@ -156,9 +156,10 @@ Dies setzt voraus, das jede Subklasse sich so verhält wie ihre Superklasse. Ein
 Wir halten uns überall, wo wir in unserem Projekt Vererbung einsetzen, an das LSP. Unsere Figurenhierarchie basiert sogar darauf, dass wir die Funktion der allgemeinen Oberklasse \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Piece.cs}{Piece} in ihren Unterklassen erweitern. Wir benutzen \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Piece.cs}{Piece} oft als eine verallgemeinerung der verschiedenen Figuren und durch polymorphe Aufrufe zur Laufzeit werden dann die Methoden der konkreten Figuren aufgerufen. \autoref{fig:be2bb473-a08a-4816-9d19-355c2e271155} ist ein Beispiel, in dem ein als \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Piece.cs}{Piece} deklariertes Objekt zur Laufzeit eine Instanz einer ihrer Unterklassen zugewiesen wird und anschließend durch Laufzeitpolymorphie eine Methode dieser unterklasse ausgeführt wird.
 
 \begin{figure}[ht]
-	\includegraphics[width=\linewidth]{example-image-a}
-	\caption[captionInLOF(for acronyms)]{captionInLOF(for acronyms)}
-	\label{fig:be2bb473-a08a-4816-9d19-355c2e271155}
+	\centering
+	\includegraphics[width=0.5\linewidth]{Diagonal_Straight.png}
+	\caption[Interface Segregation auf Queen]{Interface Segregation auf Queen}
+	\label{fig:int_seg}
 \end{figure}
 
 \subsection{Interface Segregation Principle}
