@@ -169,7 +169,7 @@ Schon bei Beginn des Projekts war geplant, Interfaces für die Züge einzelner F
 \label{sec:depin}
 Das Dependency Inversion Principle(DIP) ist das letzte der 5 SOLID-Prinzipien. Es ist das Prinzip der Entkopplung und besagt, dass Abstaktionen nicht von Details abhängen sollten, sondern umgekehrt. Daraus folgt für eine Software-Architektur, die den SOLID-Prinzipien folgt, dass ihre Module hoher Ebenen nicht abhängig von Modulen niedriger Ebenen sein sollen.
 Wir haben das DIP in der verbindung zwischen \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Game.cs}{Game} und den Translators angwendet, da die sie sich in einer höheren Ebene befinden als \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Game.cs}{Game}, aber mit ihm kommunizieren können müssen.
-Um zu vermeiden, eine direkte Referenz auf \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Game.cs}{Game} Beispielsweise in PlayerTranslator verwenden zu müssen und damit von der konkreten Umsetzung von \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Game.cs}{Game} abhängig zu sein, haben wir die für den Translator wichtigen Schnittstellen in ein I\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Game.cs}{Game} Interface ausgelagert. PlayerTranslator agiert nun auf diesen Schnittstellen, kennt aber nicht die genaue Implementierung von \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Game.cs}{Game} und ist daher nicht darauf angewiesen, dass diese unverändert bleiben.
+Um zu vermeiden, eine direkte Referenz auf \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Game.cs}{Game} Beispielsweise in PlayerTranslator verwenden zu müssen und damit von der konkreten Umsetzung von \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Game.cs}{Game} abhängig zu sein, haben wir die für den Translator wichtigen Schnittstellen in ein IGame Interface ausgelagert. PlayerTranslator agiert nun auf diesen Schnittstellen, kennt aber nicht die genaue Implementierung von \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Game.cs}{Game} und ist daher nicht darauf angewiesen, dass diese unverändert bleiben.
 \subsection{Low Coupling}
 Low Coupling ist ein GRASP-Prinzip der Objektorientierten Softwarearchitektur, nach dem eine Klasse so unabhängig von ihrer Umgebung sein sollte wie möglich. Dies macht es einfacher, die Funtionsweise der Klasse nachzuvollziehen, weil man weniger Klassen verstehen muss, von denen diese eine Klasse abhängig ist. Des weiteren erzielt eine lose Kopplung einer Klasse auch eine deutlich höhere Testbarkeit, da weniger instanzen von abhängigen Klassen erstellt werden müssen, nur um eine Klasse zu testen(siehe Negativbeispiel).
 
@@ -283,13 +283,13 @@ Unsere Unit Tests sind klein und überschaubar. Zudem ist unsere Namensgebung so
 	public void GetSquareFromCoords_ReturnedSquare_IsEmpty()
 	{
 		// Given
-		\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/BoardLayout.cs}{BoardLayout} layout = new();
+		BoardLayout layout = new();
 
 		// When
-		layout.SetToStartLayout(new \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Player.cs}{Player}());
+		layout.SetToStartLayout(new Player());
 		
 		// Then
-		Assert.Null(layout.GetSquareFromCoords(3, 3).\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Piece.cs}{Piece});
+		Assert.Null(layout.GetSquareFromCoords(3, 3).Piece);
 	}
 \end{lstlisting}
 
@@ -331,20 +331,20 @@ Ist eine dieser Anforderungen nicht erfüllt, wird der Zug als nicht valide gewe
 \vspace{0.5cm}
 
 \begin{lstlisting}[language=c, style=mStyle]
-public bool MoveIsValid(\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Square.cs}{Square} from, \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Square.cs}{Square} to)
+public bool MoveIsValid(Square from, Square to)
 {
  if (from.Row == to.Row && from.Column == to.Column) { return false; }
   if (layout.GetAsList()[from.Row][from.Column] != null)
   {
-   \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Piece.cs}{Piece} movingPiece = layout.GetAsList()[from.Row][from.Column].\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Piece.cs}{Piece};
-   \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Piece.cs}{Piece} destinationPiece = layout.GetAsList()[to.Row][to.Column].\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Piece.cs}{Piece};
+   Piece movingPiece = layout.GetAsList()[from.Row][from.Column].Piece;
+   Piece destinationPiece = layout.GetAsList()[to.Row][to.Column].Piece;
    bool movingPieceColor = movingPiece.Color;
    if (movingPiece.IsMoveable(from, to) && MoveDoesNotCheck(from, to))
    {
 	if (!movingPiece.MoveIsValid(from, to)) { return false; }
 	switch (movingPiece)
 	{
-	 case \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Queen.cs}{Queen}:
+	 case Queen:
 	  if (destinationPiece?.Color != movingPieceColor)
 	  {
 	   int rowDifference = Math.Abs(to.Row - from.Row);
@@ -356,7 +356,7 @@ public bool MoveIsValid(\href{https://github.com/schmida736/Chess-AdvancedSE/blo
 		 {
 		  for (int i = from.Column + 1; i < to.Column; i++)
 		  {
-		   if (layout.GetAsList()[from.Row][i].\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Piece.cs}{Piece} != null) { return false; }
+		   if (layout.GetAsList()[from.Row][i].Piece != null) { return false; }
 		  
 \end{lstlisting}
 In dem oben aufgeführten Code-Ausschnitt ist zu sehen, wie mit der Methode \texttt{movingPiece.IsMoveable(from, to)} die polymorphe Validierung erfolgt, wonach das große Switch-Case gestartet wird. Hierbei ist nur ein kleiner Teil der Validierung für den Fall einer Dame aufgeführt, um die Größe  und insbesondere den hohen Einrückgrad der Methode zu betonen. \\
@@ -367,7 +367,7 @@ Das Problem bei einem polymorphen Methodenaufruf hierbei ist, dass die Figur kei
 Infolge dessen implementiert nun jede Figur die Methode \texttt{MoveIsValid(from, to)}. Im Folgenden ist die Implementierung von \texttt{MoveIsValid} des Königs gezeigt.
 
 \begin{lstlisting}[language=c, style=mStyle]
-public override bool MoveIsValid(\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Square.cs}{Square} from, \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Square.cs}{Square} to)
+public override bool MoveIsValid(Square from, Square to)
 {
 	return board.GetPiece(to)?.Color != board.GetPiece(from).Color;
 }
@@ -382,7 +382,7 @@ Alle Figuren implementieren die Methode \texttt{IsMoveable}. Folgendes Listing z
 
 
 \begin{lstlisting}[language=c, style=mStyle]
-public override bool IsMoveable(\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Square.cs}{Square} from, \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Square.cs}{Square} to)
+public override bool IsMoveable(Square from, Square to)
 {
 	int rowDifference = Math.Abs(to.Row - from.Row);
 	int columnDifference = Math.Abs(to.Column - from.Column);
@@ -424,7 +424,7 @@ Bei Dependency Injection wird eine Abhängigkeit in eine Klasse, bzw. dessen Obj
 Einzelne Figuren benötigen ein Objekt von \texttt{IBoardLayout}, welches im Konstruktor übergeben wird. Erzeugt nun das \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/BoardLayout.cs}{BoardLayout} eine Dame, muss ein Verweis auf ein \texttt{IBoardLayout} übergeben werden. Eine Erzeugung sieht wie folgt aus:
 
 \begin{lstlisting}[language=c, style=mStyle]
-startLayout[0][0].\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Piece.cs}{Piece} = new \href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Queen.cs}{Queen}(player.Color, this);
+startLayout[0][0].Piece = new Queen(player.Color, this);
 \end{lstlisting}
 
 Der hier übergebene Parameter \texttt{this} verweist auf \texttt{\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/BoardLayout.cs}{BoardLayout}}, welches das Interface \texttt{IBoardLayout} implementiert. Im Konstruktor von \texttt{\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Queen.cs}{Queen}} muss dieses einer lokalen Variable von \texttt{IBoardLayout} zugeteilt werden. Da \texttt{\href{https://github.com/schmida736/Chess-AdvancedSE/blob/main/Chess-AdvancedSE/Game\%20Elements/Pieces/Queen.cs}{Queen}} nur das Interface \texttt{IBoardLayout}
