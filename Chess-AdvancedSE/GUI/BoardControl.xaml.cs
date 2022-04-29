@@ -30,7 +30,7 @@ namespace Chess_AdvancedSE
             ImageBrush brush = new();
             brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/board.png"));
             //flip board for black player
-            if (!game.player.Color)
+            if (!game.Player.Color)
             {
                 brush.RelativeTransform = flipBoard;
             }
@@ -38,7 +38,7 @@ namespace Chess_AdvancedSE
 
             //game.board.LayoutChanged += UpdateBoard;
 
-            GridColumn.ItemsSource = game.board.viewModel.layout;
+            GridColumn.ItemsSource = game.Board.viewModel.layout;
 
         }
 

@@ -166,7 +166,9 @@ Schon bei Beginn des Projekts war geplant, Interfaces für die Züge einzelner F
 
 \subsection{Dependency Inversion Principle}
 \label{sec:depin}
-Bei Translator wird game eingesetzt statt game direkt zu übergeben. Methoden werden dann auf Translator angewendet.
+Das Dependency Inversion Principle(DIP) ist das letzte der 5 SOLID-Prinzipien. Es ist das Prinzip der Entkopplung und besagt, dass Abstaktionen nicht von Details abhängen sollten, sondern umgekehrt. Daraus folgt für eine Software-Architektur, die den SOLID-Prinzipien folgt, dass ihre Module hoher Ebenen nicht abhängig von Modulen niedriger Ebenen sein sollen.
+Wir haben das DIP in der verbindung zwischen Game und den Translators angwendet, da die sie sich in einer höheren Ebene befinden als Game, aber mit ihm kommunizieren können müssen.
+Um zu vermeiden, eine direkte Referenz auf Game Beispielsweise in PlayerTranslator verwenden zu müssen und damit von der konkreten Umsetzung von Game abhängig zu sein, haben wir die für den Translator wichtigen Schnittstellen in ein IGame Interface ausgelagert. PlayerTranslator agiert nun auf diesen Schnittstellen, kennt aber nicht die genaue Implementierung von Game und ist daher nicht darauf angewiesen, dass diese unverändert bleiben.
 \subsection{Low Coupling}
 Low Coupling ist ein GRASP-Prinzip der Objektorientierten Softwarearchitektur, nach dem eine Klasse so unabhängig von ihrer Umgebung sein sollte wie möglich. Dies macht es einfacher, die Funtionsweise der Klasse nachzuvollziehen, weil man weniger Klassen verstehen muss, von denen diese eine Klasse abhängig ist. Des weiteren erzielt eine lose Kopplung einer Klasse auch eine deutlich höhere Testbarkeit, da weniger instanzen von abhängigen Klassen erstellt werden müssen, nur um eine Klasse zu testen(siehe Negativbeispiel).
 
@@ -422,6 +424,14 @@ startLayout[0][0].Piece = new Queen(player.Color, this);
 
 Der hier übergebene Parameter \texttt{this} verweist auf \texttt{BoardLayout}, welches das Interface \texttt{IBoardLayout} implementiert. Im Konstruktor von \texttt{Queen} muss dieses einer lokalen Variable von \texttt{IBoardLayout} zugeteilt werden. Da \texttt{Queen} nur das Interface \texttt{IBoardLayout}
 und nicht das \texttt{BoardLayout} selbst kennt, kann sie auch nur auf die beiden Methoden des Interfaces zugreifen. Sie erhält damit lediglich eine Zugriffsmöglichkeit, bzw eine Schnittstelle, um die benötigten Ressourcen zu erhalten, ohne dabei eine Abhängigkeit auf die ganze Klasse zu haben. \texttt{Queen} ist dadurch auch von der Implementierung innerhalb von \texttt{BoardLayout} abgekapselt, da bei Änderung des Codes nur die Schnittstelle, gegeben durch das Interface, angepasst werden muss. Die Dame erhält ihre Informationen also nur aus der Schnittstelle und nicht direkt von \texttt{BoardLayout}.
+\subsection{Command Pattern}
+Das Command Pattern ist ein Verhaltensmuster, was bedeutet, dass es das Verhalten der Software beeinflusst. Die Hauptstruktur in bei diesem Muster ist der \texttt{Command}. Weitere sind der \texttt{Receiver}, der \texttt{Invoker} und der \texttt{Client}. Ein \texttt{Command} ist ein Objekt, welches einen Methodenaufruf an den \texttt{Reciever} einkapselt. Er enthält damit alle nötigen Informationen, die der \texttt{Invoker} braucht, um den Methodenaufruf auf \texttt{Receiver} ausführen zu können. \texttt{Client} ist der name des Moduls, das die anderen drei Objekte verwaltet.
+
+Wir wollten das Command Pattern in unserem Programm umsetzen, da wir der Meinung waren, dass es sehr gut unsere Befehlsorientierte Architektur ergänzen könnte. So wäre Game der Client, welcher \texttt{Commands} von den Translators erhalten würde und diese dann an die \texttt{Invoker} Board oder Pieces verteilen würde.
+Dies würde es uns erlauben, Befehle der GUI oder der Engine zu kapseln, in eine Queue abzulegen und nacheinander abzuarbeiten.
+
+Während der Umsetzung des Musters haben wir aber gemerkt, dass diese nicht ohne grundlegende Veränderungen an unserer Architektur effizient umsetzbar ist. Das liegt daran, dass unsere Board und Piece Klassen schon zu sehr verknüpft sind, um diese unabhängig voneinander von Game aus anzusprechen.
+Das zweite Problem ist, dass die Befehle aus der User-Interface-Schicht erst von Translators übersetzt werden müssen, bevor sie an Game weitergegeben werden können. Die Umsetzung des Musters wäre also möglich gewesen \\(Siehe git-branch \texttt{\href{https://github.com/schmida736/Chess-AdvancedSE/tree/command-pattern-integration}{command-pattern-integration}}), wäre aber auf das Verschicken von Befehlen zwischen den Translators und Game beschränkt gewesen. Dies ist zur Zeit über einen simplen Methodenaufruf geregelt, man würde also viel Komplexität für wenig Funktionalität erzeugen. Aus diesem Grund haben wir uns gegen die Implementierung entschieden, wie sie im git Branch zu sehen ist.
 \newpage
 \section{Fazit}
 \label{sec:end}

@@ -1,12 +1,9 @@
 ﻿namespace Chess_AdvancedSE
 {
-    public class Game
+    public class Game : IGame
     {
-        public Player player;
-        public Board board;
-
-        private Player playerOne;
-        private Player playerTwo;
+        private Player player;
+        private Board board;
         private bool currentPlayerColor;
 
 
@@ -15,11 +12,11 @@
             player = new(Constants.Color.Random());
             board = new(player);
 
-            playerOne = player;
-            playerTwo = new(!player.Color);
-
             currentPlayerColor = true;
         }
+
+        public Board Board { get => board; private set => board = value; }
+        public Player Player { get => player; private set => player = value; }
 
         public bool RecieveMoveRequest(int from_row, int from_col, int to_row, int to_col)
         {

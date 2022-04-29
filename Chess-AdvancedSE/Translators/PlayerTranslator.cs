@@ -4,15 +4,15 @@ namespace Chess_AdvancedSE
 {
     public class PlayerTranslator
     {
-        private Game _game;
-        public PlayerTranslator(Game game)
+        private IGame _game;
+        public PlayerTranslator(IGame game)
         {
             this._game = game;
         }
 
         public bool getPlayerColor()
         {
-            return _game.player.Color;
+            return _game.Player.Color;
         }
 
         public bool RequestMove(Tuple<int, int> coords_from, Tuple<int, int> coords_to)
@@ -23,7 +23,7 @@ namespace Chess_AdvancedSE
 
         public BoardLayout_ViewModel GetBoardLayout()
         {
-            return _game.board.viewModel;
+            return _game.Board.viewModel;
         }
     }
 }

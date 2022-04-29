@@ -4,12 +4,12 @@ namespace Chess_AdvancedSE
 {
     class EngineTranslator
     {
-        private Game _game;
-        public EngineTranslator(Game game) => _game = game;
+        private IGame _game;
+        public EngineTranslator(IGame game) => _game = game;
         public string GetBoardLayout()
         {
             //TODO later: Translate layout to UCI string
-            BoardLayout layout = _game.board.layout;
+            BoardLayout layout = _game.Board.layout;
             return new String("");
         }
 
