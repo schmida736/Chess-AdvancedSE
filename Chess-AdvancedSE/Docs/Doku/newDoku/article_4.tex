@@ -399,6 +399,10 @@ public int GetSquareDistance(int from, int to)
 \end{lstlisting}
 
 Innerhalb der Beispielmethode der Dame wird in dem Fall jeder Speicherzugriff von \texttt{rowDifference} durch den Methodenaufruf \texttt{GetSquareDistance(to.Row, from.Row)} ersetzt. Die überarbeiteten Methoden sind in der Datei \textit{Queen.cs} zu sehen. 
+
+\subsection{Codesmell: Large Class}
+Zwei unserer Klassen sind im Vergleich zu den restlichen sehr groß: \texttt{Queen} und \texttt{BoardLayout}. Beide haben über 100 Zeilen Code und könnten mit mehr Aufteilung und komplexerer Klassenhierarchie verkleinert werden.
+
 \newpage
 \section{Entwurfsmuster}
 
